@@ -9,11 +9,11 @@ export default function Pesca() {
   ];
 
   return (
-    <div className="h-[900px] bg-[#1A1A1A] relative w-full">
+    <div className="min-h-[100vh] sm:h-[900px] bg-[#1A1A1A] relative w-full">
       <div className="absolute top-[-100px] w-[100%] flex">
-        <div className="flex flex-row w-full justify-evenly">
-          <Image width={842} height={335} alt="pesca" src={"/pesca1.svg"} />
-          <Image width={406} height={335} alt="pesca" src={"/pesca2.svg"} />
+        <div className="flex flex-col sm:flex-row w-full justify-evenly items-center">
+          <Image width={842} height={335} className="w-[328px] h-[156px] sm:w-[842px] sm:h-[335px]" alt="pesca" src={"/pesca1.svg"} />
+          <Image width={406} height={335} className="w-[325px] h-[406px] sm:w-[325px] sm:h-[335px] " alt="pesca" src={"/pesca2.svg"} />
         </div>
       </div>
 

@@ -115,7 +115,7 @@ export default function Actividades() {
     <div className="text-white w-[80%] flex flex-col justify-center">
       <p className="text-lg font-medium">Actividades / Deportes</p>
       <h3 className="text-4xl font-bold mt-2">Un deporte para cada pasión</h3>
-      <p className="mt-4 text-lg w-[60%] font-semibold">
+      <p className="mt-4 text-lg w-[100%] sm:w-[60%] font-semibold">
         Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
       </p>
     </div>

@@ -32,13 +32,13 @@ export default function Historia() {
   }, [images.length]);
 
   return (
-    <div className="w-full h-[911px] bg-[#F2F2F2] flex justify-center">
-      <div className="w-[80%] flex flex-row items-center justify-around">
+    <div className="w-full min-h-[100vh] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
+      <div className="w-[80%] flex flex-col sm:flex-row items-center justify-around">
         {/* Sección de texto con los eventos */}
-        <div className="w-[50%] h-[650px] flex flex-col justify-between relative">
-            <div className="h-[60%] flex justify-evenly flex-col w-[100%]">
+        <div className="w-[100%] sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
+            <div className="h-[60%] flex justify-evenly flex-col w-[100%] pb-[10px] sm:pb-[0px]">
               <h3 className="pt-4">Nuestro Club</h3>
-              <h4 className="text-[48px] font-bold leading-[54px] pt-4 w-[70%] ">
+              <h4 className="text-[48px] font-bold leading-[54px] pt-4 w-[100%] sm:w-[70%] ">
                 Casi un siglo de historia y pasión
               </h4>
               <p className="pt-4 w-[100%] font-semibold text-[20px]">

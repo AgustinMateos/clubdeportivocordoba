@@ -57,7 +57,7 @@ export default function NavbarComponente() {
                         className="text-white focus:outline-none"
                     >
                         {/* Icono de menú hamburguesa */}
-                        <Image src="/menu.svg" alt="Menu" width={24} height={24} />
+                        <Image src="/menuHamburguesa.svg" alt="Menu" width={24} height={24} />
                     </button>
                 </div>
             </div>

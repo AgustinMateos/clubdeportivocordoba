@@ -33,10 +33,10 @@ export default function Historia() {
   }, [images.length]);
 
   return (
-    <div className="w-full h-[100vh] bg-[#F2F2F2] flex justify-center">
-      <div className="w-[80%] flex flex-row items-center justify-around">
+    <div className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center">
+      <div className=" w-[80%] flex flex-col sm:flex-row items-center justify-around">
         {/* Sección de texto con los eventos */}
-        <div className="w-[50%] h-[700px] flex flex-col justify-between relative">
+        <div className="w-[100%]  sm:w-[50%] h-auto sm:h-[700px] flex flex-col justify-between relative">
             <div className="h-[70%] flex justify-evenly flex-col w-[100%]">
               <h3 className="pt-4">Colonia de Vacaciones</h3>
               <h4 className="text-[48px] font-bold leading-[54px] pt-4 w-[100%] ">
@@ -81,7 +81,7 @@ export default function Historia() {
           </div>
 
         {/* Slider */}
-        <div className="relative w-[447px] h-[592px] overflow-hidden">
+        <div className="relative w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px]">
           {/* Imágenes */}
           <div
             className="flex transition-transform duration-500"

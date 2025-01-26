@@ -1,14 +1,14 @@
 export default function PrimerComponente() {
     return (
       <div
-        className="w-full min-h-screen sm:h-[500px] lg:h-[100vh] bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem]" // Agregué pt-16 para evitar que el contenido se oculte debajo del navbar
+        className="w-full min-h-screen sm:h-[500px] lg:h-[100vh] bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem] justify-center" // Agregué pt-16 para evitar que el contenido se oculte debajo del navbar
         style={{
           backgroundImage:
             "url('/bgComponentePrincipal.svg'), linear-gradient(180deg, rgba(21, 21, 21, 0) 0%, #151515 100%)",
           backgroundBlendMode: "overlay",
         }}
       >
-        <div className="w-[100%] h-full flex  items-end justify-around flex-wrap sm:flex-nowrap pb-[20px]">
+        <div className="w-[100%]  sm:w-[100%] h-full flex justify-around items-end  flex-wrap sm:flex-nowrap pb-[20px]">
           <div className="w-[90%] sm:w-[50%] text-white p-4 lg:h-[40%] h-[45%] flex flex-col justify-around">
             <div className="text-[30px] w-[95%] sm:w-[90%] md:text-[64px]">
               <h1>Ser parte del mejor club, ahora a un click</h1>
