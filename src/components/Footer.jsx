@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div
-      className="h-[1226px] sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
+      className="h-[1826px] sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
       style={{
         backgroundImage: `linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%), url('/footerIMG.jpg')`,
       }}
@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="w-[362px] h-[190px] sm:w-[1094px] bg-[#DF3737] rounded-[16px]  sm:h-[190px] flex flex-col justify-center items-center ">
           <div className="w-[314px] text-center sm:w-[727px] flex items-center flex-col justify-center">
             <p>¡Hacete socio ahora y disfrutá de todos los beneficios!</p>
-            <p className="bg-[#1C1D1D] w-[207px] h-[58px] flex items-center justify-center mt-[20px]">
+            <p className="bg-[#1C1D1D] rounded-[5px] w-[207px] h-[58px] flex items-center justify-center mt-[20px]">
               Hacerme socio
             </p>
           </div>

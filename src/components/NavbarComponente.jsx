@@ -43,10 +43,10 @@ export default function NavbarComponente() {
                                 alt="Instagram"
                             />
                         </li>
-                        <li className="border border-[#F2F2F2] text-white p-[8px]">
+                        <li className="border border-[#F2F2F2] text-white p-[8px] h-[35px] rounded-[4px] flex items-center">
                             Ingresar
                         </li>
-                        <li className="bg-[#F2F2F2] text-black p-[8px]">Ser Socio</li>
+                        <li className="bg-[#F2F2F2] text-black p-[8px] h-[35px] rounded-[4px] flex items-center">Ser Socio</li>
                     </ul>
                 </div>
 

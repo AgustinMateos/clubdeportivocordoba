@@ -1,8 +1,5 @@
-
 import "./globals.css";
 import NavbarComponente from "@/components/NavbarComponente";
-
-
 
 export const metadata = {
   title: "Create Next App",
@@ -12,10 +9,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      
-      <body
-       
-      ><NavbarComponente/>
+      <head>
+        {/* Meta viewport para corregir el problema del zoom en Safari */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+      </head>
+      <body>
+        <NavbarComponente />
         {children}
       </body>
     </html>
