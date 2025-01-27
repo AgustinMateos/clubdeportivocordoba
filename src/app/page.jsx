@@ -20,7 +20,7 @@ export default function Home() {
        {/* <Historia/> 
        }
        {/* <Tarifas/> */}
-       <HaceteSocio/>
+       {/* <HaceteSocio/> */}
        <Beneficios/> 
        {/* <Footer/> */}
       </main>
