@@ -40,7 +40,7 @@ export default function Pesca() {
   };
 
   return (
-    <div className="min-h-[140vh] sm:h-[900px] bg-[#1A1A1A] relative w-full">
+    <div className="h-[1110px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
       {/* Imagen principal */}
       <div className="absolute top-[-100px] w-full flex">
         <div className="flex flex-col sm:flex-row w-full justify-evenly items-center">
