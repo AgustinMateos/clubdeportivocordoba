@@ -15,14 +15,14 @@ export default function Home() {
       <main className="relative">
        <PrimerComponente/>
       <Actividades/>
-      <Pesca/>
+      {/* <Pesca/> */}
        {/* <Colonia/>  */}
        {/* <Historia/> 
        }
        {/* <Tarifas/> */}
-       {/* <HaceteSocio/>
+       <HaceteSocio/>
        <Beneficios/> 
-       <Footer/> */}
+       {/* <Footer/> */}
       </main>
       
     </div>
