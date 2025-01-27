@@ -22,7 +22,7 @@ export default function Home() {
        {/* <Tarifas/> */}
        {/* <HaceteSocio/> */}
        <Beneficios/> 
-       <Footer/>
+       {/* <Footer/> */}
       </main>
       
     </div>
