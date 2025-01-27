@@ -7,6 +7,7 @@ import Colonia from "@/components/Colonia"
 import Tarifas from "@/components/Tarifas";
 import HaceteSocio from "@/components/HaceteSocio";
 import Beneficios from "@/components/Beneficios";
+import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div className=" min-h-screen absolute ">
@@ -20,6 +21,7 @@ export default function Home() {
        {/* <Tarifas/> */}
        <HaceteSocio/>
        <Beneficios/> 
+       <Footer/>
       </main>
       
     </div>
