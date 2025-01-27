@@ -15,8 +15,8 @@ export default function Home() {
       <main className="relative">
        <PrimerComponente/>
       <Actividades/>
-      {/* <Pesca/> */}
-       <Colonia/> 
+      <Pesca/>
+       {/* <Colonia/>  */}
        {/* <Historia/> 
        }
        {/* <Tarifas/> */}
