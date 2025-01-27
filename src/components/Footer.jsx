@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div
-      className="h-[1826px] sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
+      className="h-[1226px] sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
       style={{
         backgroundImage: `linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%), url('/footerIMG.jpg')`,
       }}
