@@ -31,7 +31,7 @@ export default function Footer() {
             <h5 className="mb-2 text-lg font-semibold">Dirección</h5>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.667151261035!2d-64.1594247!3d-31.395740099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432981aa628acc9%3A0x52fd7332226dc92d!2sAv.%20las%20Malvinas%201%2C%20X5000%20C%C3%B3rdoba!5e0!3m2!1ses-419!2sar!4v1737993455128!5m2!1ses-419!2sar"
-              width="368px"
+              width="325px"
               height="127px"
               style={{ border: 0 }}
               loading="lazy"
