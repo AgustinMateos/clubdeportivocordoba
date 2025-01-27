@@ -89,7 +89,7 @@ export default function Historia() {
           </div>
 
         {/* Slider */}
-        <div className="relative w-[447px] h-[592px] overflow-hidden">
+        <div className="relative w-[447px] m-[20px] h-[592px] overflow-hidden">
           {/* Imágenes */}
           <div
             className="flex transition-transform duration-500"
