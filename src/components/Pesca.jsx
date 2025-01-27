@@ -62,7 +62,7 @@ export default function Pesca() {
       </div>
 
       {/* Texto descriptivo */}
-      <div className="absolute top-[500px] sm:top-[400px]">
+      <div className="absolute top-[500px] h-auto sm:top-[400px]">
         <div className="text-white w-full flex flex-col items-center justify-center">
           <h4 className="w-[50%] text-center text-[48px]">Pesca</h4>
           <p className="w-[60%] text-center text-[20px] pt-[20px]">
