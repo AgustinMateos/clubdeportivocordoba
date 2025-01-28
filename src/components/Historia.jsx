@@ -89,7 +89,7 @@ export default function Historia() {
           </div>
 
         {/* Slider */}
-        <div className="relative h-auto w-[447px] m-[20px] sm:h-[592px] overflow-hidden">
+        <div className="relative w-[447px] m-[20px] h-[592px] overflow-hidden">
           {/* Imágenes */}
           <div
             className="flex transition-transform duration-500"
@@ -100,7 +100,7 @@ export default function Historia() {
             {images.map((src, index) => (
               <div
                 key={index}
-                className="w-[447px] h-[592px] flex-shrink-0 "
+                className="w-[90%] sm:w-[447px] h-[438px] sm:h-[592px] flex-shrink-0 "
               >
                 <Image
                   src={src}
