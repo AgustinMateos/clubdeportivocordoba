@@ -13,8 +13,8 @@ export default function Beneficios() {
   ];
 
   return (
-    <div className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center items-center">
-      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-between">
+    <div className="w-full min-h-[50vh] sm:min-h-[100vh] bg-[#F2F2F2] flex justify-center items-start sm:items-center">
+      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-between pt-[20px] sm:pt-[0px]">
         {/* Sección de texto con los eventos */}
         <div className="w-[100%] sm:w-[50%] h-[400px] flex flex-col justify-evenly">
           <div className="h-[40%] flex justify-evenly flex-col w-full">
