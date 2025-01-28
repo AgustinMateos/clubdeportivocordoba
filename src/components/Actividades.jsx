@@ -232,7 +232,7 @@ export default function Actividades() {
            {actividades[isModalOpen].tablaDatos.map((fila, filaIndex) => (
              <tr key={filaIndex}>
                {fila.map((dato, colIndex) => (
-                 <td key={colIndex} className="border px-0 py-0 sm:px-4 sm:py-2">
+                 <td key={colIndex} className="border px-0 py-0 sm:px-4 sm:py-2 text-center">
                    {dato}
                  </td>
                ))}
