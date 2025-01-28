@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div
-      className="min-h-screen sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
+      className="h-[1426px] sm:min-h-screen sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
       style={{
         backgroundImage: `
           -webkit-linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
@@ -15,9 +15,9 @@ export default function Footer() {
       }}
     >
       {/* Banner principal */}
-      <div className="absolute inset-x-0 top-[-60px]">
-        <div className="w-full max-w-[362px] sm:max-w-[1094px] bg-[#DF3737] rounded-[16px] flex flex-col justify-center items-center">
-          <div className="w-full max-w-[314px] sm:max-w-[727px] text-center flex flex-col items-center">
+      <div className="absolute inset-x-0 top-[-60px] flex justify-center">
+        <div className="w-full max-w-[362px] sm:max-w-[1094px] h-[150px] bg-[#DF3737] rounded-[16px] flex flex-col justify-center items-center">
+          <div className="w-full max-w-[314px] sm:max-w-[727px] text-center flex flex-col items-center p-[20px]">
             <p>¡Hacete socio ahora y disfrutá de todos los beneficios!</p>
             <p className="bg-[#1C1D1D] rounded-[5px] w-[207px] h-[58px] flex items-center justify-center mt-[20px]">
               Hacerme socio
@@ -27,7 +27,7 @@ export default function Footer() {
       </div>
 
       {/* Logo */}
-      <div className="absolute bottom-[780px] sm:bottom-[480px]">
+      <div className="absolute bottom-[650px]  sm:bottom-[480px]">
         <div className="w-full max-w-[325px] sm:max-w-[1094px] flex flex-col justify-center items-center">
           <div className="w-full max-w-[177px] h-auto">
             <Image src="/logo.svg" width={177} height={163} alt="logo" layout="responsive" />
@@ -36,8 +36,8 @@ export default function Footer() {
       </div>
 
       {/* Sección final */}
-      <div className="absolute bottom-[80px]">
-        <div className="w-full max-w-[1282px] flex flex-col sm:flex-row justify-around items-start">
+      <div className="absolute bottom-[80px] w-full flex justify-center">
+        <div className="w-[80%] sm:w-full max-w-full flex flex-col sm:flex-row justify-around items-start">
           {/* Dirección con iframe */}
           <div className="w-full max-w-[368px]">
             <h5 className="mb-2 text-lg font-semibold">Dirección</h5>
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
 
           {/* Formulario de contacto */}
-          <div className="w-full max-w-[321px]">
+          <div className="w-full max-w-[321px] ">
             <div className="flex flex-col justify-between">
               <h4 className="pb-[10px]">Envianos tu consulta</h4>
               <div className="flex flex-col justify-evenly h-[168px]">
