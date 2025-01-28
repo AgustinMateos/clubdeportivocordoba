@@ -102,24 +102,24 @@ export default function Pesca() {
               </div>
             ))}
           </div>
-          
-          {/* Flechas de navegación */}
-          <div className="absolute bottom-4 w-full flex justify-around px-4">
-            <button
-              onClick={handlePrev}
-              className="text-white text-3xl"
-              aria-label="Previous"
-            >
-              &#8592;
-            </button>
-            <button
-              onClick={handleNext}
-              className="text-white text-3xl"
-              aria-label="Next"
-            >
-              &#8594;
-            </button>
-          </div>
+        </div>
+
+        {/* Flechas de navegación fijas */}
+        <div className="absolute  w-full flex justify-around px-6 bottom-[-90px]">
+          <button
+            onClick={handlePrev}
+            className="text-white text-3xl"
+            aria-label="Previous"
+          >
+            &#8592;
+          </button>
+          <button
+            onClick={handleNext}
+            className="text-white text-3xl"
+            aria-label="Next"
+          >
+            &#8594;
+          </button>
         </div>
 
         {/* Vista estática para pantallas grandes */}
