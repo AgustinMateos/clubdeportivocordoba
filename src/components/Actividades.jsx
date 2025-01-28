@@ -28,9 +28,10 @@ export default function Actividades() {
       profesor: "Javier Martinez",
       telefono: "3423525253",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
-        // Añadir más filas según sea necesario
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
       ]
     },
     {
@@ -41,8 +42,10 @@ export default function Actividades() {
       profesor: "Carlos Torres",
       telefono: "3423525254",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
       ]
     },
     {
@@ -53,8 +56,10 @@ export default function Actividades() {
       profesor: "Carlos Torres",
       telefono: "3423525254",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
       ]
     },
     {
@@ -65,8 +70,10 @@ export default function Actividades() {
       profesor: "Carlos Torres",
       telefono: "3423525254",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
       ]
     },
     {
@@ -77,8 +84,10 @@ export default function Actividades() {
       profesor: "Carlos Torres",
       telefono: "3423525254",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
       ]
     },
     
