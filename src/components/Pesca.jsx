@@ -91,11 +91,13 @@ export default function Pesca() {
                 className="flex-shrink-0 w-full p-[20px] sm:p-[0px] text-center flex flex-col items-center"
               >
                 <Image
-                  width={210}
-                  height={210}
-                  alt={`pesca ${index + 3}`}
-                  src={image.src}
-                />
+  width={210}
+  height={210}
+  alt={`pesca ${index + 3}`}
+  src={image.src}
+  className="w-full max-w-full"
+/>
+
                 <p className="text-white text-center pt-2">{image.title}</p>
               </div>
             ))}
