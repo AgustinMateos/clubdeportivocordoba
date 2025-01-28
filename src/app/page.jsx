@@ -17,10 +17,10 @@ export default function Home() {
       <Actividades/>
       {/* <Pesca/> */}
        {/* <Colonia/>  */}
-       {/* <Historia/> 
-       }
+       {/* <Historia/> }
+       
        {/* <Tarifas/> */}
-       {/* <HaceteSocio/> */}
+       <HaceteSocio/> 
        <Beneficios/> 
        <Footer/>
       </main>
