@@ -20,7 +20,7 @@ export default function NavbarComponente() {
                 </div>
 
                 {/* Logo central */}
-                <div className="flex justify-center z-20">
+                <div className="flex justify-center z-20 mr-[100px]">
                     <Image
                         src="/logo.svg"
                         alt="sempen combustible sustentable"
