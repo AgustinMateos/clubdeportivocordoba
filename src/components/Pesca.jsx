@@ -78,7 +78,7 @@ export default function Pesca() {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {images.map((image, index) => (
-              <div key={index} className="w-screen flex-shrink-0 flex flex-col items-center">
+              <div key={index} className="w-screen flex-shrink-0 flex flex-col items-center pt-[40px]">
                 <Image
                   width={210}
                   height={210}
