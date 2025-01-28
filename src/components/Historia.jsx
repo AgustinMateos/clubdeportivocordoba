@@ -100,7 +100,7 @@ export default function Historia() {
             {images.map((src, index) => (
               <div
                 key={index}
-                className="w-[90%] sm:w-[447px] h-[438px] sm:h-[592px] flex-shrink-0 "
+                className="w-[447px] h-[592px] flex-shrink-0 "
               >
                 <Image
                   src={src}
