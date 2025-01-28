@@ -90,21 +90,21 @@ export default function Historia() {
         {images.map((src, index) => (
           <div
             key={index}
-            className="w-full sm:w-[447px] h-[592px] flex-shrink-0"
+            className="w-full sm:w-[447px] h-[452px]  sm:h-[592px] flex-shrink-0"
           >
             <Image
               src={src}
               width={447}
               height={592}
               alt={`Slide ${index + 1}`}
-              className="object-cover w-full h-full rounded-[86px]"
+              className="object-cover w-full h-full rounded-[54px] sm:rounded-[86px]"
             />
           </div>
         ))}
       </div>
 
       {/* Paginación */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+      <div className="absolute bottom-[10rem] sm:bottom-4 left-0 right-0 flex justify-center space-x-2">
         {images.map((_, index) => (
           <button
             key={index}
