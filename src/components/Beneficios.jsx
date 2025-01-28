@@ -1,5 +1,3 @@
-'use client';
-
 import Image from "next/image";
 
 export default function Beneficios() {
@@ -13,11 +11,11 @@ export default function Beneficios() {
   ];
 
   return (
-    <div className="w-full min-h-[65vh] sm:min-h-[100vh] bg-[#F2F2F2] flex justify-center items-start sm:items-center">
-      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-between pt-[20px] sm:pt-[0px]">
+    <div className="w-full min-h-[50vh] sm:min-h-[100vh] bg-[#F2F2F2] flex justify-center items-start sm:items-center">
+      <div className="w-full sm:w-[90%] flex flex-col sm:flex-row items-center justify-between pt-[20px] sm:pt-[0px]">
         {/* Sección de texto con los eventos */}
-        <div className="w-[100%] sm:w-[50%] h-[600px] sm:h-[400px] flex flex-col justify-evenly">
-          <div className="h-[40%] flex justify-evenly flex-col w-full">
+        <div className="w-full sm:w-[50%] min-h-[400px] p-[20px] flex flex-col justify-evenly">
+          <div className="h-[40%] flex justify-evenly flex-col w-full ">
             <h3 className="pt-4 text-xl font-medium">Beneficios de Socios</h3>
             <h4 className="text-[32px] sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pt-4">
               Tu lugar en Central Córdoba
@@ -25,7 +23,7 @@ export default function Beneficios() {
           </div>
 
           {/* Mapeo de los eventos */}
-          <div className="w-[95%] pl-5">
+          <div className="w-full sm:w-[95%] pl-5">
             <h5 className="pt-12 pb-5 text-lg font-medium">Beneficios</h5>
             {eventos.map((evento, index) => (
               <div key={index} className="flex flex-row pb-4 items-center">
@@ -43,14 +41,14 @@ export default function Beneficios() {
           </div>
         </div>
 
-        {/* Imagen fija */}
-        <div className="w-[447px] h-[592px] hidden sm:block">
+        {/* Imagen visible solo en dispositivos grandes */}
+        <div className="w-full sm:w-[447px] h-auto sm:h-[592px] hidden sm:block">
           <Image
             src="/beneficios.svg"
             width={447}
             height={592}
             alt="Beneficio"
-            className=" w-full h-full "
+            className="w-full h-full"
           />
         </div>
       </div>
