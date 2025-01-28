@@ -105,7 +105,7 @@ export default function Pesca() {
         </div>
 
         {/* Flechas de navegación fijas */}
-        <div className="absolute  w-full flex justify-around px-6 bottom-[-90px]">
+        <div className="absolute w-full flex justify-around px-6 bottom-[-90px] sm:hidden">
           <button
             onClick={handlePrev}
             className="text-white text-3xl"
@@ -121,6 +121,7 @@ export default function Pesca() {
             &#8594;
           </button>
         </div>
+
 
         {/* Vista estática para pantallas grandes */}
         <div className="hidden sm:flex flex-row justify-evenly pt-4">
