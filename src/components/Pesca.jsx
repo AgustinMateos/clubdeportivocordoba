@@ -36,6 +36,18 @@ export default function Pesca() {
     }
   };
 
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
     <div className="min-h-[125vh] sm:h-[900px] bg-[#1A1A1A] relative w-full">
       {/* Imagen principal */}
@@ -89,6 +101,24 @@ export default function Pesca() {
                 <p className="text-white text-center pt-2">{image.title}</p>
               </div>
             ))}
+          </div>
+          
+          {/* Flechas de navegación */}
+          <div className="absolute bottom-4 w-full flex justify-around px-4">
+            <button
+              onClick={handlePrev}
+              className="text-white text-3xl"
+              aria-label="Previous"
+            >
+              &#8592;
+            </button>
+            <button
+              onClick={handleNext}
+              className="text-white text-3xl"
+              aria-label="Next"
+            >
+              &#8594;
+            </button>
           </div>
         </div>
 
