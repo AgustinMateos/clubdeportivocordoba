@@ -13,3 +13,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@media (max-width: 640px) {
+  .modal {
+    width: 95%;
+    height: 85vh;
+  }
+}

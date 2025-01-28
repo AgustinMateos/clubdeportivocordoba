@@ -14,8 +14,10 @@ export default function Actividades() {
       profesor: "Javier Martinez",
       telefono: "3423525253",
       tablaDatos: [
-        ["Fila 1 - Col 1", "Fila 1 - Col 2", "Fila 1 - Col 3", "Fila 1 - Col 4"],
-        ["Fila 2 - Col 1", "Fila 2 - Col 2", "Fila 2 - Col 3", "Fila 2 - Col 4"],
+        ["Adultos", "13:34", "$2.500", "$3.000"],
+        ["Adolescentes", "13:34", "$2.500", "$1.500"],
+        ["Niños +6", "13:34", "$2.500", "$5.000"],
+        ["Infantes", "13:34", "$2.500", "$5.000"],
         // Añadir más filas según sea necesario
       ]
     },{
@@ -165,78 +167,83 @@ export default function Actividades() {
 
   {/* Modal */}
   {isModalOpen !== null && (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-      onClick={handleCloseModal}
-    >
-      <div
-        className="bg-white rounded-lg shadow-lg w-[95%] max-w-[800px] relative"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <button
-          onClick={handleCloseModal}
-          className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-black rounded-full w-8 h-9 flex items-center justify-center z-10"
-        >
-          ✕
-        </button>
-        <div className="relative w-full">
-          <Image
-            src={images[currentImageIndex]}
-            alt={`Actividad ${currentImageIndex + 1}`}
-            width={600}
-            height={500}
-            className="rounded-lg w-full h-[300px] object-cover"
-          />
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePagination(index)}
-                className={`w-10 h-1 transition ${
-                  currentImageIndex === index
-                    ? "bg-[#DF3737]"
-                    : "bg-[#ffff] hover:bg-[#d66767]"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="p-4">
-  <h2 className="text-2xl font-bold mb-4">
-    {actividades[isModalOpen].nombre}
-  </h2>
-  <div className="flex flex-wrap justify-between w-full mb-4">
-    <div className="w-[70%] flex flex-wrap">
-      <p className="w-full sm:w-[45%]">Profesora: {actividades[isModalOpen].profesora}</p>
-      <p className="w-full sm:w-[45%]">Profesor: {actividades[isModalOpen].profesor}</p>
-    </div>
-    <div className="w-[30%] text-right">
-      <p>Tel: {actividades[isModalOpen].telefono}</p>
-    </div>
-  </div>
-  <table className="min-w-full table-auto border-collapse">
-    <thead>
-      <tr>
-        <th className="border px-4 py-2">Columna 1</th>
-        <th className="border px-4 py-2">Columna 2</th>
-        <th className="border px-4 py-2">Columna 3</th>
-        <th className="border px-4 py-2">Columna 4</th>
-      </tr>
-    </thead>
-    <tbody>
-      {actividades[isModalOpen].tablaDatos.map((fila, index) => (
-        <tr key={index}>
-          {fila.map((celda, cellIndex) => (
-            <td key={cellIndex} className="border px-4 py-2">{celda}</td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-      </div>
-    </div>
+   <div
+   className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+   onClick={handleCloseModal}
+ >
+   <div
+     className="bg-white rounded-lg shadow-lg w-[90%] max-w-[600px] max-h-[90vh] relative flex flex-col"
+     onClick={(event) => event.stopPropagation()}
+   >
+     <button
+       onClick={handleCloseModal}
+       className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-black rounded-full w-8 h-8 flex items-center justify-center z-10"
+     >
+       ✕
+     </button>
+     <div className="relative w-full h-[30vh] sm:h-[40vh]">
+       <Image
+         src={images[currentImageIndex]}
+         alt={`Actividad ${currentImageIndex + 1}`}
+         fill
+         className="rounded-t-lg object-cover"
+       />
+       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+         {images.map((_, index) => (
+           <button
+             key={index}
+             onClick={() => handlePagination(index)}
+             className={`w-10 h-1 transition ${
+               currentImageIndex === index
+                 ? "bg-[#DF3737]"
+                 : "bg-[#fff] hover:bg-[#d66767]"
+             }`}
+           />
+         ))}
+       </div>
+     </div>
+     <div className="p-[10px] sm:p-4 overflow-y-auto flex-1">
+       <h2 className="text-2xl font-bold mb-4">
+         {actividades[isModalOpen].nombre}
+       </h2>
+       <div className="flex flex-wrap justify-between w-full mb-4">
+         <div className="w-[70%] flex flex-wrap">
+           <p className="w-full sm:w-[45%]">
+             Profesora: {actividades[isModalOpen].profesora}
+           </p>
+           <p className="w-full sm:w-[45%]">
+             Profesor: {actividades[isModalOpen].profesor}
+           </p>
+         </div>
+         <div className="w-[30%] text-right">
+           <p>Tel: {actividades[isModalOpen].telefono}</p>
+         </div>
+       </div>
+       <table className="min-w-full table-auto border-collapse">
+         <thead>
+           <tr>
+             <th className="border px-0 py-0 sm:px-4 sm:py-2">Categoría</th>
+             <th className="border px-0 py-0 sm:px-4 sm:py-2">Horario</th>
+             <th className="border px-0 py-0 sm:px-4 sm:py-2">Socios</th>
+             <th className="border px-0 py-0 sm:px-4 sm:py-2">No Socios</th>
+           </tr>
+         </thead>
+         <tbody>
+           {actividades[isModalOpen].tablaDatos.map((fila, filaIndex) => (
+             <tr key={filaIndex}>
+               {fila.map((dato, colIndex) => (
+                 <td key={colIndex} className="border px-0 py-0 sm:px-4 sm:py-2">
+                   {dato}
+                 </td>
+               ))}
+             </tr>
+           ))}
+         </tbody>
+       </table>
+     </div>
+   </div>
+ </div>
+ 
   )}
 </div>
 
