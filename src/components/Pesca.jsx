@@ -62,7 +62,7 @@ export default function Pesca() {
         <Image
           width={406}
           height={335}
-          className="w-[325px] h-[406px] sm:w-[325px] sm:h-[335px]"
+          className="w-[290px] h-[406px] sm:w-[325px] sm:h-[335px]"
           alt="pesca"
           src={"/pesca2.svg"}
         />
