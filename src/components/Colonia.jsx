@@ -33,7 +33,7 @@ export default function Historia() {
   }, [images.length]);
 
   return (
-    <div className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center">
+    <div id="colonia" className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center">
   <div className="w-[90%] sm:w-[80%] flex flex-col sm:flex-row items-center justify-around">
     {/* Sección de texto con los eventos */}
     <div className="w-full sm:w-[50%] h-auto sm:h-[700px] flex flex-col justify-between relative">

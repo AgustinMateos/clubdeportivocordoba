@@ -11,7 +11,7 @@ export default function Beneficios() {
   ];
 
   return (
-    <div className="w-full min-h-[58vh] sm:min-h-[100vh] bg-[#F2F2F2] flex justify-center items-start sm:items-center">
+    <div id="beneficios" className="w-full min-h-[58vh] sm:min-h-[100vh] bg-[#F2F2F2] flex justify-center items-start sm:items-center">
       <div className="w-full sm:w-[90%] flex flex-col sm:flex-row items-center justify-between pt-[20px] sm:pt-[0px]">
         {/* Sección de texto con los eventos */}
         <div className="w-full sm:w-[50%] min-h-[700px] p-[20px] flex flex-col justify-start sm:justify-evenly">

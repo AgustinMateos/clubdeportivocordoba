@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NavbarComponente() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,10 +32,10 @@ export default function NavbarComponente() {
         {/* Menú de navegación (Desktop) */}
         <div className="hidden lg:flex flex-row gap-4">
           <ul className="flex flex-row gap-4">
-            <li>Nuestro Club</li>
-            <li>Actividades</li>
-            <li>Colonia</li>
-            <li>Beneficios</li>
+            <li><Link href="#nuestroClub" >Nuestro Club</Link></li>
+            <li><Link href="#actividades" >Actividades</Link></li>
+            <li><Link href="#colonia" >Colonia</Link></li>
+            <li><Link href="#beneficios" >Beneficios</Link></li>
           </ul>
         </div>
 
@@ -63,10 +64,10 @@ export default function NavbarComponente() {
 
     {/* Opciones del menú alineadas a la izquierda */}
     <ul className="text-xl space-y-6 pt-[70px]">
-      <li className="h-[48px]">Nuestro Club</li>
-      <li className="h-[48px]">Actividades</li>
-      <li className="h-[48px]">Colonia</li>
-      <li className="h-[48px]">Beneficios</li>
+      <li className="h-[48px]"><Link href="#nuestroclub" >Nuestro Club</Link></li>
+      <li className="h-[48px]"><Link href="#actividades" >Actividades</Link></li>
+      <li className="h-[48px]"><Link href="#colonia" >colonia</Link></li>
+      <li className="h-[48px]"><Link href="#beneficios" >Beneficios</Link></li>
     </ul>
 
     {/* Redes sociales y botones alineados a la izquierda */}

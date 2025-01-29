@@ -120,7 +120,7 @@ export default function Actividades() {
   }, [isModalOpen, images.length]);
 
   return (
-    <div className="min-h-screen">
+    <div id="actividades" className="min-h-screen">
   {/* Sección roja */}
   <div className="bg-[#C32929] py-12 flex justify-center relative h-[543px]">
     <div className="text-white w-[80%] flex flex-col justify-center">

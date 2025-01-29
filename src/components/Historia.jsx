@@ -31,7 +31,7 @@ export default function Historia() {
   }, [images.length]);
 
   return (
-    <div className="w-full min-h-[100vh] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
+    <div  id="nuestroClub" className="w-full min-h-[100vh] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
       <div className="w-[90%] flex flex-col sm:flex-row items-center justify-around">
         {/* Sección de texto con los eventos */}
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
