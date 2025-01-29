@@ -9,9 +9,9 @@ export default function Footer() {
         backgroundImage: `
           -webkit-linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
           url('/footerIMG.jpg')`,
-        // backgroundImage: `
-        //   linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
-        //   url('/footerIMG.jpg')`,
+        backgroundImage: `
+          linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
+          url('/footerIMG.jpg')`,
       }}
     >
       {/* Banner principal */}

@@ -13,6 +13,7 @@ export default function NavbarComponente() {
         {/* Menú hamburguesa (Móvil - Izquierda) */}
         <div className="lg:hidden absolute left-4">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
+            
             <Image src="/menuHamburguesa.svg" alt="Menú" width={24} height={24} />
           </button>
         </div>
@@ -31,29 +32,50 @@ export default function NavbarComponente() {
 
         {/* Menú de navegación (Desktop) */}
         <div className="hidden lg:flex flex-row gap-4">
-          <ul className="flex flex-row gap-4">
-            <li><Link href="#nuestroClub" >Nuestro Club</Link></li>
-            <li><Link href="#actividades" >Actividades</Link></li>
-            <li><Link href="#colonia" >Colonia</Link></li>
-            <li><Link href="#beneficios" >Beneficios</Link></li>
+          <ul className="flex flex-row gap-4 pl-[50px]">
+          <li>
+  <Link href="#nuestroClub" className="relative group text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+    Nuestro Club
+    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full lg:block hidden"></span>
+  </Link>
+</li>
+<li>
+  <Link href="#actividades" className="relative group text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+    Actividades
+    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full lg:block hidden"></span>
+  </Link>
+</li>
+<li>
+  <Link href="#colonia" className="relative group text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+    Colonia
+    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full lg:block hidden"></span>
+  </Link>
+</li>
+<li>
+  <Link href="#beneficios" className="relative group text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+    Beneficios
+    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full lg:block hidden"></span>
+  </Link>
+</li>
+
           </ul>
         </div>
 
         {/* Redes y botones (Desktop) */}
         <div className="hidden lg:flex flex-row gap-4 items-center">
-          <ul className="flex flex-row gap-4 items-center">
+          <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
             <li><Image width={22} height={22} src="/instagram.svg" alt="Instagram" /></li>
-            <li className="border border-[#F2F2F2] text-white p-[8px] h-[35px] rounded-[4px] flex items-center">Ingresar</li>
-            <li className="bg-[#F2F2F2] text-black p-[8px] h-[35px] rounded-[4px] flex items-center">Ser Socio</li>
+            <li className="border border-[#F2F2F2]  p-[8px] h-[35px] rounded-[4px] flex items-center text-[16px] text-[#F2F2F2] font-medium leading-[19.5px] ">Ingresar</li>
+            <li className="bg-[#F2F2F2] text-[#101232] p-[8px] h-[35px] rounded-[4px] text-[16px] flex items-center font-medium leading-[19.5px]">Ser Socio</li>
           </ul>
         </div>
       </div>
 
-      {/* Menú desplegable móvil (Pantalla completa) */}
+   
       {/* Menú desplegable móvil (Pantalla completa) */}
 {isMenuOpen && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[90px] pr-[40px] pl-[40px]">
+  <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
     {/* Botón de cierre (✕) alineado a la izquierda */}
     <button
       onClick={() => setIsMenuOpen(false)}
@@ -64,10 +86,10 @@ export default function NavbarComponente() {
 
     {/* Opciones del menú alineadas a la izquierda */}
     <ul className="text-xl space-y-6 pt-[70px]">
-      <li className="h-[48px]"><Link href="#nuestroclub" >Nuestro Club</Link></li>
-      <li className="h-[48px]"><Link href="#actividades" >Actividades</Link></li>
-      <li className="h-[48px]"><Link href="#colonia" >colonia</Link></li>
-      <li className="h-[48px]"><Link href="#beneficios" >Beneficios</Link></li>
+      <li className="h-[48px]"><Link href="#nuestroclub" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Nuestro Club</Link></li>
+      <li className="h-[48px]"><Link href="#actividades" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Actividades</Link></li>
+      <li className="h-[48px]"><Link href="#colonia" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Colonia</Link></li>
+      <li className="h-[48px]"><Link href="#beneficios" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Beneficios</Link></li>
     </ul>
 
     {/* Redes sociales y botones alineados a la izquierda */}
@@ -77,10 +99,10 @@ export default function NavbarComponente() {
     </div>
 
     <div className="mt-[3.5rem] flex flex-col space-y-4">
-      <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-md">
+      <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px]">
         Ingresar
       </button>
-      <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-md">
+      <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
         Ser Socio
       </button>
     </div>
@@ -90,3 +112,4 @@ export default function NavbarComponente() {
     </div>
   );
 }
+
