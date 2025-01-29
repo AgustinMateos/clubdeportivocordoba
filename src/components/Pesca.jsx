@@ -69,11 +69,12 @@ export default function Pesca() {
       </div>
 
       {/* Texto descriptivo */}
-      <div className="absolute top-[500px] h-auto sm:top-[400px] w-full">
-        <div className="text-white flex flex-col items-center justify-center">
+      <div className="absolute top-[500px] h-auto sm:top-[220px] w-full">
+        <div className="text-white flex flex-col items-center h-[150px] sm:h-[300px] justify-center">
           <h4 className="text-[24px] sm:text-[48px] text-center">Pesca</h4>
           <p className="text-[16px] sm:text-[20px] w-[90%] sm:w-[60%] text-center pt-4">
-            Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural...
+          Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural. 
+          Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
           </p>
         </div>
 
