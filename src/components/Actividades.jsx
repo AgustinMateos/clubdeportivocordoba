@@ -123,10 +123,10 @@ export default function Actividades() {
     <div id="actividades" className="min-h-screen">
   {/* Sección roja */}
   <div className="bg-[#C32929] py-12 flex justify-center relative h-[543px]">
-    <div className="text-white w-[80%] flex flex-col justify-center">
-      <p className="text-lg font-medium">Actividades / Deportes</p>
-      <h3 className="text-4xl font-bold mt-2">Un deporte para cada pasión</h3>
-      <p className="mt-4 text-lg w-[100%] sm:w-[60%] font-semibold">
+    <div className="text-white w-[70%] sm:w-[80%] flex flex-col h-[350px] justify-center sm:justify-center">
+      <p className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
+      <h3 className="text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px]  tracking-[0.2px] pt-4 w-full sm:w-[70%]">Un deporte para cada pasión</h3>
+      <p className="mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
         Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
       </p>
     </div>
@@ -163,10 +163,10 @@ export default function Actividades() {
               </p>
             </div>
           </div>
-          <h4 className="w-[77%] text-xl font-semibold mt-4">
+          <h4 className="w-[100%] sm:w-[77%]  font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
             {actividad.nombre}
           </h4>
-          <p className="w-[85%] mt-2 text-gray-700 px-4">
+          <p className="w-[100%] sm:w-[85%] mt-2 text-[#101232] px-[0px] sm:px-4 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
             {actividad.descripcion}
           </p>
         </div>
@@ -228,20 +228,20 @@ export default function Actividades() {
            <p>Tel: {actividades[isModalOpen].telefono}</p>
          </div>
        </div>
-       <table className="min-w-full table-auto border-collapse">
-         <thead>
+       <table className="min-w-full table-auto  rounded-[8px]">
+         <thead className="bg-[#D4D4D4F2] ">
            <tr>
-             <th className="border px-0 py-0 sm:px-4 sm:py-2">Categoría</th>
-             <th className="border px-0 py-0 sm:px-4 sm:py-2">Horario</th>
-             <th className="border px-0 py-0 sm:px-4 sm:py-2">Socios</th>
-             <th className="border px-0 py-0 sm:px-4 sm:py-2">No Socios</th>
+             <th className=" py-0 sm:px-4 sm:py-2">Categoría</th>
+             <th className=" py-0 sm:px-4 sm:py-2">Horario</th>
+             <th className=" py-0 sm:px-4 sm:py-2">Socios</th>
+             <th className=" py-0 sm:px-4 sm:py-2">No Socios</th>
            </tr>
          </thead>
-         <tbody>
+         <tbody className="bg-[#F2F1F1]">
            {actividades[isModalOpen].tablaDatos.map((fila, filaIndex) => (
              <tr key={filaIndex}>
                {fila.map((dato, colIndex) => (
-                 <td key={colIndex} className="border px-0 py-0 sm:px-4 sm:py-2 text-center">
+                 <td key={colIndex} className="px-0 py-0 sm:px-4 sm:py-2 text-center">
                    {dato}
                  </td>
                ))}

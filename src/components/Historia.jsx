@@ -31,33 +31,33 @@ export default function Historia() {
   }, [images.length]);
 
   return (
-    <div  id="nuestroClub" className="w-full min-h-[100vh] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
-      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-around">
+    <div  id="nuestroClub" className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
+      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
         {/* Sección de texto con los eventos */}
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
-          <div className="h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">
-            <h3 className="pt-4">Nuestro Club</h3>
-            <h4 className="text-[36px] sm:text-[48px] font-bold leading-[44px] sm:leading-[54px] pt-4 w-full sm:w-[70%]">
+          <div className="h-[400px] sm:h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">
+            <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium ">Nuestro Club</h3>
+            <h4 className="text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px]  tracking-[0.2px] pt-4 w-full sm:w-[70%]">
               Casi un siglo de historia y pasión
             </h4>
-            <p className="pt-4 w-full font-semibold text-[18px] sm:text-[20px]">
-              Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración.
+            <p className="pt-4 w-full sm:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+            Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
             </p>
           </div>
 
           {/* Mapeo de los eventos */}
-          <div className="w-[90%] relative pl-[20px]">
+          <div className="w-[100%] relative h-[316px] justify-center flex-col flex  sm:pl-[20px]">
             {eventos.map((evento, index) => (
               <div key={index} className="flex flex-row pb-4 items-center relative">
                 <Image src="/circuloHistoria.svg" width={20} height={20} alt="img" className="absolute left-0" />
-                <p className="pl-8">
-                  <span className="font-bold">{evento.year}:</span> {evento.description}
+                <p className="pl-8 font-normal">
+                  <span className="font-semibold">{evento.year}:</span> {evento.description}
                 </p>
 
                 {/* Línea roja (SVG) para conectar círculos */}
                 {index < eventos.length - 1 && (
-                  <svg className="absolute bottom-[-20px] left-[10px]" width="2" height="40">
-                    <line x1="0" y1="0" x2="0" y2="100%" stroke="red" strokeWidth="2" />
+                  <svg className="absolute bottom-[-20px] left-[9px] sm:left-[10px]" width="2" height="50">
+                    <line x1="0" y1="0" x2="0" y2="100%" stroke="#DF3737" strokeWidth="3" />
                   </svg>
                 )}
               </div>
