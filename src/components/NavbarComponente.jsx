@@ -7,7 +7,7 @@ export default function NavbarComponente() {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex justify-center mt-[20px]">
-      <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between lg:justify-center relative">
+      <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between relative">
         
         {/* Menú hamburguesa (Móvil - Izquierda) */}
         <div className="lg:hidden absolute left-4">
