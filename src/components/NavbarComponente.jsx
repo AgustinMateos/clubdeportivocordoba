@@ -19,9 +19,9 @@ export default function NavbarComponente() {
         </div>
 
         {/* Logo (Centrado en Mobile) */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
+        <Link href='#' className="absolute left-1/2 transform -translate-x-1/2">
           <Image src="/logo.svg" alt="Logo" width={96} height={89} />
-        </div>
+        </Link>
 
         {/* Icono de Login (Móvil - Derecha) */}
         <div className="lg:hidden absolute right-4">
