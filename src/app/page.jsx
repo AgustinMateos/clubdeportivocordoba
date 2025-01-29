@@ -18,9 +18,7 @@ export default function Home() {
       <Actividades/>
       <Pesca/>
        <Colonia/> 
-       
-       
-       {/* <Tarifas/> */}
+       <Tarifas/>
        <HaceteSocio/> 
        <Beneficios/> 
        <Footer/>
