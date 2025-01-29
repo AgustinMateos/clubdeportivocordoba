@@ -4,14 +4,14 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <div
-      className="h-[1426px] sm:min-h-screen sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom"
+      className="h-[1426px] sm:min-h-screen sm:h-[1200px] relative text-white flex flex-col items-center justify-center lg:justify-start bg-cover bg-bottom 2xl:bg-center"
       style={{
         backgroundImage: `
           -webkit-linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
           url('/footerIMG.jpg')`,
-        backgroundImage: `
-          linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
-          url('/footerIMG.jpg')`,
+        // backgroundImage: `
+        //   linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
+        //   url('/footerIMG.jpg')`,
       }}
     >
       {/* Banner principal */}
