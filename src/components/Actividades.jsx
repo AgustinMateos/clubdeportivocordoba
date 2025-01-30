@@ -50,7 +50,7 @@ export default function Actividades() {
     },
     {
       nombre: "Karate y Kung Fu",
-      descripcion: "La pasión por los aros en cada encuentro.",
+      descripcion: "Disciplina, fuerza y defensa personal.",
       imagen: "/Karate.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
@@ -64,7 +64,7 @@ export default function Actividades() {
     },
     {
       nombre: "Patín",
-      descripcion: "La pasión por los aros en cada encuentro.",
+      descripcion: "Elegancia sobre ruedas para todas las edades.",
       imagen: "/Patin.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
@@ -78,7 +78,7 @@ export default function Actividades() {
     },
     {
       nombre: "Newcom",
-      descripcion: "La pasión por los aros en cada encuentro.",
+      descripcion: "Especialmente diseñado para mayores de 60 años, con el equipo Los Imparables",
       imagen: "/newcom.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
