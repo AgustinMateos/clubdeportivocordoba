@@ -32,7 +32,7 @@ export default function Historia() {
 
   return (
     <div  id="nuestroClub" className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
-      <div className="w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
+      <div className="w-[80%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
         {/* Sección de texto con los eventos */}
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
           <div className="h-[400px] sm:h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">

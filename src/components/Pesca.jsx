@@ -49,7 +49,7 @@ export default function Pesca() {
   };
 
   return (
-    <div className="h-[1125px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
+    <div className="h-[1225px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
       {/* Imagen principal */}
       <div className="absolute top-[-100px] w-full flex flex-col sm:flex-row items-center justify-evenly">
         <Image
@@ -70,9 +70,9 @@ export default function Pesca() {
 
       {/* Texto descriptivo */}
       <div className="absolute top-[500px] h-auto sm:top-[220px] w-full">
-        <div className="text-white flex flex-col items-center h-[150px] sm:h-[300px] justify-center">
-          <h4 className="text-[24px] sm:text-[48px] text-center">Pesca</h4>
-          <p className="text-[16px] sm:text-[20px] w-[90%] sm:w-[60%] text-center pt-4">
+        <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
+          <h4 className="text-[24px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] ">Pesca</h4>
+          <p className="text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24pxtext-center font-semibold pt-4">
           Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural. 
           Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
           </p>
@@ -97,7 +97,7 @@ export default function Pesca() {
                   height={210}
                   alt={`pesca ${index + 3}`}
                   src={image.src}
-                  className="object-contain"
+                   className="border-2 border-[#DF3737] rounded-full border-dashed object-contain"
                 />
                 <p className="text-white text-center pt-2">{image.title}</p>
               </div>
@@ -127,14 +127,17 @@ export default function Pesca() {
         {/* Vista estática para pantallas grandes */}
         <div className="hidden sm:flex flex-row justify-evenly pt-4">
           {images.map((image, index) => (
-            <div key={index} className="flex flex-col items-center">
+            <div key={index} className="flex flex-col items-center ">
               <Image
                 width={210}
                 height={210}
                 alt={`pesca ${index + 3}`}
                 src={image.src}
+                className="border-2 border-[#DF3737] rounded-full border-dashed"
+
+
               />
-              <p className="text-white text-center pt-2">{image.title}</p>
+              <p className="text-white text-center pt-[20px] font-semibold text-[24px] leading-[24px] tracking-[0.2px]">{image.title}</p>
             </div>
           ))}
         </div>

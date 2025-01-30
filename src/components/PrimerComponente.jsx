@@ -2,7 +2,7 @@
 export default function PrimerComponente() {
   return (
     <div
-      className="w-full min-h-screen sm:h-[500px] lg:h-[100vh] bg-center sm:bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem] justify-center"
+      className="w-full minh-[100vh] sm:h-[500px] lg:h-[100vh] bg-center sm:bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem] justify-center"
       style={{
         
         backgroundImage: `
@@ -13,10 +13,10 @@ export default function PrimerComponente() {
       }}
     >
       
-      <div className="w-[100%]  sm:w-[100%] h-[110vh] items-start content-center  sm:h-[597px] flex  sm:items-end flex-wrap sm:flex-nowrap pb-[20px] justify-center md:justify-center 2xl:justify-evenly ">
+      <div className="w-[100%]  sm:w-[100%] h-[130vh] items-start content-center  sm:h-[597px] flex  sm:items-end flex-wrap sm:flex-nowrap pb-[20px] justify-center md:justify-center 2xl:justify-evenly ">
         <div className="w-[95%] sm:w-[55%] text-white p-[0.2rem] sm:p-4 lg:h-[50%] sm:items-start h-[350px] sm:h-[250px] flex flex-col items-center justify-evenly">
-          <div className="text-[36px] w-[100%] sm:w-[95%] md:text-[64px] font-extrabold leading-[40px] sm:leading-[70px] tracking-[0.2px]">
-            <h1 className="text-center sm:text-left ">Ser parte del mejor club, ahora a un click</h1>
+          <div className=" text-[36px] w-[100%] sm:w-[95%] md:text-[64px] font-extrabold leading-[40px] sm:leading-[70px] tracking-[0.2px]">
+            <h1 className="text-center sm:text-left">Ser parte del mejor club, ahora a un click</h1>
           </div>
           <div className=" w-[92%] sm:w-[85%] ">
             <p className="text-[16px] sm:text-[24px] text-center  sm:text-left   font-medium leading-[20px] sm:leading-[30px]  tracking-[0.2px]">

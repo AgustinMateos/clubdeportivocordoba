@@ -134,7 +134,7 @@ export default function Actividades() {
   
   {/* Contenedor de tarjetas con relative */}
   <div className="relative bg-[#F6F6F6] py-12 h-[3286px] sm:h-[1200px]">
-    <div className="absolute w-[90%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
+    <div className="absolute sm:w-[90%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-[400px] gap-8 px-8">
       {actividades.map((actividad, index) => (
         <div
           key={index}
@@ -142,7 +142,7 @@ export default function Actividades() {
         >
           <div
             onClick={() => handleCardClick(index)}
-            className="relative group cursor-pointer w-[300px] h-[400px]"
+            className="relative group cursor-pointer w-auto sm:w-[300px] h-[400px]"
           >
             <Image
               src={actividad.imagen}
