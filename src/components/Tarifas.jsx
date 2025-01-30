@@ -11,7 +11,7 @@ export default function Tarifas() {
   return (
     <div className="w-full bg-[#C32929] h-[662px] sm:h-[632px] flex justify-center py-8">
       <div className="w-[90%] max-w-[1282px]">
-        <h4 className="text-white text-2xl font-bold  mb-6">
+        <h4 className="text-white font-medium text-[20px] leading-[24px] tracking-[0.2px]  mb-6">
           Tarifas 2024 - Colonia Vacaciones
         </h4>
 
@@ -19,23 +19,23 @@ export default function Tarifas() {
           <table className="w-full bg-[#FFFFFFB2]  shadow-lg ">
             <thead>
               <tr className="bg-white text-left">
-                <th className=" px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4">Servicio</th>
-                <th className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 ">Precio Socios</th>
-                <th className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4">Precio No Socios</th>
+                <th className=" px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Servicio</th>
+                <th className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Precio Socios</th>
+                <th className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Precio No Socios</th>
               </tr>
             </thead>
             <tbody>
               {tarifas.map((item, index) => (
                 <tr key={index} className="text-left  ">
-                  <td className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 ">{item.servicio}</td>
-                  <td className=" px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4">{item.socios}</td>
-                  <td className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 ">{item.noSocios}</td>
+                  <td className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4  font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.servicio}</td>
+                  <td className=" px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.socios}</td>
+                  <td className="px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.noSocios}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><p className="text-white"> ¡Reservá tu lugar ahora! </p> <p className="h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center"> 3518 09-7160 </p></div></div>
+        <div className="h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><p className="text-white font-bold text-[24px] leading-[24px] tracking-[0.2px]"> ¡Reservá tu lugar ahora! </p> <p className="h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold text-[18px] leading-[24px] tracking-[0.2px]"> 3518 09-7160 </p></div></div>
       </div>
     </div>
   );

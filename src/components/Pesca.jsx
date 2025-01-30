@@ -1,8 +1,10 @@
 'use client';
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Pesca() {
+  const containerRef = useRef(null);
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
   const images = [
     { src: "/pesca3.svg", title: "Camping" },
     { src: "/pesca4.svg", title: "Torneos y Competencias" },
@@ -48,6 +50,23 @@ export default function Pesca() {
     );
   };
 
+  useEffect(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              setIsTitleVisible(true);
+            }
+          },
+          { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+        );
+      
+        if (containerRef.current) {
+          observer.observe(containerRef.current);
+        }
+      
+        return () => observer.disconnect();
+      }, []);
+
   return (
     <div className="h-[1225px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
       {/* Imagen principal */}
@@ -69,10 +88,14 @@ export default function Pesca() {
       </div>
 
       {/* Texto descriptivo */}
-      <div className="absolute top-[500px] h-auto sm:top-[220px] w-full">
+      {/* Texto descriptivo */}
+<div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[220px] w-full">
+
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
-          <h4 className="text-[24px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] ">Pesca</h4>
-          <p className="text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24pxtext-center font-semibold pt-4">
+        <h4 
+  className={`text-[24px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+>Pesca</h4>
+          <p className="text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24px]  font-semibold pt-4">
           Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural. 
           Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
           </p>

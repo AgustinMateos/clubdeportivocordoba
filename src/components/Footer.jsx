@@ -18,7 +18,7 @@ export default function Footer() {
       <div className="absolute inset-x-0 top-[-60px] flex justify-center">
         <div className="w-full max-w-[362px] sm:max-w-[1094px] h-[150px] bg-[#DF3737] rounded-[16px] flex flex-col justify-center items-center">
           <div className="w-full max-w-[314px] sm:max-w-[727px] text-center flex flex-col items-center p-[20px]">
-            <p>¡Hacete socio ahora y disfrutá de todos los beneficios!</p>
+            <p className="leading-[28px] text-[26px] tracking-[0.2px] font-semibold">¡Hacete socio ahora y disfrutá de todos los beneficios!</p>
             <p className="bg-[#1C1D1D] rounded-[5px] w-[207px] h-[58px] flex items-center justify-center mt-[20px]">
               Hacerme socio
             </p>

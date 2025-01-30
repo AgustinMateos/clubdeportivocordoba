@@ -1,11 +1,34 @@
+'use client'
 import Image from "next/image";
-
+import { useState, useEffect, useRef } from "react";
 export default function HaceteSocio() {
+  const containerRef = useRef(null);
+    const [isTitleVisible, setIsTitleVisible] = useState(false);
+  
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setIsTitleVisible(true);
+          }
+        },
+        { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      );
+    
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
+    
+      return () => observer.disconnect();
+    }, []);
   return (
-    <div className="h-[538px] bg-[#141414] flex flex-col sm:flex-row justify-evenly items-center overflow-x-hidden">
+    <div ref={containerRef} className="h-[538px] bg-[#141414] flex flex-col sm:flex-row justify-evenly items-center overflow-x-hidden">
       <div className="text-[#FFFFFF] w-[80%] sm:w-[424px] h-[256px] flex flex-col justify-evenly">
         <h6>¡Hacete socio ahora!</h6>
-        <h4 className="text-[43px] font-extrabold leading-[47px] tracking-[0.13px]">Ser parte del mejor club, ahora a un click</h4>
+        <h4 className={`text-[43px] font-extrabold leading-[47px] tracking-[0.13px] transition-all duration-700 ease-in-out ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
+  Ser parte del mejor club, ahora a un click
+</h4>
+
         <p>Para vos que queres todo, tenes todo pata estar. Elegí la propuesta de valor más conveniente para vos y sumate.</p>
       </div>
       <div className="w-[80%] sm:w-[50%]">

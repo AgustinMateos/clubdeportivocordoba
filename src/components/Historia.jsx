@@ -1,16 +1,10 @@
-'use client';
+"use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Historia() {
-  // Imágenes para el slider
-  const images = [
-    "/slide1Historia.svg",
-    "/club2.jpeg",
-  ];
-
-  // Datos de los eventos históricos
+  const images = ["/slide1Historia.svg", "/club2.jpeg"];
   const eventos = [
     { year: "1932", description: "Fundación del club." },
     { year: "1950", description: "Apertura de la primera cancha de básquet." },
@@ -19,36 +13,89 @@ export default function Historia() {
     { year: "2024", description: "Celebración del 92° aniversario del club." },
   ];
 
-  // Estado para rastrear la imagen actual
   const [currentImage, setCurrentImage] = useState(0);
-
-  // Cambio automático de imágenes
+  const [visibleEvents, setVisibleEvents] = useState([]); // Control de visibilidad progresiva
+  const containerRef = useRef(null);
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }, 3000); // Cambia cada 3 segundos
+    }, 4000);
     return () => clearInterval(interval);
   }, [images.length]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          eventos.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleEvents((prev) => [...prev, index]);
+            }, index * 400); // Cada evento aparece con un retraso de 300ms
+          });
+        }
+      },
+      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsTitleVisible(true);
+        }
+      },
+      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+    );
+  
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+  
+    return () => observer.disconnect();
+  }, []);
+  
+
   return (
-    <div  id="nuestroClub" className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center">
+    <div
+      id="nuestroClub"
+      ref={containerRef}
+      className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center"
+    >
       <div className="w-[80%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
         {/* Sección de texto con los eventos */}
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
           <div className="h-[400px] sm:h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">
-            <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium ">Nuestro Club</h3>
-            <h4 className="text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px]  tracking-[0.2px] pt-4 w-full sm:w-[70%]">
+            <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">
+              Nuestro Club
+            </h3>
+            <h4
+              className={`text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${
+                isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
+              }`}>
               Casi un siglo de historia y pasión
             </h4>
             <p className="pt-4 w-full sm:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
-            Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
+              Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
             </p>
           </div>
 
-          {/* Mapeo de los eventos */}
-          <div className="w-[100%] relative h-[316px] justify-center flex-col flex  sm:pl-[20px]">
+          {/* Mapeo de los eventos con animación progresiva */}
+          <div className="w-[100%] relative h-[316px] justify-center flex-col flex sm:pl-[20px]">
             {eventos.map((evento, index) => (
-              <div key={index} className="flex flex-row pb-4 items-center relative">
+              <div
+                key={index}
+                className={`flex flex-row pb-4 items-center relative transition-opacity duration-500 ${
+                  visibleEvents.includes(index) ? "opacity-100 translate-x-0" : "opacity-0 translate-x-[-20px]"
+                }`}
+              >
                 <Image src="/circuloHistoria.svg" width={20} height={20} alt="img" className="absolute left-0" />
                 <p className="pl-8 font-normal">
                   <span className="font-semibold">{evento.year}:</span> {evento.description}
@@ -67,44 +114,39 @@ export default function Historia() {
 
         {/* Slider */}
         <div className="relative w-full sm:w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px]">
-             {/* Imágenes */}
-             <div
-               className="flex transition-transform duration-500"
-               style={{
-                 transform: `translateX(-${currentImage * 100}%)`,
-               }}
-             >
-               {images.map((src, index) => (
-                 <div
-                   key={index}
-                   className="w-full sm:w-[447px] h-[452px]  sm:h-[592px] flex-shrink-0"
-                 >
-                   <Image
-                     src={src}
-                     width={447}
-                     height={592}
-                     alt={`Slide ${index + 1}`}
-                     className="object-cover w-full h-full rounded-[54px] sm:rounded-[86px]"
-                   />
-                 </div>
-               ))}
-             </div>
-       
-             {/* Paginación */}
-             <div className="absolute bottom-[10rem] sm:bottom-4 left-0 right-0 flex justify-center space-x-2">
-               {images.map((_, index) => (
-                 <button
-                   key={index}
-                   className={`w-10 h-1 transition ${
-                     currentImage === index
-                       ? "bg-[#DF3737]"
-                       : "bg-[#ffff] hover:bg-[#d66767]"
-                   }`}
-                   onClick={() => setCurrentImage(index)}
-                 ></button>
-               ))}
-             </div>
-           </div>
+          {/* Imágenes */}
+          <div
+            className="flex transition-transform duration-500"
+            style={{
+              transform: `translateX(-${currentImage * 100}%)`,
+            }}
+          >
+            {images.map((src, index) => (
+              <div key={index} className="w-full sm:w-[447px] h-[452px] sm:h-[592px] flex-shrink-0">
+                <Image
+                  src={src}
+                  width={447}
+                  height={592}
+                  alt={`Slide ${index + 1}`}
+                  className="object-cover w-full h-full rounded-[54px] sm:rounded-[86px]"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Paginación */}
+          <div className="absolute bottom-[10rem] sm:bottom-4 left-0 right-0 flex justify-center space-x-2">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-10 h-1 transition ${
+                  currentImage === index ? "bg-[#DF3737]" : "bg-[#ffff] hover:bg-[#d66767]"
+                }`}
+                onClick={() => setCurrentImage(index)}
+              ></button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
