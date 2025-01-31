@@ -20,7 +20,7 @@ export default function Home() {
        <Colonia/> 
        <Tarifas/>
        <HaceteSocio/> 
-       <Beneficios/> 
+       {/* <Beneficios/>  */}
        <Footer/>
       </main>
       
