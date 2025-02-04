@@ -82,7 +82,7 @@ export default function Historia() {
               }`}>
               Casi un siglo de historia y pasión
             </h4>
-            <p className="pt-4 w-full sm:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+            <p className="pt-4 w-full xl:w-[92%] 2xl:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
               Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
             </p>
           </div>

@@ -11,7 +11,7 @@ export default function PrimerComponente() {
           setIsTitleVisible(true);
         }
       },
-      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      { threshold: 0.3 } 
     );
 
     if (containerRef.current) {
@@ -23,7 +23,7 @@ export default function PrimerComponente() {
   return (
     <div
       ref={containerRef}
-      className="w-full minh-[100vh] sm:h-[500px] lg:h-[100vh] bg-center sm:bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem] justify-center"
+      className="w-full  sm:h-[100%]  xl:h-[100vh] bg-center sm:bg-right bg-cover lg:bg-center flex items-center relative pt-[5rem] justify-center"
       style={{
 
         backgroundImage: `
@@ -35,8 +35,8 @@ export default function PrimerComponente() {
     >
 
       <div className="w-[100%]  sm:w-[100%] h-[130vh] items-start content-center  sm:h-[597px] flex  sm:items-end flex-wrap sm:flex-nowrap pb-[20px] justify-center md:justify-center 2xl:justify-evenly ">
-        <div className="w-[95%] sm:w-[55%] text-white p-[0.2rem] sm:p-4 lg:h-[50%] sm:items-start h-[350px] sm:h-[250px] flex flex-col items-center justify-evenly">
-          <div className=" text-[36px] w-[100%] sm:w-[95%] md:text-[64px] font-extrabold leading-[40px] sm:leading-[70px] tracking-[0.2px]">
+        <div className="w-[95%] sm:w-[55%] text-white p-[0.2rem] sm:p-4 xl:h-[50%] sm:items-start h-[350px] sm:h-[250px] md:h-[350px]  flex flex-col items-center justify-evenly">
+          <div className=" text-[36px] w-[100%] sm:w-[95%] xl:text-[64px] font-extrabold leading-[40px] xl:leading-[70px] tracking-[0.2px]">
             <h1
               className={`text-center sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
             >

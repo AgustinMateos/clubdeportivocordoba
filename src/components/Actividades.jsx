@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 export default function Actividades() {
-  const [isModalOpen, setModalOpen] = useState(null); // Índice de la tarjeta seleccionada
+  const [isModalOpen, setModalOpen] = useState(null); 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);
@@ -20,7 +20,7 @@ export default function Actividades() {
         ["Adolescentes", "13:34", "$2.500", "$1.500"],
         ["Niños +6", "13:34", "$2.500", "$5.000"],
         ["Infantes", "13:34", "$2.500", "$5.000"],
-        // Añadir más filas según sea necesario
+       
       ]
     },{
       nombre: "Vóley",
@@ -100,7 +100,7 @@ export default function Actividades() {
 
   const handleCardClick = (index) => {
     setModalOpen(index);
-    setCurrentImageIndex(0); // Resetea la imagen actual cuando se abre un nuevo modal
+    setCurrentImageIndex(0); 
   };
 
   const handleCloseModal = () => {
@@ -127,7 +127,7 @@ export default function Actividades() {
           setIsTitleVisible(true);
         }
       },
-      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      { threshold: 0.3 } 
     );
 
     if (containerRef.current) {
@@ -139,9 +139,9 @@ export default function Actividades() {
 
   return (
     <div id="actividades"  ref={containerRef} className="min-h-screen">
-  {/* Sección roja */}
+  
   <div className="bg-[#C32929] py-12 flex justify-center relative h-[543px]">
-    <div className="text-white w-[70%] sm:w-[80%] flex flex-col h-[350px] justify-center sm:justify-center">
+    <div className="text-white w-[70%] sm:w-[80%]  flex flex-col h-[350px] justify-center sm:justify-center">
       <p className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
       <h3
   className={`text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] 
@@ -156,24 +156,24 @@ export default function Actividades() {
     </div>
   </div>
   
-  {/* Contenedor de tarjetas con relative */}
-  <div className="relative bg-[#F6F6F6] py-12 h-[3286px] sm:h-[1200px]">
-    <div className="absolute sm:w-[90%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  w-[100%] gap-8 px-8">
+ 
+  <div className="relative bg-[#F6F6F6] py-12 h-[3286px] sm:h-[160vh] md:h-[150vh] xl:h-[1200px]">
+    <div className="absolute sm:w-[80%] md:w-[84%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3  w-[100%] gap-8 px-8">
       {actividades.map((actividad, index) => (
         <div
           key={index}
-          className="rounded-lg  overflow-hidden flex flex-col items-center   transition"
+          className="rounded-lg  overflow-hidden flex flex-col items-center w-auto md:w-[350px] lg:w-auto  transition"
         >
           <div
             onClick={() => handleCardClick(index)}
-            className="relative group cursor-pointer w-auto sm:w-[300px] h-[400px]"
+            className="relative group cursor-pointer w-auto  md:w-[400px] h-[400px]"
           >
             <Image
               src={actividad.imagen}
               width={300}
               height={400}
               alt={`Actividad ${index + 1}`}
-              className="rounded-lg w-full h-full object-cover"
+              className="rounded-lg w-[435px]  sm:w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Image
@@ -187,10 +187,10 @@ export default function Actividades() {
               </p>
             </div>
           </div>
-          <h4 className="w-[100%] sm:w-[77%]  font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
+          <h4 className= " max-w-[435px] w-[100%]  sm:px-4 md:px-0  lg:px-3 xl:px-0 font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
             {actividad.nombre}
           </h4>
-          <p className="w-[100%] sm:w-[85%] mt-2 text-[#101232] px-[0px] sm:px-4 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
+          <p className="max-w-[435px] w-[100%]  mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
             {actividad.descripcion}
           </p>
         </div>
@@ -198,7 +198,7 @@ export default function Actividades() {
     </div>
   </div>
 
-  {/* Modal */}
+
   {isModalOpen !== null && (
    <div
    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
