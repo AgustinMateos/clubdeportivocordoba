@@ -121,21 +121,24 @@ export default function Actividades() {
     return () => clearInterval(interval);
   }, [isModalOpen, images.length]);
   useEffect(() => {
+    const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; // 5% en móviles, 30% en pantallas grandes
+  
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setIsTitleVisible(true);
         }
       },
-      { threshold: 0.3 } 
+      { threshold: thresholdValue }
     );
-
+  
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
-
+  
     return () => observer.disconnect();
   }, []);
+  
 
   return (
     <div id="actividades"  ref={containerRef} className="min-h-screen">

@@ -10,7 +10,7 @@ import Beneficios from "@/components/Beneficios";
 import Footer from "@/components/Footer";
 export default function Home() {
   return (
-    <div className=" min-h-screen absolute ">
+    <div className=" min-h-screen min-w-[100%] absolute ">
 
       <main className="relative">
        <PrimerComponente/>
