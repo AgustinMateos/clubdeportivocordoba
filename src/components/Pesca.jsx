@@ -93,9 +93,9 @@ export default function Pesca() {
 
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
         <h4 
-  className={`text-[32px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+  className={`font-montserrat text-[32px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
 >Pesca</h4>
-          <p className="text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24px]  font-semibold pt-4">
+          <p className="font-montserrat text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24px]  font-semibold pt-4">
           Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural. 
           Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
           </p>
@@ -122,7 +122,7 @@ export default function Pesca() {
                   src={image.src}
                    className="border-2 border-[#DF3737] rounded-full border-dashed object-contain"
                 />
-                <p className="text-white text-center pt-2">{image.title}</p>
+                <p className="font-montserrat text-white text-center pt-2">{image.title}</p>
               </div>
             ))}
           </div>
@@ -160,7 +160,7 @@ export default function Pesca() {
 
 
               />
-              <p className="text-white text-center pt-[20px] font-semibold text-[24px] leading-[24px] tracking-[0.2px]">{image.title}</p>
+              <p className="font-montserrat text-white text-center pt-[20px] font-semibold text-[24px] leading-[24px] tracking-[0.2px]">{image.title}</p>
             </div>
           ))}
         </div>

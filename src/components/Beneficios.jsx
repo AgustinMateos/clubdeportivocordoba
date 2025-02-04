@@ -38,14 +38,14 @@ export default function Beneficios() {
         <div className="w-full sm:w-[50%] mb-[40px] min-h-[500px] p-[20px] flex flex-col justify-start sm:justify-evenly">
           <div className="h-[40%] flex justify-evenly flex-col w-full ">
             <h3 className="pt-4 text-xl font-medium">Beneficios de Socios</h3>
-            <h4 className={`text-[32px] sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pt-4 transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
+            <h4 className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pt-4 transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
               Tu lugar en Central Córdoba
             </h4>
           </div>
 
           
           <div className="w-full sm:w-[95%] pl-5">
-            <h5 className="pt-12 pb-5 text-lg font-medium">Beneficios</h5>
+            <h5 className="font-montserrat pt-12 pb-5 text-lg font-medium">Beneficios</h5>
             {eventos.map((evento, index) => (
               <div key={index} className="flex flex-row pb-4 items-center">
                 
@@ -56,7 +56,7 @@ export default function Beneficios() {
                   alt="circulo"
                   className="mr-4"
                 />
-                <p><span>{evento.titulo}</span>{evento.description}</p>
+                <p className="font-montserrat" ><span className="font-montserrat">{evento.titulo}</span>{evento.description}</p>
               </div>
             ))}
           </div>

@@ -1,17 +1,20 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  } 
-  html,
-  body {
-    max-width: 100vw;
-    
-    /* max-height: 100vh; */
-  } 
-  
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Inter&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+ 
+
+}
 
 

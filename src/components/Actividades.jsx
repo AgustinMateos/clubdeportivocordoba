@@ -145,15 +145,15 @@ export default function Actividades() {
   
   <div className="bg-[#C32929] py-12 flex justify-center relative h-[543px]">
     <div className="text-white w-[70%] sm:w-[80%]  flex flex-col h-[350px] justify-center sm:justify-center">
-      <p className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
+      <p className="font-montserrat pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
       <h3
-  className={`text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] 
+  className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] 
     tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
 >
   Un deporte para cada pasión
 </h3>
 
-      <p className="mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
+      <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
         Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
       </p>
     </div>
@@ -185,15 +185,15 @@ export default function Actividades() {
                 height={50}
                 alt="Icono de información"
               />
-              <p className="text-white font-bold text-md mt-2">
+              <p className="font-montserrat text-white font-bold text-md mt-2">
                 Haz click para ver más información
               </p>
             </div>
           </div>
-          <h4 className= " max-w-[435px] 2xl:max-w-[100%] w-[100%]  sm:px-4 md:px-0  lg:px-3 xl:px-0 font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
+          <h4 className= "font-montserrat max-w-[435px] 2xl:max-w-[100%] w-[100%]  sm:px-4 md:px-0  lg:px-3 xl:px-0 font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
             {actividad.nombre}
           </h4>
-          <p className="max-w-[435px] 2xl:max-w-[100%] w-[100%]  mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
+          <p className="font-montserrat max-w-[435px] 2xl:max-w-[100%] w-[100%]  mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
             {actividad.descripcion}
           </p>
         </div>
@@ -244,24 +244,24 @@ export default function Actividades() {
        </h2>
        <div className="flex flex-wrap justify-between w-full mb-4">
          <div className="w-[70%] flex flex-wrap">
-           <p className="w-full sm:w-[45%]">
+           <p className="font-montserrat w-full sm:w-[45%]">
              Profesora: {actividades[isModalOpen].profesora}
            </p>
-           <p className="w-full sm:w-[45%]">
+           <p className="font-montserrat w-full sm:w-[45%]">
              Profesor: {actividades[isModalOpen].profesor}
            </p>
          </div>
-         <div className="w-[30%] text-right">
+         <div className="font-montserrat w-[30%] text-right">
            <p>Tel: {actividades[isModalOpen].telefono}</p>
          </div>
        </div>
        <table className="min-w-full table-auto  rounded-[8px]">
          <thead className="bg-[#D4D4D4F2] ">
            <tr>
-             <th className=" py-0 sm:px-4 sm:py-2">Categoría</th>
-             <th className=" py-0 sm:px-4 sm:py-2">Horario</th>
-             <th className=" py-0 sm:px-4 sm:py-2">Socios</th>
-             <th className=" py-0 sm:px-4 sm:py-2">No Socios</th>
+             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Categoría</th>
+             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Horario</th>
+             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Socios</th>
+             <th className="font-montserrat py-0 sm:px-4 sm:py-2">No Socios</th>
            </tr>
          </thead>
          <tbody className="bg-[#F2F1F1]">

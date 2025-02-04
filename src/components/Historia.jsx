@@ -73,16 +73,16 @@ export default function Historia() {
         
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
           <div className="h-[400px] sm:h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">
-            <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">
+            <h3 className="font-montserrat pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">
               Nuestro Club
             </h3>
             <h4
-              className={`text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${
+              className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${
                 isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
               }`}>
               Casi un siglo de historia y pasión
             </h4>
-            <p className="pt-4 w-full xl:w-[92%] 2xl:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+            <p className="font-montserrat pt-4 w-full xl:w-[92%] 2xl:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
               Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
             </p>
           </div>
@@ -97,8 +97,8 @@ export default function Historia() {
                 }`}
               >
                 <Image src="/circuloHistoria.svg" width={20} height={20} alt="img" className="absolute left-0" />
-                <p className="pl-8 font-normal">
-                  <span className="font-semibold">{evento.year}:</span> {evento.description}
+                <p className="pl-8 font-normal font-montserrat">
+                  <span className="font-montserrat font-semibold">{evento.year}:</span> {evento.description}
                 </p>
 
                

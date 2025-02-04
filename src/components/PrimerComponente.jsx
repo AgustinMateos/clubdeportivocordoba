@@ -38,14 +38,14 @@ export default function PrimerComponente() {
         <div className="w-[95%] sm:w-[55%] 2xl:w-[45%] text-white p-[0.2rem] sm:p-4 xl:h-[50%] sm:items-start h-[350px] sm:h-[250px] md:h-[350px]  flex flex-col items-center justify-evenly">
           <div className=" text-[36px] w-[100%] sm:w-[95%] 2xl:w-[85%] xl:text-[64px] font-extrabold leading-[40px] xl:leading-[70px] tracking-[0.2px]">
             <h1
-              className={`text-center sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+              className={`text-center font-inter sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
             >
               Ser parte del mejor club, ahora a un click
             </h1>
 
           </div>
           <div className=" w-[92%] sm:w-[85%] ">
-            <p className="text-[16px] sm:text-[24px] text-center  sm:text-left   font-medium leading-[20px] sm:leading-[30px]  tracking-[0.2px]">
+            <p className="font-montserrat text-[16px] sm:text-[24px] text-center  sm:text-left   font-medium leading-[20px] sm:leading-[30px]  tracking-[0.2px]">
               Tenemos todo lo que necesitas: deportes, recreación y comunidad.
               Elegí la mejor propuesta y súmate a Central.
             </p>
@@ -53,14 +53,14 @@ export default function PrimerComponente() {
         </div>
 
         <div className="h-[481px] w-[90%] sm:w-[417px] bg-white/70 backdrop-blur-lg justify-evenly rounded-[16px] p-6 flex flex-col">
-          <h3 className="text-[24px] font-bold text-gray-800 mb-4">
+          <h3 className="text-[24px] font-bold text-gray-800 mb-4 font-montserrat">
             ¡Hacete socio ahora!
           </h3>
           <form className="flex flex-col gap-4">
             <div className="flex flex-col">
               <label
                 htmlFor="nombre"
-                className="text-gray-700 text-sm font-medium"
+                className="text-gray-700 text-sm font-medium font-montserrat"
               >
                 Nombre completo*
               </label>
@@ -75,7 +75,7 @@ export default function PrimerComponente() {
             <div className="flex flex-col">
               <label
                 htmlFor="dni"
-                className="text-gray-700 text-sm font-medium"
+                className="font-montserrat text-gray-700 text-sm font-medium"
               >
                 DNI*
               </label>
@@ -83,14 +83,14 @@ export default function PrimerComponente() {
                 id="dni"
                 type="text"
                 placeholder="Ingresa tu DNI"
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
+                className="font-montserrat p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
               />
             </div>
 
             <div className="flex flex-col">
               <label
                 htmlFor="email"
-                className="text-gray-700 text-sm font-medium"
+                className="font-montserrat text-gray-700 text-sm font-medium"
               >
                 Email*
               </label>
@@ -98,13 +98,13 @@ export default function PrimerComponente() {
                 id="email"
                 type="email"
                 placeholder="Ingresa tu email"
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
+                className="font-montserrat p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-black text-white py-2 px-4 rounded-md mt-4"
+              className="font-montserrat bg-black text-white py-2 px-4 rounded-md mt-4"
             >
               Hacerme socio
             </button>

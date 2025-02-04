@@ -66,8 +66,8 @@ export default function NavbarComponente() {
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
             <li><Image width={22} height={22} src="/instagram.svg" alt="Instagram" /></li>
-            <li className="border border-[#F2F2F2]  p-[8px] h-[35px] rounded-[4px] flex items-center text-[16px] text-[#F2F2F2] font-medium leading-[19.5px] ">Ingresar</li>
-            <li className="bg-[#F2F2F2] text-[#101232] p-[8px] h-[35px] rounded-[4px] text-[16px] flex items-center font-medium leading-[19.5px]">Ser Socio</li>
+            <li className="border border-[#F2F2F2]  p-[8px] h-[35px] rounded-[4px] flex items-center text-[16px] text-[#F2F2F2] font-medium leading-[19.5px] font-inter ">Ingresar</li>
+            <li className="bg-[#F2F2F2] text-[#101232] p-[8px] h-[35px] rounded-[4px] text-[16px] flex items-center font-medium leading-[19.5px] font-inter">Ser Socio</li>
           </ul>
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function NavbarComponente() {
     </div>
 
     <div className="mt-[3.5rem] flex flex-col space-y-4">
-      <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px]">
+      <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px] font-inter">
         Ingresar
       </button>
       <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
