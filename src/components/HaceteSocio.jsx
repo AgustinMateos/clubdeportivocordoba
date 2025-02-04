@@ -12,7 +12,7 @@ export default function HaceteSocio() {
             setIsTitleVisible(true);
           }
         },
-        { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+        { threshold: 0.3 } 
       );
     
       if (containerRef.current) {

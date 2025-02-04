@@ -30,7 +30,7 @@ export default function Footer() {
 
 
   
-      {/* Banner principal */}
+     
       <div className="absolute inset-x-0 top-[-60px] flex justify-center">
         <div className=" w-[300px] sm:w-[700px] md:w-[994px] lg:w-[1094px] h-[190px] md:h-[150px] bg-[#DF3737] rounded-[16px] flex flex-col justify-center items-center">
           <div className="w-full max-w-[314px] sm:max-w-[727px] text-center flex flex-col items-center p-[20px]">
@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Logo */}
+     
       <div className="absolute bottom-[850px]  sm:bottom-[480px]">
         <div className="w-full max-w-[325px] sm:max-w-[1094px] flex flex-col justify-center items-center">
           <div className="w-full max-w-[177px] h-auto">
@@ -51,10 +51,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Sección final */}
+     
       <div className="absolute bottom-[80px] w-full flex justify-center h-[715px] sm:h-[292px] 2xl:h-[192px]">
         <div className="w-[80%] sm:w-full max-w-full flex flex-col sm:flex-row justify-around items-start">
-          {/* Dirección con iframe */}
+          
           <div className="w-full max-w-[368px] h-[203px]">
             <h5 className="mb-2 text-lg font-semibold">Dirección</h5>
             <iframe
@@ -67,7 +67,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Información de contacto */}
+          
           <div className="w-full max-w-[285px] h-[204px] flex flex-col justify-around">
             <div>
               <h4>Info de Contacto</h4>
@@ -82,7 +82,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Formulario de contacto */}
+         
           <div className="w-full max-w-[321px] h-[212px] ">
             <div className="flex flex-col justify-between">
               <h4 className="pb-[10px]">Envianos tu consulta</h4>

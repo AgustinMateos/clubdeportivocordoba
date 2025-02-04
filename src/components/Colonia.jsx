@@ -10,14 +10,14 @@ export default function Historia() {
   const containerRef = useRef(null);
     const [isTitleVisible, setIsTitleVisible] = useState(false);
     const [visibleEvents, setVisibleEvents] = useState([]);
-  // Imágenes para el slider
+  
   const images = [
     "/colonia1.svg",
     "/slide1Historia.svg",
     
   ];
 
-  // Datos de los eventos históricos
+  
   const eventos = [
     {  description: "Acceso a la pileta", },
     {  description: "Actividades recreativas y deportivas para niños y adultos" },
@@ -26,14 +26,14 @@ export default function Historia() {
     {  description: "Habitación para estadías cómodas" },
   ];
 
-  // Estado para rastrear la imagen actual
+ 
   const [currentImage, setCurrentImage] = useState(0);
 
-  // Cambio automático de imágenes
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }, 3000); // Cambia cada 3 segundos
+    }, 3000); 
     return () => clearInterval(interval);
   }, [images.length]);
   useEffect(() => {
@@ -59,11 +59,11 @@ export default function Historia() {
           eventos.forEach((_, index) => {
             setTimeout(() => {
               setVisibleEvents((prev) => [...prev, index]);
-            }, index * 400); // Cada evento aparece con un retraso de 300ms
+            }, index * 400); 
           });
         }
       },
-      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      { threshold: 0.3 } 
     );
 
     if (containerRef.current) {
@@ -76,7 +76,7 @@ export default function Historia() {
   return (
     <div id="colonia" ref={containerRef} className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center">
   <div className="w-[90%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-around">
-    {/* Sección de texto con los eventos */}
+   
     <div className="w-full sm:w-[50%] h-auto sm:h-[700px] flex flex-col justify-between relative">
       <div className="h-[70%]  flex justify-evenly flex-col w-full">
         <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Colonia de Vacaciones</h3>
@@ -97,7 +97,7 @@ export default function Historia() {
         </p>
       </div>
 
-      {/* Mapeo de los eventos */}
+      
       <div className="w-[95%] relative pl-[20px]">
         <h5 className="pt-[50px] pb-[20px] font-bold text-[20px] leading-[24px] tracking-[0.2px] ">Beneficios</h5>
         {eventos.map((evento, index) => (
@@ -125,9 +125,9 @@ export default function Historia() {
       </div>
     </div>
 
-    {/* Slider */}
+    
     <div className="relative w-full sm:w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px]">
-      {/* Imágenes */}
+     
       <div
         className="flex transition-transform duration-500"
         style={{
@@ -152,7 +152,7 @@ export default function Historia() {
         ))}
       </div>
 
-      {/* Paginación */}
+  
       <div className="absolute bottom-[10rem] sm:bottom-4 left-0 right-0 flex justify-center space-x-2">
         {images.map((_, index) => (
           <button

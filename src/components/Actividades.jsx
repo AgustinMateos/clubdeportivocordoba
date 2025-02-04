@@ -121,7 +121,7 @@ export default function Actividades() {
     return () => clearInterval(interval);
   }, [isModalOpen, images.length]);
   useEffect(() => {
-  const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; // 5% en móviles, 30% en pantallas grandes
+  const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; 
 
   const observer = new IntersectionObserver(
     (entries) => {

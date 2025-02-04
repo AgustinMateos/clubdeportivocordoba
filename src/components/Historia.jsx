@@ -14,7 +14,7 @@ export default function Historia() {
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
-  const [visibleEvents, setVisibleEvents] = useState([]); // Control de visibilidad progresiva
+  const [visibleEvents, setVisibleEvents] = useState([]); 
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   useEffect(() => {
@@ -31,11 +31,11 @@ export default function Historia() {
           eventos.forEach((_, index) => {
             setTimeout(() => {
               setVisibleEvents((prev) => [...prev, index]);
-            }, index * 400); // Cada evento aparece con un retraso de 300ms
+            }, index * 400); 
           });
         }
       },
-      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      { threshold: 0.3 } 
     );
 
     if (containerRef.current) {
@@ -52,7 +52,7 @@ export default function Historia() {
           setIsTitleVisible(true);
         }
       },
-      { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+      { threshold: 0.3 } 
     );
   
     if (containerRef.current) {
@@ -70,7 +70,7 @@ export default function Historia() {
       className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center"
     >
       <div className="w-[80%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
-        {/* Sección de texto con los eventos */}
+        
         <div className="w-full sm:w-[50%] h-auto sm:h-[650px] flex flex-col justify-between relative">
           <div className="h-[400px] sm:h-[60%] flex justify-evenly flex-col w-full pb-4 sm:pb-0">
             <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">
@@ -87,7 +87,7 @@ export default function Historia() {
             </p>
           </div>
 
-          {/* Mapeo de los eventos con animación progresiva */}
+    
           <div className="w-[100%] relative h-[316px] justify-center flex-col flex sm:pl-[20px]">
             {eventos.map((evento, index) => (
               <div
@@ -101,7 +101,7 @@ export default function Historia() {
                   <span className="font-semibold">{evento.year}:</span> {evento.description}
                 </p>
 
-                {/* Línea roja (SVG) para conectar círculos */}
+               
                 {index < eventos.length - 1 && (
                   <svg className="absolute bottom-[-20px] left-[9px] sm:left-[10px]" width="2" height="50">
                     <line x1="0" y1="0" x2="0" y2="100%" stroke="#DF3737" strokeWidth="3" />
@@ -112,9 +112,9 @@ export default function Historia() {
           </div>
         </div>
 
-        {/* Slider */}
+      
         <div className="relative w-full sm:w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px]">
-          {/* Imágenes */}
+       
           <div
             className="flex transition-transform duration-500"
             style={{
@@ -134,7 +134,7 @@ export default function Historia() {
             ))}
           </div>
 
-          {/* Paginación */}
+          
           <div className="absolute bottom-[10rem] sm:bottom-4 left-0 right-0 flex justify-center space-x-2">
             {images.map((_, index) => (
               <button

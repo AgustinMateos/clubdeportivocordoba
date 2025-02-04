@@ -57,7 +57,7 @@ export default function Pesca() {
               setIsTitleVisible(true);
             }
           },
-          { threshold: 0.3 } // Se activa cuando el 30% del contenedor es visible
+          { threshold: 0.3 } 
         );
       
         if (containerRef.current) {
@@ -69,7 +69,7 @@ export default function Pesca() {
 
   return (
     <div className="h-[1225px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
-      {/* Imagen principal */}
+    
       <div className="absolute top-[-100px] w-full flex flex-col sm:flex-row items-center justify-evenly">
         <Image
           width={842}
@@ -87,8 +87,8 @@ export default function Pesca() {
         />
       </div>
 
-      {/* Texto descriptivo */}
-      {/* Texto descriptivo */}
+     
+  
 <div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[220px] w-full">
 
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
@@ -128,7 +128,7 @@ export default function Pesca() {
           </div>
         </div>
 
-        {/* Flechas de navegación fijas */}
+      
         <div className="absolute w-full flex justify-around px-6 bottom-[-90px] sm:hidden">
           <button
             onClick={handlePrev}
@@ -147,7 +147,7 @@ export default function Pesca() {
         </div>
 
 
-        {/* Vista estática para pantallas grandes */}
+       
         <div className="hidden sm:flex flex-row justify-evenly pt-4">
           {images.map((image, index) => (
             <div key={index} className="flex flex-col items-center ">

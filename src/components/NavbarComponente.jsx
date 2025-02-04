@@ -10,7 +10,7 @@ export default function NavbarComponente() {
     <div className="fixed top-0 left-0 w-full z-50 flex justify-center mt-[20px]">
       <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between relative">
         
-        {/* Menú hamburguesa (Móvil - Izquierda) */}
+        
         <div className="lg:hidden absolute left-4">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
             
@@ -18,19 +18,19 @@ export default function NavbarComponente() {
           </button>
         </div>
 
-        {/* Logo (Centrado en Mobile) */}
+ 
         <Link href='#' className="absolute left-1/2 transform -translate-x-1/2">
           <Image src="/logo.svg" alt="Logo" width={96} height={89} />
         </Link>
 
-        {/* Icono de Login (Móvil - Derecha) */}
+     
         <div className="lg:hidden absolute right-4">
           <button className="text-white focus:outline-none">
             <Image src="/login.svg" alt="Login" width={40} height={40} />
           </button>
         </div>
 
-        {/* Menú de navegación (Desktop) */}
+     
         <div className="hidden lg:flex flex-row gap-4">
           <ul className="flex flex-row gap-4 pl-[50px]">
           <li>
@@ -61,7 +61,7 @@ export default function NavbarComponente() {
           </ul>
         </div>
 
-        {/* Redes y botones (Desktop) */}
+       
         <div className="hidden lg:flex flex-row gap-4 items-center">
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
@@ -73,10 +73,10 @@ export default function NavbarComponente() {
       </div>
 
    
-      {/* Menú desplegable móvil (Pantalla completa) */}
+     
 {isMenuOpen && (
   <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
-    {/* Botón de cierre (✕) alineado a la izquierda */}
+  
     <button
       onClick={() => setIsMenuOpen(false)}
       className="text-white text-2xl mb-8 absolute left-4 pl-[20px]"
@@ -84,7 +84,7 @@ export default function NavbarComponente() {
       ✕
     </button>
 
-    {/* Opciones del menú alineadas a la izquierda */}
+    
     <ul className="text-xl space-y-6 pt-[70px]">
   <li className="h-[48px]">
     <Link href="#nuestroClub" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
@@ -109,7 +109,7 @@ export default function NavbarComponente() {
 </ul>
 
 
-    {/* Redes sociales y botones alineados a la izquierda */}
+  
     <div className="flex space-x-6 mt-[3.5rem]">
       <Image width={32} height={32} src="/facebook.svg" alt="Facebook" />
       <Image width={32} height={32} src="/instagram.svg" alt="Instagram" />
