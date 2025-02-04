@@ -86,11 +86,28 @@ export default function NavbarComponente() {
 
     {/* Opciones del menú alineadas a la izquierda */}
     <ul className="text-xl space-y-6 pt-[70px]">
-      <li className="h-[48px]"><Link href="#nuestroclub" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Nuestro Club</Link></li>
-      <li className="h-[48px]"><Link href="#actividades" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Actividades</Link></li>
-      <li className="h-[48px]"><Link href="#colonia" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Colonia</Link></li>
-      <li className="h-[48px]"><Link href="#beneficios" className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]" >Beneficios</Link></li>
-    </ul>
+  <li className="h-[48px]">
+    <Link href="#nuestroClub" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+      Nuestro Club
+    </Link>
+  </li>
+  <li className="h-[48px]">
+    <Link href="#actividades" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+      Actividades
+    </Link>
+  </li>
+  <li className="h-[48px]">
+    <Link href="#colonia" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+      Colonia
+    </Link>
+  </li>
+  <li className="h-[48px]">
+    <Link href="#beneficios" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+      Beneficios
+    </Link>
+  </li>
+</ul>
+
 
     {/* Redes sociales y botones alineados a la izquierda */}
     <div className="flex space-x-6 mt-[3.5rem]">
