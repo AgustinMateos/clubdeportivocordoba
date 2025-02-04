@@ -121,24 +121,24 @@ export default function Actividades() {
     return () => clearInterval(interval);
   }, [isModalOpen, images.length]);
   useEffect(() => {
-    const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; // 5% en móviles, 30% en pantallas grandes
-  
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsTitleVisible(true);
-        }
-      },
-      { threshold: thresholdValue }
-    );
-  
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-  
-    return () => observer.disconnect();
-  }, []);
-  
+  const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; // 5% en móviles, 30% en pantallas grandes
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        setIsTitleVisible(true);
+      }
+    },
+    { threshold: thresholdValue }
+  );
+
+  if (containerRef.current) {
+    observer.observe(containerRef.current);
+  }
+
+  return () => observer.disconnect();
+}, []);
+
 
   return (
     <div id="actividades"  ref={containerRef} className="min-h-screen">
@@ -169,14 +169,14 @@ export default function Actividades() {
         >
           <div
             onClick={() => handleCardClick(index)}
-            className="relative group cursor-pointer w-auto  md:w-[400px] h-[400px]"
+            className="relative group cursor-pointer w-auto  md:w-[400px] 2xl:w-[100%] h-[400px]"
           >
             <Image
               src={actividad.imagen}
               width={300}
               height={400}
               alt={`Actividad ${index + 1}`}
-              className="rounded-lg w-[435px]  sm:w-full h-full object-cover"
+              className="rounded-lg w-[435px] 2xl:w-[100%]  sm:w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Image

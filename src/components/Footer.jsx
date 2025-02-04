@@ -21,7 +21,13 @@ export default function Footer() {
         background-position: center calc(100% - 10px) !important; 
       }
     }
+    @media (min-width: 1536px) {
+      div {
+        background-position: center -400px !important;
+      }
+    }
   `}</style>
+
 
   
       {/* Banner principal */}
@@ -46,7 +52,7 @@ export default function Footer() {
       </div>
 
       {/* Sección final */}
-      <div className="absolute bottom-[80px] w-full flex justify-center h-[715px] sm:h-[292px]">
+      <div className="absolute bottom-[80px] w-full flex justify-center h-[715px] sm:h-[292px] 2xl:h-[192px]">
         <div className="w-[80%] sm:w-full max-w-full flex flex-col sm:flex-row justify-around items-start">
           {/* Dirección con iframe */}
           <div className="w-full max-w-[368px] h-[203px]">
