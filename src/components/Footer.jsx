@@ -23,7 +23,7 @@ export default function Footer() {
     }
     @media (min-width: 1536px) {
       div {
-        background-position: center -400px !important;
+        background-position: center calc(100% - -400px) !important;
       }
     }
   `}</style>

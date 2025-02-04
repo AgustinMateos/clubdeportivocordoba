@@ -190,10 +190,10 @@ export default function Actividades() {
               </p>
             </div>
           </div>
-          <h4 className= " max-w-[435px] w-[100%]  sm:px-4 md:px-0  lg:px-3 xl:px-0 font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
+          <h4 className= " max-w-[435px] 2xl:max-w-[100%] w-[100%]  sm:px-4 md:px-0  lg:px-3 xl:px-0 font-semibold mt-4 text-[22px]  leading-[24px]  tracking-[0.2px]">
             {actividad.nombre}
           </h4>
-          <p className="max-w-[435px] w-[100%]  mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
+          <p className="max-w-[435px] 2xl:max-w-[100%] w-[100%]  mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px]  leading-[19.5px]  tracking-[0.2px]">
             {actividad.descripcion}
           </p>
         </div>
