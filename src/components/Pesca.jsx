@@ -51,53 +51,61 @@ export default function Pesca() {
   };
 
   useEffect(() => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting) {
-              setIsTitleVisible(true);
-            }
-          },
-          { threshold: 0.3 } 
-        );
-      
-        if (containerRef.current) {
-          observer.observe(containerRef.current);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsTitleVisible(true);
         }
-      
-        return () => observer.disconnect();
-      }, []);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="h-[1225px] sm:h-[900px] bg-[#1A1A1A] relative w-full">
-    
-      <div className="absolute top-[-100px] w-full flex flex-col sm:flex-row items-center justify-evenly">
-        <Image
-          width={842}
-          height={335}
-          className="w-[328px] h-[156px] sm:w-[642px] sm:h-[335px]"
-          alt="pesca"
-          src={"/pesca1.svg"}
-        />
-        <Image
-          width={406}
-          height={335}
-          className="w-[290px] h-[406px] sm:w-[325px] sm:h-[335px]"
-          alt="pesca"
-          src={"/pesca2.svg"}
-        />
-      </div>
+    <div className="h-[1225px] sm:h-[130vh] bg-[#1A1A1A] relative w-full">
 
-     
-  
-<div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[220px] w-full">
+<div className="absolute top-[-100px] w-full flex flex-col sm:flex-row items-center justify-center gap-4">
+  <div className="flex h-[255px] w-[328px] lg:w-auto lg:h-auto"> 
+    <Image
+      width={842}
+      height={335}
+      className="h-[255px] w-[328px] lg:w-auto lg:h-auto"
+      alt="pesca"
+      src={"/pesca1.svg"}
+    />
+  </div>
+  <div className="h-[156px] w-[325px] lg:w-auto lg:h-auto">
+    <Image
+      width={406}
+      height={335}
+      className="h-[156px] w-[325px] lg:w-auto lg:h-auto "
+      alt="pesca"
+      src={"/pesca2.svg"}
+    />
+  </div>
+</div>
+
+       
+
+   
+
+
+
+      <div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[400px] w-full">
 
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
-        <h4 
-  className={`font-montserrat text-[32px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
->Pesca</h4>
+          <h4
+            className={`font-montserrat text-[32px] sm:text-[48px] font-bold tracking-[0.2px] leading-[55px] text-center pb-[40px] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+          >Pesca</h4>
           <p className="font-montserrat text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24px]  font-semibold pt-4">
-          Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural. 
-          Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
+            Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural.
+            Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
           </p>
         </div>
 
@@ -120,7 +128,7 @@ export default function Pesca() {
                   height={210}
                   alt={`pesca ${index + 3}`}
                   src={image.src}
-                   className="border-2 border-[#DF3737] rounded-full border-dashed object-contain"
+                  className="border-2 border-[#DF3737] rounded-full border-dashed object-contain"
                 />
                 <p className="font-montserrat text-white text-center pt-2">{image.title}</p>
               </div>
@@ -128,7 +136,7 @@ export default function Pesca() {
           </div>
         </div>
 
-      
+
         <div className="absolute w-full flex justify-around px-6 bottom-[-90px] sm:hidden">
           <button
             onClick={handlePrev}
@@ -147,7 +155,7 @@ export default function Pesca() {
         </div>
 
 
-       
+
         <div className="hidden sm:flex flex-row justify-evenly pt-4">
           {images.map((image, index) => (
             <div key={index} className="flex flex-col items-center ">

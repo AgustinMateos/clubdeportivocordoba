@@ -23,13 +23,13 @@ export default function HaceteSocio() {
     }, []);
   return (
     <div ref={containerRef} className="h-[538px] bg-[#141414] flex flex-col sm:flex-row justify-evenly items-center overflow-x-hidden">
-      <div className="text-[#FFFFFF] w-[80%] sm:w-[424px] h-[256px] flex flex-col justify-evenly">
+      <div className="text-[#FFFFFF] w-[80%] sm:w-[430px] h-[256px] flex flex-col justify-evenly">
         <h6 className="font-montserrat">¡Hacete socio ahora!</h6>
-        <h4 className={`font-montserrat text-[43px] font-extrabold leading-[47px] tracking-[0.13px] transition-all duration-700 ease-in-out ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
+        <h4 className={`pb-[20px] pt-[20px] w-[90%] text-[43px] font-extrabold leading-[47px] tracking-[0.13px] transition-all duration-700 ease-in-out ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
   Ser parte del mejor club, ahora a un click
 </h4>
 
-        <p className="font-montserrat">Para vos que queres todo, tenes todo pata estar. Elegí la propuesta de valor más conveniente para vos y sumate.</p>
+        <p className="font-montserrat w-[90%]">Para vos que queres todo, tenes todo pata estar. Elegí la propuesta de valor más conveniente para vos y sumate.</p>
       </div>
       <div className="w-[80%] sm:w-[50%]">
         <Image

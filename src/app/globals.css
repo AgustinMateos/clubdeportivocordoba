@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Inter&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -16,5 +16,7 @@ body {
  
 
 }
+
+
 
 

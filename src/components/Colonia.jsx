@@ -75,24 +75,24 @@ export default function Historia() {
 
   return (
     <div id="colonia" ref={containerRef} className="w-full min-h-[100vh] bg-[#F2F2F2] flex justify-center">
-  <div className="w-[90%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-around">
+  <div className="w-[90%] sm:w-[90%] flex flex-col lg:flex-row items-center justify-around">
    
-    <div className="w-full sm:w-[50%] h-auto sm:h-[700px] flex flex-col justify-between relative">
+    <div className="w-full sm:w-[100%] lg:w-[50%] h-auto lg:h-[700px] flex flex-col justify-between relative">
       <div className="h-[70%]  flex justify-evenly flex-col w-full">
         <h3 className="pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Colonia de Vacaciones</h3>
         <h4
-              className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[83%] transition-all duration-700 ${
+              className={` text-[32px] sm:text-[48px] pb-[10px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[83%] transition-all duration-700 ${
                 isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
               }`}>
           Un verano inolvidable en Central Córdoba
         </h4>
-        <p className="font-montserrat pt-4 w-full sm:w-[653px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232] ">
+        <p className="font-montserrat pt-4 w-full lg:w-[90%] xl:w-[653px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232] ">
           ¡Se acerca la temporada de verano y nuestra colonia de vacaciones está lista para recibirte!
         </p>
-        <p className="font-montserrat pt-4  w-full sm:w-[653px]   font-normal text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+        <p className="font-montserrat pt-4  w-full  lg:w-[90%] xl:w-[653px]  font-normal text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
           En el Club Deportivo Central Córdoba, ofrecemos actividades para todas las edades en un entorno natural y seguro.
         </p>
-        <p className="font-montserrat pt-4 w-full sm:w-[653px]  font-normal text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+        <p className="font-montserrat pt-4 w-full lg:w-[90%] xl:w-[653px]  font-normal text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
           Disfrutá de momentos únicos en familia o con amigos mientras aprovechás nuestras instalaciones y actividades diseñadas para el máximo disfrute.
         </p>
       </div>
@@ -103,7 +103,7 @@ export default function Historia() {
         {eventos.map((evento, index) => (
   <div
     key={index}
-    className={`font-montserrat flex flex-row pb-4 items-center relative transition-opacity duration-500 ${
+    className={` flex flex-row pb-4 items-center relative transition-opacity duration-500 ${
       visibleEvents.includes(index)
         ? "opacity-100 translate-y-0"
         : "opacity-0 translate-y-[20px]"
@@ -116,7 +116,7 @@ export default function Historia() {
       alt="img"
       className="absolute left-0"
     />
-    <p className="font-montserrat pl-8 font-medium text-[18px] leading-[24px] tracking-[0.2px]">
+    <p className=" pl-8 font-medium text-[18px] leading-[24px] tracking-[0.2px]">
       {evento.description}
     </p>
   </div>
@@ -126,7 +126,7 @@ export default function Historia() {
     </div>
 
     
-    <div className="relative w-full sm:w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px]">
+    <div className="relative w-full sm:w-[447px] h-[592px] overflow-hidden m-[20px] sm:m-[0px] sm:mb-[20px] sm:mt-[20px]">
      
       <div
         className="flex transition-transform duration-500"

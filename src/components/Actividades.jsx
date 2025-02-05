@@ -148,7 +148,7 @@ export default function Actividades() {
       <p className="font-montserrat pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
       <h3
   className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] 
-    tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+    tracking-[0.2px] pt-4 w-full sm:w-[80%] md:w-[70%] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
 >
   Un deporte para cada pasión
 </h3>

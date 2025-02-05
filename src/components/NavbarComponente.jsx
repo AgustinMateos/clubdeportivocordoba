@@ -20,7 +20,7 @@ export default function NavbarComponente() {
 
  
         <Link href='#' className="absolute left-1/2 transform -translate-x-1/2">
-          <Image src="/logo.svg" alt="Logo" width={96} height={89} />
+          <Image src="/newlogo.svg" alt="Logo" width={96} height={89} />
         </Link>
 
      

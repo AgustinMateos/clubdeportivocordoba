@@ -35,7 +35,7 @@ export default function Tarifas() {
             </tbody>
           </table>
         </div>
-        <div className=" h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><p className="font-montserrat text-white font-bold  text-[16px] leading-[18px] tracking-[0.2px] md:text-[24px] md:leading-[24px] md:tracking-[0.2px]"> ¡Reservá tu lugar ahora! </p> <p className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px]"> 3518 09-7160 </p></div></div>
+        <div className=" h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><p className=" text-white font-bold  text-[16px] leading-[18px] tracking-[0.2px] md:text-[24px] md:leading-[24px] md:tracking-[0.2px]"> ¡Reservá tu lugar ahora! </p> <p className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px]"> 3518 09-7160 </p></div></div>
       </div>
     </div>
   );
