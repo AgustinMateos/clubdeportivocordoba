@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className=" min-h-screen min-w-[100%] absolute ">
 
-      <main className="relative max-w-[1800px]">
+      <main className="relative max-w-[3000px]">
        <PrimerComponente/>
        <Historia/> 
       <Actividades/>
