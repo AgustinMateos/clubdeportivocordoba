@@ -4,7 +4,8 @@ import Image from "next/image";
 
 export default function Actividades() {
   const [isModalOpen, setModalOpen] = useState(null); 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndexes, setCurrentImageIndexes] = useState({});
+
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const actividades = [
@@ -15,6 +16,7 @@ export default function Actividades() {
       profesora: "Maite Gonzáles",
       profesor: "Javier Martinez",
       telefono: "3423525253",
+      imagenes: ["/actividad1.svg", "/actividad1.svg", "/actividad1.svg"], 
       tablaDatos: [
         ["Adultos", "13:34", "$2.500", "$3.000"],
         ["Adolescentes", "13:34", "$2.500", "$1.500"],
@@ -26,6 +28,7 @@ export default function Actividades() {
       nombre: "Vóley",
       descripcion: "Competí o disfrutá del deporte en equipo.",
       imagen: "/Voley.svg",
+      imagenes: ["/Voley.svg", "/Voley.svg", "/Voley.svg"], 
       profesora: "Maite Gonzáles",
       profesor: "Javier Martinez",
       telefono: "3423525253",
@@ -39,6 +42,7 @@ export default function Actividades() {
     {
       nombre: "Básquet",
       descripcion: "La pasión por los aros en cada encuentro.",
+      imagenes: ["/Basket.svg", "/Basket.svg", "/Basket.svg"], 
       imagen: "/Basket.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
@@ -56,6 +60,7 @@ export default function Actividades() {
       imagen: "/Karate.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
+      imagenes: ["/Karate.svg", "/Karate.svg", "/Karate.svg"], 
       telefono: "3423525254",
       tablaDatos: [
         ["Adultos", "13:34", "$2.500", "$3.000"],
@@ -70,6 +75,7 @@ export default function Actividades() {
       imagen: "/Patin.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
+      imagenes: ["/Patin.svg", "/Patin.svg", "/Patin.svg"], 
       telefono: "3423525254",
       tablaDatos: [
         ["Adultos", "13:34", "$2.500", "$3.000"],
@@ -83,6 +89,7 @@ export default function Actividades() {
       descripcion: "Especialmente diseñado para mayores de 60 años, con el equipo Los Imparables",
       imagen: "/newcom.svg",
       profesora: "Laura Pérez",
+      imagenes: ["/newcom.svg", "/newcom.svg", "/newcom.svg"], 
       profesor: "Carlos Torres",
       telefono: "3423525254",
       tablaDatos: [
@@ -94,32 +101,41 @@ export default function Actividades() {
     },
     
   ];
+  const handleCardClick = (index) => {
+    setModalOpen(index);
+    setCurrentImageIndexes((prev) => ({ ...prev, [index]: 0 }));
+  };
   
 
   const images = ["/actividad1.svg", "/actividad2.svg", "/actividad3.svg"];
 
-  const handleCardClick = (index) => {
-    setModalOpen(index);
-    setCurrentImageIndex(0); 
-  };
+  
 
   const handleCloseModal = () => {
     setModalOpen(null);
   };
 
-  const handlePagination = (index) => {
-    setCurrentImageIndex(index);
+  const handlePagination = (activityIndex, imageIndex) => {
+    setCurrentImageIndexes((prev) => ({
+      ...prev,
+      [activityIndex]: imageIndex,
+    }));
   };
+  
 
   useEffect(() => {
     if (isModalOpen === null) return;
-
+  
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentImageIndexes((prevIndexes) => ({
+        ...prevIndexes,
+        [isModalOpen]: (prevIndexes[isModalOpen] + 1) % actividades[isModalOpen].imagenes.length,
+      }));
     }, 3000);
-
+  
     return () => clearInterval(interval);
-  }, [isModalOpen, images.length]);
+  }, [isModalOpen, actividades]);
+  
   useEffect(() => {
   const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3; 
 
@@ -218,25 +234,28 @@ export default function Actividades() {
        ✕
      </button>
      <div className="relative w-full h-[30vh] sm:h-[40vh]">
-       <Image
-         src={images[currentImageIndex]}
-         alt={`Actividad ${currentImageIndex + 1}`}
-         fill
-         className="rounded-t-lg object-cover"
-       />
-       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-         {images.map((_, index) => (
-           <button
-             key={index}
-             onClick={() => handlePagination(index)}
-             className={`w-10 h-1 transition ${
-               currentImageIndex === index
-                 ? "bg-[#DF3737]"
-                 : "bg-[#fff] hover:bg-[#d66767]"
-             }`}
-           />
-         ))}
-       </div>
+      <Image
+  src={actividades[isModalOpen].imagenes[currentImageIndexes[isModalOpen] || 0]}
+  width={600}
+  height={400}
+  alt="Imagen de la actividad"
+  className="w-full  h-[30vh] sm:h-[40vh] rounded-t-lg"
+/>
+
+<div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+  {actividades[isModalOpen].imagenes.map((_, index) => (
+    <button
+      key={index}
+      onClick={() => handlePagination(isModalOpen, index)}
+      className={`w-10 h-1 transition ${
+        currentImageIndexes[isModalOpen] === index
+          ? "bg-[#DF3737]"
+          : "bg-[#fff] hover:bg-[#d66767]"
+      }`}
+    />
+  ))}
+</div>
+
      </div>
      <div className="p-[10px] sm:p-4 overflow-y-auto flex-1">
        <h2 className="text-2xl font-bold mb-4">

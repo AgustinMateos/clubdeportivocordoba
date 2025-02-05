@@ -70,34 +70,36 @@ export default function Pesca() {
   return (
     <div className="h-[1225px] sm:h-[130vh] bg-[#1A1A1A] relative w-full">
 
-<div className="absolute top-[-100px] w-full flex flex-col sm:flex-row items-center justify-center gap-4">
-  <div className="flex h-[255px] w-[328px] lg:w-auto lg:h-auto"> 
-    <Image
-      width={842}
-      height={335}
-      className="h-[255px] w-[328px] lg:w-auto lg:h-auto"
-      alt="pesca"
-      src={"/pesca1.svg"}
-    />
-  </div>
-  <div className="h-[156px] w-[325px] lg:w-auto lg:h-auto">
-    <Image
-      width={406}
-      height={335}
-      className="h-[156px] w-[325px] lg:w-auto lg:h-auto "
-      alt="pesca"
-      src={"/pesca2.svg"}
-    />
-  </div>
-</div>
-
-       
-
-   
+      <div className="absolute top-[-100px] w-full left: 50%;
+left-1/2 -translate-x-1/2 
+sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-4 ">
+        <div className="flex h-[255px] w-[328px] lg:w-auto lg:h-auto">
+          <Image
+            width={842}
+            height={335}
+            className="h-[255px] w-[328px] lg:w-auto lg:h-auto"
+            alt="pesca"
+            src={"/pesca1.svg"}
+          />
+        </div>
+        <div className=" h-[156px] w-[325px] lg:w-auto lg:h-auto">
+          <Image
+            width={406}
+            height={335}
+            className="h-[156px] w-[325px] lg:w-auto lg:h-auto "
+            alt="pesca"
+            src={"/pesca2.svg"}
+          />
+        </div>
+      </div>
 
 
 
-      <div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[400px] w-full">
+
+
+
+
+      <div ref={containerRef} className="absolute top-[500px] h-auto sm:top-[400px] w-full ">
 
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">
           <h4
