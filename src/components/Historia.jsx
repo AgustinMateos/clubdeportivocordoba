@@ -67,7 +67,7 @@ export default function Historia() {
     <div
       id="nuestroClub"
       ref={containerRef}
-      className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center"
+      className="w-full h-[1381px] sm:h-[911px] bg-[#F2F2F2] flex justify-center text-[#101232]"
     >
       <div className="w-[80%] sm:w-[90%] flex flex-col sm:flex-row items-center justify-center sm:justify-around">
         
