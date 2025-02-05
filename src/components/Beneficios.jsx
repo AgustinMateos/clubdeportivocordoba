@@ -95,7 +95,7 @@ export default function Beneficios() {
             width={447}
             height={592}
             alt="Beneficio"
-            className="w-full h-full"
+            className="w-full h-auto opacity-[0.2]"
           />
         </div>
       </div>

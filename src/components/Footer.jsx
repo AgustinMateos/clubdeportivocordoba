@@ -46,7 +46,7 @@ export default function Footer() {
       <div className="absolute bottom-[850px]  sm:bottom-[480px]">
         <div className="w-full max-w-[325px] sm:max-w-[1094px] flex flex-col justify-center items-center">
           <div className="w-full max-w-[177px] h-auto">
-            <Image src="/newlogo.svg" width={177} height={163} alt="logo" layout="responsive" />
+            <Image src="/logonew2.png" width={177} height={163} alt="logo" layout="responsive" />
           </div>
         </div>
       </div>
