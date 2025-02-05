@@ -68,7 +68,7 @@ export default function Footer() {
           </div>
 
           
-          <div className="w-full max-w-[285px] h-[204px] flex flex-col justify-around">
+          <div className="w-full max-w-[285px] lg:max-w-[350px] h-[204px] flex flex-col justify-around">
             <div>
               <h4>Info de Contacto</h4>
             </div>
@@ -77,8 +77,8 @@ export default function Footer() {
               <p className="font-montserrat">Tel. Colonia Vacacional: 3518 097160</p>
               <p className="font-montserrat">Correo: secretariaclubdcc@yahoo.com</p>
             </div>
-            <div className=" font-montserrat flex justify-between">
-              <p className="font-montserrat">Políticas de Privacidad</p> <p>Aviso Legal</p>
+            <div className=" font-montserrat max-w-[290px] flex justify-between">
+              <p className="font-montserrat  ">Políticas de Privacidad</p> <p>Aviso Legal</p>
             </div>
           </div>
 

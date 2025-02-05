@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 export default function Beneficios() {
   const containerRef = useRef(null);
     const [isTitleVisible, setIsTitleVisible] = useState(false);
-  
+    const [visibleEvents, setVisibleEvents] = useState([]);
   
   const eventos = [
     {titulo:"Acceso exclusivo:", description: "Instalaciones de primera calidad y tarifas preferenciales." },
@@ -20,6 +20,27 @@ export default function Beneficios() {
       (entries) => {
         if (entries[0].isIntersecting) {
           setIsTitleVisible(true);
+        }
+      },
+      { threshold: 0.3 } 
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          eventos.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleEvents((prev) => [...prev, index]);
+            }, index * 400); 
+          });
         }
       },
       { threshold: 0.3 } 
@@ -47,7 +68,12 @@ export default function Beneficios() {
           <div className="w-full sm:w-[95%] pl-5">
             <h5 className="font-montserrat pt-12 pb-5 text-lg font-medium">Beneficios</h5>
             {eventos.map((evento, index) => (
-              <div key={index} className="flex flex-row pb-4 items-center">
+              <div key={index} className={`flex flex-row pb-4 items-center transition-opacity duration-500 ${
+      visibleEvents.includes(index)
+        ? "opacity-100 translate-y-0"
+        : "opacity-0 translate-y-[20px]"
+    }`}
+  >
                 
                 <Image
                   src="/circulocolonia.svg"
