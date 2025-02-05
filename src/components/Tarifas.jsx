@@ -19,17 +19,17 @@ export default function Tarifas() {
           <table className="w-full bg-[#FFFFFFB2]  shadow-lg ">
             <thead>
               <tr className="bg-white text-left">
-                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Servicio</th>
-                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Precio Socios</th>
-                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[20px] leading-[24px] tracking-[0.2px]">Precio No Socios</th>
+                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Servicio</th>
+                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Precio Socios</th>
+                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Precio No Socios</th>
               </tr>
             </thead>
             <tbody>
               {tarifas.map((item, index) => (
                 <tr key={index} className="text-left  ">
-                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4  font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.servicio}</td>
-                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.socios}</td>
-                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[20px] leading-[24px] tracking-[0.2px]">{item.noSocios}</td>
+                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4  font-medium text-[14px] md:leading-[24px] tracking-[0.2px]">{item.servicio}</td>
+                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">{item.socios}</td>
+                  <td className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-medium text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">{item.noSocios}</td>
                 </tr>
               ))}
             </tbody>

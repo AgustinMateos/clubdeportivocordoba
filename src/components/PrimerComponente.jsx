@@ -61,7 +61,7 @@ export default function PrimerComponente() {
             <div className="flex flex-col ">
               <label
                 htmlFor="nombre"
-                className="text-gray-700 text-sm font-medium font-montserrat pb-[20px]"
+                className="text-gray-700 text-sm font-medium font-montserrat pb-[10px]"
               >
                 Nombre completo*
               </label>
@@ -76,7 +76,7 @@ export default function PrimerComponente() {
             <div className="flex flex-col">
               <label
                 htmlFor="email"
-                className=" text-gray-700 text-sm font-medium pb-[20px]"
+                className=" text-gray-700 text-sm font-medium pb-[10px]"
               >
                 Email*
               </label>
@@ -92,7 +92,7 @@ export default function PrimerComponente() {
             <div className="flex flex-col">
               <label
                 htmlFor="dni"
-                className="font-montserrat text-gray-700 text-sm font-medium pb-[20px]"
+                className="font-montserrat text-gray-700 text-sm font-medium pb-[10px]"
               >
                 Contraseña*
               </label>

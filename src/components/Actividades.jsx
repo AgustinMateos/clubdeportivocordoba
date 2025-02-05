@@ -176,7 +176,7 @@ export default function Actividades() {
               width={300}
               height={400}
               alt={`Actividad ${index + 1}`}
-              className="rounded-lg w-[435px] 2xl:w-[100%]  sm:w-full h-full object-cover"
+              className="rounded-[16px] w-[435px] 2xl:w-[100%]  sm:w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <Image
