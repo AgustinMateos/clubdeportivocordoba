@@ -91,7 +91,7 @@ export default function Beneficios() {
        
         <div className="w-[90%] sm:w-[500px] h-auto sm:h-[500px] hidden sm:block">
           <Image
-            src="/newlogo.svg"
+            src="/logonew2.png"
             width={447}
             height={592}
             alt="Beneficio"
