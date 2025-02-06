@@ -176,7 +176,7 @@ export default function Actividades() {
   </div>
   
  
-  <div className="relative bg-[#F6F6F6] py-12 h-[3286px] sm:h-[160vh] md:h-[150vh] xl:h-[1200px]">
+  <div className="relative bg-[#F6F6F6] py-12  h-[3120px] sm:h-[160vh] md:h-[150vh] xl:h-[1200px]">
     <div className="absolute sm:w-[80%] md:w-[84%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3  w-[100%] gap-8 px-8">
       {actividades.map((actividad, index) => (
         <div
@@ -201,7 +201,7 @@ export default function Actividades() {
                 height={50}
                 alt="Icono de información"
               />
-              <p className="font-montserrat text-white font-bold text-md mt-2">
+              <p className="font-montserrat text-white font-bold text-[14px] mt-2">
                 Haz click para ver más información
               </p>
             </div>
@@ -263,31 +263,31 @@ export default function Actividades() {
        </h2>
        <div className="flex flex-wrap justify-between w-full mb-4">
          <div className="w-[70%] flex flex-wrap">
-           <p className="font-montserrat w-full sm:w-[45%]">
+           <p className="font-montserrat text-[14px] w-full sm:w-[45%]">
              Profesora: {actividades[isModalOpen].profesora}
            </p>
-           <p className="font-montserrat w-full sm:w-[45%]">
+           <p className="font-montserrat text-[14px] w-full sm:w-[45%]">
              Profesor: {actividades[isModalOpen].profesor}
            </p>
          </div>
-         <div className="font-montserrat w-[30%] text-right">
+         <div className="font-montserrat w-[30%] text-[14px] text-right">
            <p>Tel: {actividades[isModalOpen].telefono}</p>
          </div>
        </div>
        <table className="min-w-full table-auto  rounded-[8px]">
          <thead className="bg-[#D4D4D4F2] ">
            <tr>
-             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Categoría</th>
-             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Horario</th>
-             <th className="font-montserrat py-0 sm:px-4 sm:py-2">Socios</th>
-             <th className="font-montserrat py-0 sm:px-4 sm:py-2">No Socios</th>
+             <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Categoría</th>
+             <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Horario</th>
+             <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Socios</th>
+             <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">No Socios</th>
            </tr>
          </thead>
          <tbody className="bg-[#F2F1F1]">
            {actividades[isModalOpen].tablaDatos.map((fila, filaIndex) => (
              <tr key={filaIndex}>
                {fila.map((dato, colIndex) => (
-                 <td key={colIndex} className="px-0 py-0 sm:px-4 sm:py-2 text-center">
+                 <td key={colIndex} className="px-0 py-0 text-[12px] sm:px-4 sm:py-2 text-center">
                    {dato}
                  </td>
                ))}

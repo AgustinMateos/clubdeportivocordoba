@@ -56,7 +56,7 @@ export default function Beneficios() {
     <div id="beneficios" ref={containerRef} className="w-full  sm:min-h-[75vh] bg-[#F2F2F2] flex justify-center sm:justify-end items-start sm:items-center">
       <div className="w-full sm:w-[95%] mb-[40px] flex flex-col sm:flex-row items-center justify-between pt-[20px] sm:pt-[0px]">
        
-        <div className="w-full sm:w-[50%] lg:w-[60%] mb-[40px] min-h-[500px] p-[20px] flex flex-col justify-start sm:justify-evenly">
+        <div className="w-full sm:w-[50%] lg:w-[60%] mb-[40px] min-h-[600px] sm:min-h-[500px] p-[20px] flex flex-col justify-around sm:justify-start md:justify-evenly">
           <div className="h-[40%] flex justify-evenly flex-col w-full ">
             <h3 className="pt-4 text-[16px] font-medium font-montserrat">Beneficios de Socios</h3>
             <h4 className={` text-[32px] sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pt-4 transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
