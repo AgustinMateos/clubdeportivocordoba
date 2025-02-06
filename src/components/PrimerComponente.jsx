@@ -36,10 +36,10 @@ export default function PrimerComponente() {
     >
 
       <div className="w-[100%]  sm:w-[100%] h-[130vh] items-start content-center  sm:h-[597px] flex  sm:items-end flex-wrap sm:flex-nowrap pb-[20px] justify-center md:justify-center xl:justify-evenly  2xl:justify-evenly ">
-        <div className="w-[95%] sm:w-[55%] xl:w-[59%] 2xl:w-[45%] text-white p-[0.2rem] sm:p-4 xl:h-[50%] 2xl:h-[350px] sm:items-start h-[350px] sm:h-[250px] md:h-[350px]  flex flex-col items-center justify-evenly">
+        <div className="w-[95%] sm:w-[55%] xl:w-[59%] 2xl:w-[50%] text-white p-[0.2rem] sm:p-4  sm:items-start h-[350px] sm:h-[250px] md:h-[350px] xl:h-[370px] 2xl:h-[350px]   flex flex-col items-center justify-evenly">
           <div className=" text-[36px] w-[100%] sm:w-[95%] lg:w-[95%] xl:w-[95%] 2xl:w-[95%] ">
             <h1
-              className={`text-center ${montserrat.className} font-extrabold lg:text-[64px] leading-[40px] xl:leading-[70px] tracking-[0.2px]  sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
+              className={`text-center ${montserrat.className} font-extrabold lg:text-[54px] 2xl:text-[64px] leading-[40px] xl:leading-[70px] tracking-[0.2px]  sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
             >
               Ser parte del mejor club, ahora a un click
             </h1>
