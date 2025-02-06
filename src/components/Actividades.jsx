@@ -181,7 +181,7 @@ export default function Actividades() {
       {actividades.map((actividad, index) => (
         <div
           key={index}
-          className="rounded-lg  overflow-hidden flex flex-col items-center w-auto md:w-[350px] lg:w-auto  transition"
+          className="  overflow-hidden flex flex-col items-center w-auto md:w-[350px] lg:w-auto  transition"
         >
           <div
             onClick={() => handleCardClick(index)}
