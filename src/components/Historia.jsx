@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { montserrat } from "@/app/fonts/fonts";
 import Image from "next/image";
 export default function Historia() {
-  const images = ["/club.jpeg", "/club2.jpeg"];
+  const images = ["/club.jpeg", "/slider2.jpeg"];
   const eventos = [
     { year: "1932", description: "Fundación del club." },
     { year: "1950", description: "Apertura de la primera cancha de básquet." },

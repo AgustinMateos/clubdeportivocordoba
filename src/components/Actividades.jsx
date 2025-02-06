@@ -185,16 +185,16 @@ export default function Actividades() {
         >
           <div
             onClick={() => handleCardClick(index)}
-            className="relative group cursor-pointer w-auto  md:w-[400px] 2xl:w-[100%] h-[400px]"
+            className="relative group cursor-pointer rounded-[16px] lg:rounded-[18px] w-auto  md:w-full 2xl:w-[100%] h-[400px]"
           >
             <Image
               src={actividad.imagen}
               width={300}
               height={400}
               alt={`Actividad ${index + 1}`}
-              className="rounded-[16px] w-[435px] 2xl:w-[100%]  sm:w-full h-full object-cover"
+              className="rounded-[16px] lg:rounded-[18px]  w-[435px] 2xl:w-[100%]  sm:w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:rounded-[16px] lg:group-hover:rounded-[18px]">
               <Image
                 src="/verMasInfo.svg"
                 width={50}

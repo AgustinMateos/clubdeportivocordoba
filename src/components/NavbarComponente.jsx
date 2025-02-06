@@ -66,7 +66,7 @@ export default function NavbarComponente() {
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
             <li><Link href="https://www.instagram.com/club.deportivo.cordoba?igsh=NjYxeGdhaDNqN3kz" target="_blank" rel="noopener noreferrer">
-    <Image width={22} height={22} src="/instagram.svg" alt="Instagram" />
+    <Image width={22} height={22} src="/instagram.svg" alt="Instagram " />
   </Link></li>
             <li className="border border-[#F2F2F2]  p-[8px] h-[35px] rounded-[4px] flex items-center text-[16px] text-[#F2F2F2] font-medium leading-[19.5px] font-inter ">Ingresar</li>
             <li className="bg-[#F2F2F2] text-[#101232] p-[8px] h-[35px] rounded-[4px] text-[16px] flex items-center font-medium leading-[19.5px] font-inter">Ser Socio</li>
