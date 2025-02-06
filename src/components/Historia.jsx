@@ -129,7 +129,7 @@ export default function Historia() {
                   width={447}
                   height={592}
                   alt={`Slide ${index + 1}`}
-                  className="object-cover w-full h-full rounded-[54px] sm:rounded-[16px]"
+                  className="object-cover w-full h-full  rounded-[34px] sm:rounded-[54px]"
                 />
               </div>
             ))}
