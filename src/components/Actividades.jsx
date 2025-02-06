@@ -75,7 +75,7 @@ export default function Actividades() {
       imagen: "/Patin.svg",
       profesora: "Laura Pérez",
       profesor: "Carlos Torres",
-      imagenes: ["/patin01.jpg", "/patin02.jpg", "/patin03.jpg"], 
+      imagenes: ["/Patin.svg", "/Patin.svg", "/Patin.svg"], 
       telefono: "3423525254",
       tablaDatos: [
         ["Adultos", "13:34", "$2.500", "$3.000"],

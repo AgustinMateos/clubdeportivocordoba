@@ -90,14 +90,19 @@ export default function Beneficios() {
 
        
         <div className="w-[90%] sm:w-[500px] h-auto sm:h-[500px] hidden sm:block">
-          <Image
-            src="/logonew2.png"
-            width={447}
-            height={592}
-            alt="Beneficio"
-            className="w-full h-auto opacity-[0.2]"
-          />
-        </div>
+  <Image
+    src="/logonew2.png"
+    width={447}
+    height={592}
+    alt="Beneficio"
+    className="w-full h-auto opacity-[0.2]"
+    style={{
+      WebkitMaskImage: "linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%)",
+      maskImage: "linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%)"
+    }}
+  />
+</div>
+
       </div>
     </div>
   );

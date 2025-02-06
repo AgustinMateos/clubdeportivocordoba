@@ -9,7 +9,7 @@ export default function Tarifas() {
   ];
 
   return (
-    <div className="w-full bg-[#C32929] h-[662px] sm:h-[632px] flex justify-center py-8">
+    <div className="w-full bg-[#C32929] h-[662px] sm:h-[632px] items-center flex justify-center py-8">
       <div className="w-[90%] max-w-[1282px]">
         <h4 className="font-montserrat text-white font-medium text-[20px] leading-[24px] tracking-[0.2px]  mb-6">
           Tarifas 2024 - Colonia Vacaciones
@@ -35,7 +35,14 @@ export default function Tarifas() {
             </tbody>
           </table>
         </div>
-        <div className=" h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><p className=" text-white font-bold  text-[16px] leading-[18px] tracking-[0.2px] md:text-[24px] md:leading-[24px] md:tracking-[0.2px]"> ¡Reservá tu lugar ahora! </p> <p className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px]"> 3518 09-7160 </p></div></div>
+        <div className=" h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><a
+  href="https://wa.me/5493512077020"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px] hover:bg-gray-200 transition"
+>
+  3518 09-7160
+</a></div></div>
       </div>
     </div>
   );
