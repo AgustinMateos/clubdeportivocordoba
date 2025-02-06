@@ -239,7 +239,7 @@ export default function Actividades() {
   width={600}
   height={400}
   alt="Imagen de la actividad"
-  className="w-full  h-[30vh] sm:h-[40vh] rounded-t-lg"
+  className="w-full  h-[30vh] sm:h-[40vh] object-cover rounded-t-lg"
 />
 
 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">

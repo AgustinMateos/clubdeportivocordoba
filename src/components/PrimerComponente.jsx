@@ -1,6 +1,7 @@
 'use client'
-import { montserrat } from "@/app/fonts/fonts";
+
 import { useState, useEffect, useRef } from "react";
+import { montserrat } from "@/app/fonts/fonts";
 export default function PrimerComponente() {
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);

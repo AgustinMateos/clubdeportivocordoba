@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
 
+import { useState, useEffect, useRef } from "react";
+import { montserrat } from "@/app/fonts/fonts";
+import Image from "next/image";
 export default function Historia() {
   const images = ["/slide1Historia.svg", "/club2.jpeg"];
   const eventos = [
@@ -77,12 +78,12 @@ export default function Historia() {
               Nuestro Club
             </h3>
             <h4
-              className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${
+              className={` ${montserrat.className} font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[70%] transition-all duration-700 ${
                 isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
               }`}>
               Casi un siglo de historia y pasión
             </h4>
-            <p className="font-montserrat pt-4 w-full xl:w-[92%] 2xl:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
+            <p className={`font-montserrat pt-4 w-full xl:w-[92%] 2xl:w-[600px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232] ${montserrat.className} `}>
               Desde hace más de 90 años, el Club Deportivo Central Córdoba ha sido un pilar en nuestra comunidad, promoviendo el deporte, la recreación y la integración. Fundado en 1932, el club ha sido testigo de innumerables logros y momentos que han marcado generaciones.
             </p>
           </div>
