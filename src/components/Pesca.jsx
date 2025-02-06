@@ -82,7 +82,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
             src={"/pesca1.svg"}
           />
         </div>
-        <div className="h-auto sm:h-[156px] justify-center  flex w-full sm:w-[325px] lg:w-auto lg:h-auto">
+        <div className="h-auto sm:h-[156px] justify-center  flex w-[90%] sm:w-[325px] lg:w-auto lg:h-auto">
           <Image
             width={406}
             height={335}

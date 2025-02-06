@@ -20,8 +20,8 @@ export default function Tarifas() {
             <thead>
               <tr className="bg-white text-left">
                 <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Servicio</th>
-                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Precio Socios</th>
-                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Precio No Socios</th>
+                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">Socios</th>
+                <th className="font-montserrat px-[0.5rem]  sm:px-6  py-[0.5rem] sm:py-4 font-bold text-[14px] md:text-[20px] leading-[24px] tracking-[0.2px]">No Socios</th>
               </tr>
             </thead>
             <tbody>
