@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { montserrat } from "@/app/fonts/fonts";
 import Image from "next/image";
 export default function Historia() {
-  const images = ["/slide1Historia.svg", "/club2.jpeg"];
+  const images = ["/club.jpeg", "/club2.jpeg"];
   const eventos = [
     { year: "1932", description: "Fundación del club." },
     { year: "1950", description: "Apertura de la primera cancha de básquet." },
@@ -129,7 +129,7 @@ export default function Historia() {
                   width={447}
                   height={592}
                   alt={`Slide ${index + 1}`}
-                  className="object-cover w-full h-full rounded-[54px] sm:rounded-[86px]"
+                  className="object-cover w-full h-full rounded-[54px] sm:rounded-[16px]"
                 />
               </div>
             ))}

@@ -73,7 +73,7 @@ export default function Pesca() {
       <div className="absolute top-[-100px] w-full left: 50%;
 left-1/2 -translate-x-1/2 
 sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-4 ">
-        <div className="flex h-[255px] justify-center w-auto sm:w-[328px] lg:w-auto lg:h-auto">
+        <div className="flex h-[255px] justify-center w-[90%]  sm:w-[328px] lg:w-auto lg:h-auto">
           <Image
             width={842}
             height={335}
