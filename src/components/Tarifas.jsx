@@ -35,14 +35,28 @@ export default function Tarifas() {
             </tbody>
           </table>
         </div>
-        <div className=" h-[110px] flex flex-row w-full justify-center"> <div className="w-[90%] sm:w-[50%] justify-evenly items-center  flex flex-row "><a
+        <div className=" h-[110px] flex flex-row w-full justify-center"> 
+          <div className="w-[90%] sm:w-[50%] justify-center items-center  flex flex-row ">
+            <p className="pr-[40px] text-white">Secretaría: </p>
+            <a
+  href="https://wa.me/3518690765"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px] hover:bg-gray-200 transition"
+>
+3518690765
+</a></div>
+<div className="w-[90%] sm:w-[50%] justify-center items-center  flex flex-row ">
+<p className="pr-[40px] text-white"> Colonia: </p>
+  <a
   href="https://wa.me/5493512077020"
   target="_blank"
   rel="noopener noreferrer"
   className="font-montserrat h-[48px] w-[164px] bg-[white] rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] sm:leading-[24px] sm:tracking-[0.2px] hover:bg-gray-200 transition"
 >
   3518 09-7160
-</a></div></div>
+</a></div>
+</div>
       </div>
     </div>
   );
