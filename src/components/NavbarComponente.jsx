@@ -49,7 +49,7 @@ export default function NavbarComponente() {
         disciplines:data.user.data.disciplines,
         neighborhood:data.user.data.neighborhood,
         cp:data.user.data.cp,
-        nacionalidad:data.user.data.nationality,
+        nationality:data.user.data.nationality,
         phoneNumber:data.user.data.phoneNumber
         
 
