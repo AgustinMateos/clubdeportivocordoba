@@ -53,7 +53,7 @@ export default function Footer() {
       </div>
 
      
-      <div className="absolute bottom-[80px] w-full flex justify-center h-[915px] sm:h-[292px] 2xl:h-[192px]">
+      <div className="absolute bottom-[80px] flex-col w-full flex justify-center h-[915px] sm:h-[292px] 2xl:h-[192px]">
         <div className="w-[80%] sm:w-full max-w-full flex flex-col sm:flex-row justify-around items-start">
           
           <div className="w-full max-w-[368px] md:h-[203px]">
@@ -129,7 +129,8 @@ export default function Footer() {
             </div>
           </div> */}
         </div>
-      </div>
+
+<div className="w-full h-[70px] flex justify-center items-center" ><p>Copyright 2024© Club de Córdoba. Todos los derechos reservados.</p></div>      </div>
     </div>
   );
 }

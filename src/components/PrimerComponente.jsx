@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { montserrat } from "@/app/fonts/fonts";
@@ -8,12 +8,14 @@ export default function PrimerComponente() {
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [userId, setUserId] = useState(null);
+  
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
     email: "",
     password: "",
+    access_token: "",
   });
 
   const [extraData, setExtraData] = useState({
@@ -28,13 +30,6 @@ export default function PrimerComponente() {
     disciplines: "",
     gender: "",
   });
-  const handleExtraChange = (e) => {
-    const { id, value } = e.target;
-    setExtraData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
-  };
 
   const [responseMessage, setResponseMessage] = useState("");
 
@@ -62,43 +57,67 @@ export default function PrimerComponente() {
       [id]: value,
     }));
   };
-  const [userId, setUserId] = useState(null); 
+
+  const handleExtraChange = (e) => {
+    const { id, value } = e.target;
+    setExtraData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+
     if (!formData.name || !formData.lastName || !formData.email || !formData.password) {
       setResponseMessage("Todos los campos son obligatorios.");
       return;
     }
-  
+
     try {
       const response = await axios.post("https://api-cdcc.vercel.app/api/v1/users/create", formData);
       setResponseMessage(response.data.message || "Usuario registrado con éxito.");
-  
-      if (response.data.userId) {
-        setUserId(response.data.userId); 
+      console.log(response.data)
+      if (response.data.user._id && response.data.access_token) {
+        setUserId(response.data.user._id);
+        setFormData((prevData) => ({
+          ...prevData,
+          access_token: response.data.access_token, // Guardar access_token en el estado
+        }));
+
+        Cookies.set("userId", response.data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
+        Cookies.set("access_token", response.data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
+
+        console.log("Cookies después de set:", Cookies.get());
+
+        setIsModalOpen(true); // Abrir modal solo si el registro fue exitoso
       } else {
-        console.error("No se recibió userId.");
+        console.error("No se recibió userId o access_token.");
       }
     } catch (error) {
       setResponseMessage(error.response?.data?.message || "Hubo un error al registrarse.");
     }
   };
-  
+
   const handleExtraSubmit = async (e) => {
     e.preventDefault();
-  
-    
-    if (!userId) {
-      console.error("userId no está definido");
+
+    const storedUserId = Cookies.get("userId");
+    const token = Cookies.get("access_token"); // Obtener token de la cookie
+
+    if (!storedUserId || !token) {
+      console.error("userId o access_token no están definidos en las cookies.");
       setResponseMessage("Por favor, regístrate antes de completar estos datos.");
       return;
     }
-  
+
     try {
       await axios.post(
-        `https://api-cdcc.vercel.app/api/v1/users/dataUser/${userId}`,
-        { ...extraData, disciplines: extraData.disciplines.split(",") }
+        `https://api-cdcc.vercel.app/api/v1/users/dataUser/${storedUserId}`,
+        { ...extraData, disciplines: extraData.disciplines.split(",") },
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Incluir el token en la solicitud
+        }
       );
       alert("Datos adicionales guardados con éxito.");
       setIsModalOpen(false);
@@ -107,8 +126,6 @@ export default function PrimerComponente() {
       alert("Error al guardar datos adicionales.");
     }
   };
-  
-  
   return (
     <div
       ref={containerRef}
@@ -201,12 +218,18 @@ export default function PrimerComponente() {
             </div>
 
             <button
-              type="button"
-              className="bg-black text-white h-[58px] py-2 px-4 rounded-md mt-4"
-              onClick={() => setIsModalOpen(true)} 
-            >
-              Hacerme socio
-            </button>
+  type="submit"
+  className="bg-black text-white h-[58px] py-2 px-4 rounded-md mt-4"
+  onClick={async () => {
+    await handleSubmit(); // Primero, envía los datos del formulario
+    if (Cookies.get("userId")) {
+      setIsModalOpen(true); // Solo abre el modal si el userId se guardó en la cookie
+    }
+  }}
+>
+  Hacerme socio
+</button>
+
 
 
            
@@ -218,7 +241,7 @@ export default function PrimerComponente() {
       </div>
       {isModalOpen && (
   <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-    <div className="bg-white p-6 rounded-lg w-[90%] sm:w-[400px]">
+    <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] sm:w-[400px]">
       <h2 className="text-xl font-bold mb-4">Completa tus datos</h2>
       <form onSubmit={handleExtraSubmit} className="flex flex-col gap-4">
         <input
@@ -283,13 +306,21 @@ export default function PrimerComponente() {
           onChange={handleExtraChange}
           className="p-2 border border-gray-300 rounded-md"
         />
-        <input
-          id="gender"
-          type="text"
-          placeholder="Género"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
+        <div className="flex flex-col">
+  <label htmlFor="gender" className="text-gray-700 text-sm font-medium">
+    Género*
+  </label>
+  <select
+    id="gender"
+    value={extraData.gender}
+    onChange={handleExtraChange}
+    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
+  >
+    <option value="">Selecciona tu género</option>
+    <option value="MALE">Masculino</option>
+    <option value="FEMALE">Femenino</option>
+  </select>
+</div>
         <button
           type="submit"
           className="bg-black text-white py-2 px-4 rounded-md mt-4"
