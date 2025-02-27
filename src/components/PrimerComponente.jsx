@@ -27,7 +27,7 @@ export default function PrimerComponente() {
     neighborhood: "",
     cp: "",
     phoneNumber: "",
-    disciplines: "",
+    disciplines: [],
     gender: "",
   });
 
@@ -65,7 +65,17 @@ export default function PrimerComponente() {
       [id]: value,
     }));
   };
-
+  const handleDisciplineChange = (e) => {
+    const { value, checked } = e.target;
+  
+    setExtraData((prevData) => ({
+      ...prevData,
+      disciplines: checked
+        ? [...prevData.disciplines, value] // Agrega la disciplina si está seleccionada
+        : prevData.disciplines.filter((d) => d !== value), // La elimina si se desmarca
+    }));
+  };
+  
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
 
@@ -114,7 +124,7 @@ export default function PrimerComponente() {
     try {
       await axios.post(
         `https://api-cdcc.vercel.app/api/v1/users/dataUser/${storedUserId}`,
-        { ...extraData, disciplines: extraData.disciplines.split(",") },
+        { ...extraData, disciplines: extraData.disciplines },
         {
           headers: { Authorization: `Bearer ${token}` }, // Incluir el token en la solicitud
         }
@@ -241,101 +251,61 @@ export default function PrimerComponente() {
       </div>
       {isModalOpen && (
   <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-    <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] sm:w-[400px]">
-      <h2 className="text-xl font-bold mb-4">Completa tus datos</h2>
-      <form onSubmit={handleExtraSubmit} className="flex flex-col gap-4">
-        <input
-          id="dni"
-          type="text"
-          placeholder="DNI"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="birthdate"
-          type="date"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="maritalStatus"
-          type="text"
-          placeholder="Estado Civil"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="nationality"
-          type="text"
-          placeholder="Nacionalidad"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="address"
-          type="text"
-          placeholder="Dirección"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="neighborhood"
-          type="text"
-          placeholder="Barrio"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="cp"
-          type="text"
-          placeholder="Código Postal"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="phoneNumber"
-          type="text"
-          placeholder="Teléfono"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <input
-          id="disciplines"
-          type="text"
-          placeholder="Disciplinas (separadas por coma)"
-          onChange={handleExtraChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-        <div className="flex flex-col">
-  <label htmlFor="gender" className="text-gray-700 text-sm font-medium">
-    Género*
-  </label>
-  <select
-    id="gender"
-    value={extraData.gender}
-    onChange={handleExtraChange}
-    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
-  >
-    <option value="">Selecciona tu género</option>
-    <option value="MALE">Masculino</option>
-    <option value="FEMALE">Femenino</option>
-  </select>
-</div>
-        <button
-          type="submit"
-          className="bg-black text-white py-2 px-4 rounded-md mt-4"
-        >
-          Guardar
-        </button>
-      </form>
-      <button
-        onClick={() => setIsModalOpen(false)}
-        className="mt-4 text-red-600"
-      >
-        Cerrar
-      </button>
+  <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
+    <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
+    <form onSubmit={handleExtraSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input id="dni" type="text" placeholder="DNI" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+      <input id="birthdate" type="date" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+     
+      
+        <select id="maritalStatus" value={extraData.maritalStatus} onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full">
+          <option value="">Selecciona tu Estado Civil</option>
+          <option value="MARIED">Casado/a</option>
+          <option value="SINGLE">Soltero/a</option>
+        </select>
+
+      <input id="nationality" type="text" placeholder="Nacionalidad" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+      <input id="address" type="text" placeholder="Dirección" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+      <input id="neighborhood" type="text" placeholder="Barrio" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+      <input id="cp" type="text" placeholder="Código Postal" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+      <input id="phoneNumber" type="text" placeholder="Teléfono" onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md w-full" />
+
+      {/* Género en una columna completa */}
+      
+       
+        <select id="gender" value={extraData.gender} onChange={handleExtraChange} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full">
+          <option value="">Selecciona tu género</option>
+          <option value="MALE">Masculino</option>
+          <option value="FEMALE">Femenino</option>
+        </select>
+      
+
+      {/* Disciplinas en una columna completa */}
+      <div className="col-span-1 sm:col-span-2 flex flex-col">
+        <label className="text-gray-700 text-sm font-medium pb-[10px]">Disciplinas</label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {["ARTISTIC_GYMNASTICS", "BASKETBALL", "VOLLEYBALL", "KARATE", "SKATE", "NEWCOM", "FISHING"].map((discipline) => (
+            <label key={discipline} className="flex items-center gap-2">
+              <input type="checkbox" value={discipline} checked={extraData.disciplines.includes(discipline)} onChange={handleDisciplineChange} className="w-4 h-4" />
+              {discipline.replace("_", " ")}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Botón en una sola columna */}
+      <div className="col-span-1 sm:col-span-2 flex justify-center">
+        <button type="submit" className="bg-black text-white py-2 px-6 rounded-md">Guardar</button>
+      </div>
+    </form>
+
+    {/* Botón de cierre */}
+    <div className="mt-4 flex justify-center">
+      <button onClick={() => setIsModalOpen(false)} className="text-red-600">Cerrar</button>
     </div>
   </div>
+</div>
+
 )}
 
     </div>
