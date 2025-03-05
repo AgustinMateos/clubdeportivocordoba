@@ -105,7 +105,7 @@ export default function PrimerComponente() {
         console.error("No se recibió userId o access_token.");
       }
     } catch (error) {
-      setResponseMessage(error.response?.data?.message || "Hubo un error al registrarse.");
+      setResponseMessage(error.response?.data?.message || "Usuario ya registrado.");
     }
   };
 
