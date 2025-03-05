@@ -9,6 +9,7 @@ export default function PrimerComponente() {
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [errors, setErrors] = useState({});
   
   const [formData, setFormData] = useState({
     name: "",
@@ -78,37 +79,59 @@ export default function PrimerComponente() {
   
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
-
-    if (!formData.name || !formData.lastName || !formData.email || !formData.password) {
-      setResponseMessage("Todos los campos son obligatorios.");
+  
+    // Validación de campos
+    const newErrors = {};
+    if (!formData.name) newErrors.name = "El nombre es obligatorio";
+    if (!formData.lastName) newErrors.lastName = "El apellido es obligatorio";
+    if (!formData.email) {
+      newErrors.email = "El email es obligatorio";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "El email no es válido";
+    }
+    if (!formData.password) {
+      newErrors.password = "La contraseña es obligatoria";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setResponseMessage("Por favor completa todos los campos correctamente");
       return;
     }
-
+  
     try {
       const response = await axios.post("https://api-cdcc.vercel.app/api/v1/users/create", formData);
-      setResponseMessage(response.data.message || "Usuario registrado con éxito.");
-      console.log(response.data)
-      if (response.data.user._id && response.data.access_token) {
+      setResponseMessage(response.data.message || "Usuario registrado con éxito");
+      setErrors({}); // Limpiar errores si el registro es exitoso
+  
+      if (response.data.user?._id && response.data.access_token) {
         setUserId(response.data.user._id);
         setFormData((prevData) => ({
           ...prevData,
-          access_token: response.data.access_token, // Guardar access_token en el estado
+          access_token: response.data.access_token,
         }));
-
+  
         Cookies.set("userId", response.data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
         Cookies.set("access_token", response.data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
-
-        console.log("Cookies después de set:", Cookies.get());
-
-        setIsModalOpen(true); // Abrir modal solo si el registro fue exitoso
-      } else {
-        console.error("No se recibió userId o access_token.");
+        setIsModalOpen(true);
       }
     } catch (error) {
-      setResponseMessage(error.response?.data?.message || "Usuario ya registrado.");
+      const errorMessage = error.response?.data?.message || "Error al registrar";
+      setResponseMessage(errorMessage);
+      if (errorMessage.toLowerCase().includes("ya registrado")) {
+        setErrors({ email: "Este email ya está registrado" });
+      }
     }
   };
-
+  const clearError = (field) => {
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      delete newErrors[field]; // Elimina el error del campo específico
+      return newErrors;
+    });
+  };
   const handleExtraSubmit = async (e) => {
     e.preventDefault();
 
@@ -170,83 +193,97 @@ export default function PrimerComponente() {
             ¡Hacete socio ahora!
           </h3>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div className="flex">
-              <div className="w-[50%]">
-                <label htmlFor="name" className="text-gray-700 text-sm font-medium">
-                  Nombre*
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  placeholder="Ingresa tu nombre"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="p-2 border w-[95%] border-gray-300 rounded-md focus:outline-none focus:ring-0"
-                />
-              </div>
-              <div className="w-[50%]">
-                <label htmlFor="lastName" className="text-gray-700 text-sm font-medium">
-                  Apellido*
-                </label>
-                <input
-                  id="lastName"
-                  type="text"
-                  placeholder="Ingresa tu apellido"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="p-2 border border-gray-300 w-[100%] rounded-md focus:outline-none focus:ring-0"
-                />
-              </div>
-            </div>
+  <div className="flex gap-2">
+    <div className="w-[50%]">
+      <label htmlFor="name" className="text-gray-700 text-sm font-medium">
+        Nombre*
+      </label>
+      <input
+        id="name"
+        type="text"
+        placeholder="Ingresa tu nombre"
+        value={formData.name}
+        onChange={handleChange}
+        onFocus={() => clearError("name")} // Limpia el error al enfocarse
+        className={`p-2 border w-[95%] rounded-md focus:outline-none focus:ring-0 ${
+          errors.name ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+      {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+    </div>
+    <div className="w-[50%]">
+      <label htmlFor="lastName" className="text-gray-700 text-sm font-medium">
+        Apellido*
+      </label>
+      <input
+        id="lastName"
+        type="text"
+        placeholder="Ingresa tu apellido"
+        value={formData.lastName}
+        onChange={handleChange}
+        onFocus={() => clearError("lastName")} // Limpia el error al enfocarse
+        className={`p-2 border w-[100%] rounded-md focus:outline-none focus:ring-0 ${
+          errors.lastName ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+      {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+    </div>
+  </div>
 
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-gray-700 text-sm font-medium pb-[10px]">
-                Email*
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Ingresa tu email"
-                value={formData.email}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
-              />
-            </div>
+  <div className="flex flex-col">
+    <label htmlFor="email" className="text-gray-700 text-sm font-medium pb-[10px]">
+      Email*
+    </label>
+    <input
+      id="email"
+      type="email"
+      placeholder="Ingresa tu email"
+      value={formData.email}
+      onChange={handleChange}
+      onFocus={() => clearError("email")} // Limpia el error al enfocarse
+      className={`p-2 border rounded-md focus:outline-none focus:ring-0 ${
+        errors.email ? "border-red-500" : "border-gray-300"
+      }`}
+    />
+    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+  </div>
 
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-gray-700 text-sm font-medium pb-[10px]">
-                Contraseña*
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Ingresa tu contraseña"
-                value={formData.password}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base"
-              />
-            </div>
+  <div className="flex flex-col">
+    <label htmlFor="password" className="text-gray-700 text-sm font-medium pb-[10px]">
+      Contraseña*
+    </label>
+    <input
+      id="password"
+      type="password"
+      placeholder="Ingresa tu contraseña"
+      value={formData.password}
+      onChange={handleChange}
+      onFocus={() => clearError("password")} // Limpia el error al enfocarse
+      className={`p-2 border rounded-md focus:outline-none focus:ring-0 ${
+        errors.password ? "border-red-500" : "border-gray-300"
+      }`}
+    />
+    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+  </div>
 
-            <button
-  type="submit"
-  className="bg-black text-white h-[58px] py-2 px-4 rounded-md mt-4"
-  onClick={async () => {
-    await handleSubmit(); // Primero, envía los datos del formulario
-    if (Cookies.get("userId")) {
-      setIsModalOpen(true); // Solo abre el modal si el userId se guardó en la cookie
-    }
-  }}
->
-  Hacerme socio
-</button>
+  <button
+    type="submit"
+    className="bg-black text-white h-[58px] py-2 px-4 rounded-md mt-4 disabled:bg-gray-500 disabled:cursor-not-allowed"
+    disabled={Object.keys(errors).length > 0}
+  >
+    Hacerme socio
+  </button>
 
-
-
-           
-            {responseMessage && (
-              <p className="text-center text-sm text-gray-800 mt-2">{responseMessage}</p>
-            )}
-          </form>
+  {responseMessage && (
+    <p
+      className={`text-center text-sm mt-2 ${
+        responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
+      }`}
+    >
+      {responseMessage}
+    </p>
+  )}
+</form>
         </div>
       </div>
       {isModalOpen && (

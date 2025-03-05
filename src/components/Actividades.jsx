@@ -12,7 +12,7 @@ export default function Actividades() {
 
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(false);
-
+  
   // Mapa para imágenes y descripciones
   const disciplineExtras = {
     ARTISTIC_GYMNASTICS: {
@@ -112,22 +112,25 @@ export default function Actividades() {
 
   useEffect(() => {
     const thresholdValue = window.innerWidth < 768 ? 0.05 : 0.3;
-
+  
     const observer = new IntersectionObserver(
       (entries) => {
+        console.log("Entries:", entries);
         if (entries[0].isIntersecting) {
+          console.log("Título visible");
           setIsTitleVisible(true);
         }
       },
       { threshold: thresholdValue }
     );
-
+  
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
-
+  
     return () => observer.disconnect();
   }, []);
+  
 
   if (loading) return <div>Cargando disciplinas...</div>;
   if (error) return <div>{error}</div>;
