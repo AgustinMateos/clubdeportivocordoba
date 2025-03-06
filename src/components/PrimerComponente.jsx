@@ -188,7 +188,7 @@ export default function PrimerComponente() {
         </div>
 
         {/* Formulario */}
-        <div className="h-[481px] w-[90%] sm:w-[417px] bg-white/70 backdrop-blur-lg justify-evenly rounded-[16px] p-6 flex flex-col">
+        <div className="h-[490px] w-[90%] sm:w-[417px] bg-white/70 backdrop-blur-lg justify-evenly rounded-[16px] p-6 flex flex-col">
           <h3 className="text-[24px] font-bold text-gray-800 mb-4 font-montserrat">
             ¡Hacete socio ahora!
           </h3>
@@ -263,9 +263,17 @@ export default function PrimerComponente() {
         errors.password ? "border-red-500" : "border-gray-300"
       }`}
     />
-    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+    {errors.password && <p className="text-red-500 text-xs ">{errors.password}</p>}
   </div>
-
+{responseMessage && (
+    <p
+      className={`text-center text-sm  ${
+        responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
+      }`}
+    >
+      {responseMessage}
+    </p>
+  )}
   <button
     type="submit"
     className="bg-black text-white h-[58px] py-2 px-4 rounded-md mt-4 disabled:bg-gray-500 disabled:cursor-not-allowed"
@@ -274,15 +282,7 @@ export default function PrimerComponente() {
     Hacerme socio
   </button>
 
-  {responseMessage && (
-    <p
-      className={`text-center text-sm mt-2 ${
-        responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
-      }`}
-    >
-      {responseMessage}
-    </p>
-  )}
+  
 </form>
         </div>
       </div>
@@ -337,7 +337,7 @@ export default function PrimerComponente() {
     </form>
 
     {/* Botón de cierre */}
-    <div className="mt-4 flex justify-center">
+    <div className="col-span-1 sm:col-span-2 flex justify-center">
       <button onClick={() => setIsModalOpen(false)} className="text-red-600">Cerrar</button>
     </div>
   </div>

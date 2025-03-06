@@ -11,7 +11,7 @@ export default function Actividades() {
   const [error, setError] = useState(null);
 
   const containerRef = useRef(null);
-  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const [isTitleVisible, setIsTitleVisible] = useState(true); 
   
   // Mapa para imágenes y descripciones
   const disciplineExtras = {
@@ -121,9 +121,10 @@ export default function Actividades() {
           setIsTitleVisible(true);
         }
       },
-      { threshold: thresholdValue }
+      { threshold: 0.1 }
     );
   
+    console.log("Container ref:", containerRef.current); // Verifica si el ref tiene un elemento
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
@@ -140,12 +141,9 @@ export default function Actividades() {
       <div className="bg-[#C32929] py-12 flex justify-center relative h-[543px]">
         <div className="text-white w-[70%] sm:w-[80%] flex flex-col h-[350px] justify-center sm:justify-center">
           <p className="font-montserrat pt-4 leading-[24px] text-[16px] tracking-[0.2px] font-medium">Actividades / Deportes</p>
-          <h3
-            className={`font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] 
-            tracking-[0.2px] pt-4 w-full sm:w-[80%] md:w-[70%] transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}
-          >
-            Un deporte para cada pasión
-          </h3>
+          <h3 className="font-montserrat text-[32px] sm:text-[48px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[80%] md:w-[70%]">
+  Un deporte para cada pasión
+</h3>
           <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
             Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
           </p>
