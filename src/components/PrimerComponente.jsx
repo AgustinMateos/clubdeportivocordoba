@@ -432,7 +432,7 @@ export default function PrimerComponente() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] max-w-[400px] flex flex-col items-center">
             <h2 className="text-xl font-bold mb-4 text-center text-green-600">¡Datos guardados con éxito!</h2>
-            <p className="text-gray-700 text-center mb-4">Tu solicitud está en estado <span className="font-bold">PENDING</span>. Te notificaremos cuando sea aprobada.</p>
+            <p className="text-gray-700 text-center mb-4">Tu solicitud está en estado <span className="font-bold">pendiente</span>. Te notificaremos cuando sea aprobada.</p>
             <button
               onClick={() => setIsSuccessModalOpen(false)}
               className="bg-black text-white py-2 px-6 rounded-md"
