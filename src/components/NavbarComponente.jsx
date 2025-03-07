@@ -72,7 +72,8 @@ export default function NavbarComponente() {
             nationality: data.user.data.nationality,
             phoneNumber: data.user.data.phoneNumber,
             membershipNumber:data.user.membershipNumber,
-            createdAt: data.user.data.createdAt
+            createdAt: data.user.data.createdAt,
+            qr: data.user.payment.qr.img
 
 
           });
@@ -133,64 +134,59 @@ export default function NavbarComponente() {
 
       {/* Modal de "APPROVED" */}
       {isSuccessModalOpen && userData && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-60">
-          <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[650px] relative">
-            {/* Pseudo-elemento para el fondo con máscara y opacidad */}
-            <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-            {/* Contenido del modal */}
-            <div className="relative z-10 flex flex-col">
-              <div className="flex flex-row justify-center">
-                <div className="flex flex-col items-center">
-                  <h2 className="text-xl font-bold mb-4 text-center">Club Deportivo Central Córdoba</h2>
-                  <p className=" font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-                  <p className="mb-4 font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-                  
-                </div>
-                {/* <div>
-                  <Image src="/logonew2.png" alt="Logo" width={96} height={89} />
-                </div> */}
-              </div>
-              <div className="flex flex-row justify-between relative h-[200px]">
-  {/* Pseudo-elemento para la imagen de fondo con opacidad */}
-  <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-  {/* Contenido del div */}
-  <div className="relative z-10 flex flex-col justify-evenly items-start">
-    <p className="font-bold text-center ">Nro de Socio: <span  className="font-bold text-center border-b-4 border-dotted border-b-black ">{userData.membershipNumber}.</span> </p>
-    <p className="font-bold text-center ">Nombre: <span  className="font-bold text-center border-b-4 border-dotted border-b-black ">{userData.name}.</span> </p>
-    <p className="font-bold text-center ">Apellido: <span  className="font-bold text-center border-b-4 border-dotted border-b-black ">{userData.lastName}</span> </p>
-    <p className="font-bold text-center ">Ingreso: <span  className="font-bold text-center border-b-4 border-dotted border-b-black ">{userData.createdAt}</span> </p>
-    
-    {/* <p className="text-gray-700 text-center">Estado civil: {userData.maritalStatus}</p>
-    <p className="text-gray-700 text-center">Dirección: {userData.address}</p>
-    <p className="text-gray-700 text-center">Barrio: {userData.neighborhood}</p>
-    <p className="text-gray-700 text-center">CP: {userData.cp}</p>
-    <p className="text-gray-700 text-center">Género: {userData.gender}</p> */}
-  </div>
-  {/* <div className="flex flex-col items-start">
-    <p className="text-gray-700 text-center">Edad: {userData.age}</p>
-    <p className="text-gray-700 text-center">Fecha de cumpleaños: {userData.birthdate}</p>
-    <p className="text-gray-700 text-center">Disciplinas: {userData.disciplines}</p>
-    <p className="text-gray-700 text-center">Nacionalidad: {userData.nationality}</p>
-    <p className="text-gray-700 text-center">Teléfono: {userData.phoneNumber}</p>
-  </div> */}
-</div>
-              <div className="h-[80px] flex justify-between items-end" >
-  <div className="w-[200px]">
-    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-  </div>
-  <div className="w-[200px]">
-    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-  </div>
-</div>
-              <div className="flex justify-center mt-4">
-                <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
-                  Cerrar
-                </button>
-              </div>
-            </div>
+  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-60">
+    <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[650px] relative">
+      <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+      <div className="relative z-10 flex flex-col">
+        <div className="flex flex-row justify-center">
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+            <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+            <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
           </div>
         </div>
-      )}
+        <div className="flex flex-row justify-between relative h-[200px]">
+          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+          <div className="relative z-10 flex flex-col justify-evenly items-start">
+            <p className="font-bold text-center">
+              Nro de Socio: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+            </p>
+            <p className="font-bold text-center">
+              Nombre: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.name}.</span>
+            </p>
+            <p className="font-bold text-center">
+              Apellido: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+            </p>
+            <p className="font-bold text-center">
+              Ingreso: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.createdAt}</span>
+            </p>
+          </div>
+          <div className="relative z-10 flex items-center">
+            {console.log("QR URL:", userData.qr)}
+            {userData.qr ? (
+              <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+            ) : (
+              <p className="text-red-500">QR no disponible</p>
+            )}
+          </div>
+        </div>
+        <div className="h-[80px] flex justify-between items-end">
+          <div className="w-[200px]">
+            <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+          </div>
+          <div className="w-[200px]">
+            <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
+          </div>
+        </div>
+        <div className="flex justify-center mt-4">
+          <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Otros modales permanecen igual */}
       {isLoadingModalOpen && (
