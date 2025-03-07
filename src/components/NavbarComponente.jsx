@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie"; // Necesitamos Cookies para manejar userId y token
 
 export default function NavbarComponente() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,11 +12,26 @@ export default function NavbarComponente() {
   const [isPendingModalOpen, setIsPendingModalOpen] = useState(false);
   const [isPreapprovedModalOpen, setIsPreapprovedModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isExtraDataModalOpen, setIsExtraDataModalOpen] = useState(false); // Nuevo estado para el modal de extraData
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState(null);
+  const [extraData, setExtraData] = useState({
+    dni: "",
+    birthdate: "",
+    maritalStatus: "",
+    nationality: "",
+    address: "",
+    neighborhood: "",
+    cp: "",
+    phoneNumber: "",
+    disciplines: [],
+    gender: "",
+  });
+  const [extraErrors, setExtraErrors] = useState({});
+  const [responseMessage, setResponseMessage] = useState("");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -27,6 +43,8 @@ export default function NavbarComponente() {
   const closePreapprovedModal = () => setIsPreapprovedModalOpen(false);
   const openSuccessModal = () => setIsSuccessModalOpen(true);
   const closeSuccessModal = () => setIsSuccessModalOpen(false);
+  const openExtraDataModal = () => setIsExtraDataModalOpen(true);
+  const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -44,12 +62,14 @@ export default function NavbarComponente() {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" }); // Guardamos userId en cookies
+      Cookies.set("access_token", data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
 
       const userStatus = data.user.status;
 
       switch (userStatus) {
         case "IN_PROGRESS":
-          openLoadingModal();
+          openExtraDataModal(); // Abrimos el modal de datos adicionales
           break;
         case "PENDING":
           openPendingModal();
@@ -71,11 +91,9 @@ export default function NavbarComponente() {
             cp: data.user.data.cp,
             nationality: data.user.data.nationality,
             phoneNumber: data.user.data.phoneNumber,
-            membershipNumber:data.user.membershipNumber,
-            createdAt: data.user.data.createdAt,
-            qr: data.user.payment.qr.img
-
-
+            membershipNumber: data.user.membershipNumber,
+            createdAt: data.user.createdAt, // Ajustado a createdAt del usuario
+            qr: data.user.payment.qr.img,
           });
           openSuccessModal();
           break;
@@ -91,6 +109,85 @@ export default function NavbarComponente() {
       setError("Error en el inicio de sesión. Verifica tus credenciales.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleExtraChange = (e) => {
+    const { id, value } = e.target;
+    setExtraData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+    clearExtraError(id);
+  };
+
+  const handleDisciplineChange = (e) => {
+    const { value, checked } = e.target;
+    setExtraData((prevData) => ({
+      ...prevData,
+      disciplines: checked
+        ? [...prevData.disciplines, value]
+        : prevData.disciplines.filter((d) => d !== value),
+    }));
+    if (checked) clearExtraError("disciplines");
+  };
+
+  const clearExtraError = (field) => {
+    setExtraErrors((prevErrors) => {
+      const newExtraErrors = { ...prevErrors };
+      delete newExtraErrors[field];
+      return newExtraErrors;
+    });
+  };
+
+  const handleExtraSubmit = async (e) => {
+    e.preventDefault();
+
+    const newExtraErrors = {};
+    if (!extraData.dni) newExtraErrors.dni = "El DNI es obligatorio";
+    else if (!/^\d{7,8}$/.test(extraData.dni)) newExtraErrors.dni = "El DNI debe tener entre 7 y 8 dígitos";
+    if (!extraData.birthdate) newExtraErrors.birthdate = "La fecha de nacimiento es obligatoria";
+    if (!extraData.maritalStatus) newExtraErrors.maritalStatus = "El estado civil es obligatorio";
+    if (!extraData.nationality) newExtraErrors.nationality = "La nacionalidad es obligatoria";
+    if (!extraData.address) newExtraErrors.address = "La dirección es obligatoria";
+    if (!extraData.neighborhood) newExtraErrors.neighborhood = "El barrio es obligatorio";
+    if (!extraData.cp) newExtraErrors.cp = "El código postal es obligatorio";
+    if (!extraData.phoneNumber) newExtraErrors.phoneNumber = "El teléfono es obligatorio";
+    else if (!/^\d{10}$/.test(extraData.phoneNumber)) newExtraErrors.phoneNumber = "El teléfono debe tener 10 dígitos";
+    if (extraData.disciplines.length === 0) newExtraErrors.disciplines = "Debes seleccionar al menos una disciplina";
+    if (!extraData.gender) newExtraErrors.gender = "El género es obligatorio";
+
+    if (Object.keys(newExtraErrors).length > 0) {
+      setExtraErrors(newExtraErrors);
+      setResponseMessage("Por favor completa todos los campos adicionales correctamente");
+      return;
+    }
+
+    const storedUserId = Cookies.get("userId");
+    const token = Cookies.get("access_token");
+
+    if (!storedUserId || !token) {
+      console.error("userId o access_token no están definidos en las cookies.");
+      setResponseMessage("Por favor, inicia sesión de nuevo.");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `https://api-cdcc.vercel.app/api/v1/users/dataUser/${storedUserId}`,
+        { ...extraData, disciplines: extraData.disciplines },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setExtraErrors({});
+      setIsExtraDataModalOpen(false); // Cerrar el modal de datos adicionales
+      setResponseMessage("Datos guardados con éxito. Tu solicitud está pendiente de aprobación.");
+      openPendingModal(); // Mostrar modal de "PENDING" tras guardar
+    } catch (error) {
+      console.error("Error al guardar los datos adicionales:", error);
+      const errorMessage = error.response?.data?.message || "Error al guardar datos adicionales.";
+      setResponseMessage(errorMessage);
     }
   };
 
@@ -187,7 +284,138 @@ export default function NavbarComponente() {
     </div>
   </div>
 )}
-
+{/* Modal de datos adicionales */}
+{isExtraDataModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
+            <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
+            <form onSubmit={handleExtraSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <input
+                  id="dni"
+                  type="text"
+                  placeholder="DNI"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.dni ? "border-red-500" : ""}`}
+                />
+                {extraErrors.dni && <p className="text-red-500 text-xs mt-1">{extraErrors.dni}</p>}
+              </div>
+              <div>
+                <input
+                  id="birthdate"
+                  type="date"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.birthdate ? "border-red-500" : ""}`}
+                />
+                {extraErrors.birthdate && <p className="text-red-500 text-xs mt-1">{extraErrors.birthdate}</p>}
+              </div>
+              <div>
+                <select
+                  id="maritalStatus"
+                  value={extraData.maritalStatus}
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.maritalStatus ? "border-red-500" : ""}`}
+                >
+                  <option value="">Selecciona tu Estado Civil</option>
+                  <option value="MARIED">Casado/a</option>
+                  <option value="SINGLE">Soltero/a</option>
+                </select>
+                {extraErrors.maritalStatus && <p className="text-red-500 text-xs mt-1">{extraErrors.maritalStatus}</p>}
+              </div>
+              <div>
+                <input
+                  id="nationality"
+                  type="text"
+                  placeholder="Nacionalidad"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.nationality ? "border-red-500" : ""}`}
+                />
+                {extraErrors.nationality && <p className="text-red-500 text-xs mt-1">{extraErrors.nationality}</p>}
+              </div>
+              <div>
+                <input
+                  id="address"
+                  type="text"
+                  placeholder="Dirección"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.address ? "border-red-500" : ""}`}
+                />
+                {extraErrors.address && <p className="text-red-500 text-xs mt-1">{extraErrors.address}</p>}
+              </div>
+              <div>
+                <input
+                  id="neighborhood"
+                  type="text"
+                  placeholder="Barrio"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.neighborhood ? "border-red-500" : ""}`}
+                />
+                {extraErrors.neighborhood && <p className="text-red-500 text-xs mt-1">{extraErrors.neighborhood}</p>}
+              </div>
+              <div>
+                <input
+                  id="cp"
+                  type="text"
+                  placeholder="Código Postal"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.cp ? "border-red-500" : ""}`}
+                />
+                {extraErrors.cp && <p className="text-red-500 text-xs mt-1">{extraErrors.cp}</p>}
+              </div>
+              <div>
+                <input
+                  id="phoneNumber"
+                  type="text"
+                  placeholder="Teléfono"
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.phoneNumber ? "border-red-500" : ""}`}
+                />
+                {extraErrors.phoneNumber && <p className="text-red-500 text-xs mt-1">{extraErrors.phoneNumber}</p>}
+              </div>
+              <div className="col-span-1 sm:col-span-2">
+                <select
+                  id="gender"
+                  value={extraData.gender}
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.gender ? "border-red-500" : ""}`}
+                >
+                  <option value="">Selecciona tu género</option>
+                  <option value="MALE">Masculino</option>
+                  <option value="FEMALE">Femenino</option>
+                </select>
+                {extraErrors.gender && <p className="text-red-500 text-xs mt-1">{extraErrors.gender}</p>}
+              </div>
+              <div className="col-span-1 sm:col-span-2 flex flex-col">
+                <label className="text-gray-700 text-sm font-medium pb-[10px]">Disciplinas</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {["ARTISTIC_GYMNASTICS", "BASKETBALL", "VOLLEYBALL", "KARATE", "SKATE", "NEWCOM", "FISHING"].map((discipline) => (
+                    <label key={discipline} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={discipline}
+                        checked={extraData.disciplines.includes(discipline)}
+                        onChange={handleDisciplineChange}
+                        className="w-4 h-4"
+                      />
+                      {discipline.replace("_", " ")}
+                    </label>
+                  ))}
+                </div>
+                {extraErrors.disciplines && <p className="text-red-500 text-xs mt-1">{extraErrors.disciplines}</p>}
+              </div>
+              {responseMessage && (
+                <p className={`col-span-1 sm:col-span-2 text-center text-sm ${responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"}`}>
+                  {responseMessage}
+                </p>
+              )}
+              <div className="col-span-1 sm:col-span-2 flex justify-center gap-4">
+                <button type="submit" className="bg-black text-white py-2 px-6 rounded-md">Guardar</button>
+                <button onClick={closeExtraDataModal} className="text-red-600">Cerrar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {/* Otros modales permanecen igual */}
       {isLoadingModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
