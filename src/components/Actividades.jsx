@@ -147,6 +147,9 @@ export default function Actividades() {
           <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
             Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
           </p>
+          <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
+          La cuota sindical no incluye las disciplinas. Las mismas son exclusivas para socios pero deben ser abonadas aparte de la cuota.
+          </p>
         </div>
       </div>
 
