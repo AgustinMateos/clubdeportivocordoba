@@ -64,7 +64,7 @@ export default function Actividades() {
             cat.name,
             cat.schedule,
             `$${cat.user}`,
-            `$${cat.guest}`,
+            
           ]),
         };
       });
@@ -253,8 +253,8 @@ export default function Actividades() {
                   <tr>
                     <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Categoría</th>
                     <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Horario</th>
-                    <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Socios</th>
-                    <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">No Socios</th>
+                    <th className="font-montserrat py-0 text-[12px] sm:px-4 sm:py-2">Precio</th>
+                    
                   </tr>
                 </thead>
                 <tbody className="bg-[#F2F1F1]">

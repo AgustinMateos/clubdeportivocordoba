@@ -29,8 +29,9 @@ export default function Tarifas() {
     <div className="w-full bg-[#C32929] h-[662px] sm:h-[632px] items-center flex justify-center py-8">
       <div className="w-[90%] max-w-[1282px]">
         <h4 className="font-montserrat text-white font-medium text-[20px] leading-[24px] tracking-[0.2px] mb-6">
-          Tarifas 2024 - Colonia Vacaciones
-        </h4>
+          Tarifas 2025 - Colonia Vacaciones
+        </h4> 
+        {/* agrgear funcion de fecha */}
 
         <div className="overflow-x-auto rounded-[8px]">
           <table className="w-full bg-[#FFFFFFB2] shadow-lg">
