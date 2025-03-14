@@ -58,7 +58,7 @@ export default function Tarifas() {
   };
 
   return (
-    <div ref={containerRef} className="w-full bg-[#C32929] min-h-[662px] sm:min-h-[632px] items-center flex justify-center py-8">
+    <div ref={containerRef} className="w-full  bg-[#C32929] min-h-[662px] sm:min-h-[632px] items-center flex justify-center py-8">
       <div className="w-[90%] max-w-[1282px]">
         <h4
           className={`text-[32px] text-white sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pb-4 pt-4 transition-all duration-700 ${
