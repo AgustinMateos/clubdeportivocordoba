@@ -12,6 +12,7 @@ export default function PrimerComponente() {
   const [userId, setUserId] = useState(null);
   const [errors, setErrors] = useState({});
   const [extraErrors, setExtraErrors] = useState({});
+  const [isExtraFormValid, setIsExtraFormValid] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -45,6 +46,111 @@ export default function PrimerComponente() {
   });
 
   const [responseMessage, setResponseMessage] = useState("");
+
+  // Función para validar los campos obligatorios
+  const isFormValid = () => {
+    return (
+      extraData.dni &&
+      /^\d{7,8}$/.test(extraData.dni) &&
+      extraData.birthdate &&
+      extraData.maritalStatus &&
+      ["SINGLE", "MARRIED"].includes(extraData.maritalStatus) &&
+      extraData.nationality &&
+      extraData.address &&
+      extraData.neighborhood &&
+      extraData.cp &&
+      extraData.phoneNumber &&
+      /^\d{10}$/.test(extraData.phoneNumber) &&
+      extraData.disciplines &&
+      [
+        "ARTISTIC_GYMNASTICS",
+        "BASKETBALL",
+        "VOLLEYBALL",
+        "KARATE",
+        "SKATE",
+        "NEWCOM",
+        "FISHING",
+        "ONLY_MEMBER",
+      ].includes(extraData.disciplines) &&
+      extraData.gender &&
+      ["MALE", "FEMALE"].includes(extraData.gender)
+    );
+  };
+
+  // Validación en tiempo real para extraData
+  const validateField = (id, value) => {
+    const newExtraErrors = { ...extraErrors };
+
+    switch (id) {
+      case "dni":
+        if (!value) newExtraErrors.dni = "El DNI es obligatorio";
+        else if (!/^\d{7,8}$/.test(value)) newExtraErrors.dni = "El DNI debe tener entre 7 y 8 dígitos";
+        else delete newExtraErrors.dni;
+        break;
+      case "birthdate":
+        if (!value) newExtraErrors.birthdate = "La fecha de nacimiento es obligatoria";
+        else delete newExtraErrors.birthdate;
+        break;
+      case "maritalStatus":
+        if (!value) newExtraErrors.maritalStatus = "El estado civil es obligatorio";
+        else if (!["SINGLE", "MARRIED"].includes(value))
+          newExtraErrors.maritalStatus = "Estado civil no válido";
+        else delete newExtraErrors.maritalStatus;
+        break;
+      case "nationality":
+        if (!value) newExtraErrors.nationality = "La nacionalidad es obligatoria";
+        else delete newExtraErrors.nationality;
+        break;
+      case "address":
+        if (!value) newExtraErrors.address = "La dirección es obligatoria";
+        else delete newExtraErrors.address;
+        break;
+      case "neighborhood":
+        if (!value) newExtraErrors.neighborhood = "El barrio es obligatorio";
+        else delete newExtraErrors.neighborhood;
+        break;
+      case "cp":
+        if (!value) newExtraErrors.cp = "El código postal es obligatorio";
+        else delete newExtraErrors.cp;
+        break;
+      case "phoneNumber":
+        if (!value) newExtraErrors.phoneNumber = "El teléfono es obligatorio";
+        else if (!/^\d{10}$/.test(value)) newExtraErrors.phoneNumber = "El teléfono debe tener 10 dígitos";
+        else delete newExtraErrors.phoneNumber;
+        break;
+      case "disciplines":
+        if (!value) newExtraErrors.disciplines = "Debes seleccionar al menos una disciplina";
+        else if (
+          ![
+            "ARTISTIC_GYMNASTICS",
+            "BASKETBALL",
+            "VOLLEYBALL",
+            "KARATE",
+            "SKATE",
+            "NEWCOM",
+            "FISHING",
+            "ONLY_MEMBER",
+          ].includes(value)
+        )
+          newExtraErrors.disciplines = "Disciplina no válida";
+        else delete newExtraErrors.disciplines;
+        break;
+      case "gender":
+        if (!value) newExtraErrors.gender = "El género es obligatorio";
+        else if (!["MALE", "FEMALE"].includes(value)) newExtraErrors.gender = "Género no válido";
+        else delete newExtraErrors.gender;
+        break;
+      default:
+        break;
+    }
+
+    setExtraErrors(newExtraErrors);
+  };
+
+  // Actualizar la validez del formulario cada vez que cambie extraData
+  useEffect(() => {
+    setIsExtraFormValid(isFormValid());
+  }, [extraData]);
 
   const addFamilyMember = () => {
     setExtraData((prevData) => ({
@@ -130,7 +236,7 @@ export default function PrimerComponente() {
       ...prevData,
       [id]: value,
     }));
-    clearExtraError(id);
+    validateField(id, value); // Validar en tiempo real
   };
 
   const handleSubmit = async (e) => {
@@ -287,6 +393,33 @@ export default function PrimerComponente() {
     }
   };
 
+  // Función para reiniciar el formulario de datos adicionales
+  const resetExtraData = () => {
+    setExtraData({
+      dni: "",
+      birthdate: "",
+      maritalStatus: "",
+      nationality: "",
+      address: "",
+      neighborhood: "",
+      cp: "",
+      phoneNumber: "",
+      disciplines: "",
+      gender: "",
+      familyGroup: [
+        {
+          relationship: "",
+          firstName: "",
+          lastName: "",
+          dni: "",
+          birthdate: "",
+          disciplines: "",
+        },
+      ],
+    });
+    setExtraErrors({});
+  };
+
   return (
     <div
       ref={containerRef}
@@ -418,6 +551,7 @@ export default function PrimerComponente() {
                   id="dni"
                   type="text"
                   placeholder="DNI"
+                  value={extraData.dni}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.dni ? "border-red-500" : ""
@@ -429,6 +563,7 @@ export default function PrimerComponente() {
                 <input
                   id="birthdate"
                   type="date"
+                  value={extraData.birthdate}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.birthdate ? "border-red-500" : ""
@@ -460,6 +595,7 @@ export default function PrimerComponente() {
                   id="nationality"
                   type="text"
                   placeholder="Nacionalidad"
+                  value={extraData.nationality}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.nationality ? "border-red-500" : ""
@@ -474,6 +610,7 @@ export default function PrimerComponente() {
                   id="address"
                   type="text"
                   placeholder="Dirección"
+                  value={extraData.address}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.address ? "border-red-500" : ""
@@ -486,6 +623,7 @@ export default function PrimerComponente() {
                   id="neighborhood"
                   type="text"
                   placeholder="Barrio"
+                  value={extraData.neighborhood}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.neighborhood ? "border-red-500" : ""
@@ -500,6 +638,7 @@ export default function PrimerComponente() {
                   id="cp"
                   type="text"
                   placeholder="Código Postal"
+                  value={extraData.cp}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.cp ? "border-red-500" : ""
@@ -512,6 +651,7 @@ export default function PrimerComponente() {
                   id="phoneNumber"
                   type="text"
                   placeholder="Teléfono"
+                  value={extraData.phoneNumber}
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${
                     extraErrors.phoneNumber ? "border-red-500" : ""
@@ -662,10 +802,20 @@ export default function PrimerComponente() {
                 </p>
               )}
               <div className="col-span-1 sm:col-span-2 flex justify-center gap-4">
-                <button type="submit" className="bg-black text-white py-2 px-6 rounded-md">
+                <button
+                  type="submit"
+                  className="bg-black text-white py-2 px-6 rounded-md disabled:bg-gray-500 disabled:cursor-not-allowed"
+                  disabled={!isExtraFormValid}
+                >
                   Guardar
                 </button>
-                <button onClick={() => setIsModalOpen(false)} className="text-red-600">
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    resetExtraData(); // Reiniciar extraData al cerrar el modal
+                  }}
+                  className="text-red-600"
+                >
                   Cerrar
                 </button>
               </div>
