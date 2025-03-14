@@ -1,22 +1,30 @@
+"use client";
 
-'use client'
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 export default function Tarifas() {
   const [colony, setColony] = useState([]);
+  const [members, setMembers] = useState([]); // Nuevo estado para "members"
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://api-cdcc.vercel.app/api/v1/prices/colony");
-        const data = response.data.colony[0].services.map((service) => ({
+        const response = await axios.get("https://api-cdcc.vercel.app/api/v1/prices/membersAndcolony");
+        
+        // Procesar datos de "colony"
+        const colonyData = response.data.colony[0].services.map((service) => ({
           servicio: service.name || "Sin nombre",
           user: service.user ? `$${service.user}` : "Bonificado",
           guest: service.guest ? `$${service.guest}` : "Bonificado",
         }));
-        setColony(data);
+        setColony(colonyData);
+
+        // Procesar datos de "members"
+        const membersData = response.data.members;
+        setMembers(membersData);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }
@@ -25,15 +33,76 @@ export default function Tarifas() {
     fetchData();
   }, []);
 
-  return (
-    <div className="w-full bg-[#C32929] h-[662px] sm:h-[632px] items-center flex justify-center py-8">
-      <div className="w-[90%] max-w-[1282px]">
-        <h4 className="font-montserrat text-white font-medium text-[20px] leading-[24px] tracking-[0.2px] mb-6">
-          Tarifas 2025 - Colonia Vacaciones
-        </h4> 
-        {/* agrgear funcion de fecha */}
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsTitleVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
 
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Encontrar "Cuota Societaria" en el array de members
+  const cuotaSocietaria = members.find((member) => member.name === "Cuota Societaria") || {
+    price: "N/A",
+    annual: "N/A",
+    retired: "N/A",
+  };
+
+  return (
+    <div ref={containerRef} className="w-full bg-[#C32929] min-h-[662px] sm:min-h-[632px] items-center flex justify-center py-8">
+      <div className="w-[90%] max-w-[1282px]">
+        <h4
+          className={`text-[32px] text-white sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pb-4 pt-4 transition-all duration-700 ${
+            isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
+          }`}
+        >
+          Tarifas 2025
+        </h4>
+
+        {/* Tabla Cuota Societaria */}
+        <h4 className="font-montserrat text-white font-medium text-[20px] leading-[24px] tracking-[0.2px] mb-6">
+          Cuota Societaria
+        </h4>
+        <div className="overflow-x-auto rounded-[8px] pb-[20px]">
+          <table className="w-full bg-[#FFFFFFB2] shadow-lg">
+            <thead>
+              <tr className="bg-white text-left">
+                <th className="font-montserrat px-4 py-2 font-bold text-[14px] md:text-[20px]">Precio Mensual</th>
+                <th className="font-montserrat px-4 py-2 font-bold text-[14px] md:text-[20px]">Precio Anual</th>
+                <th className="font-montserrat px-4 py-2 font-bold text-[14px] md:text-[20px]">Jubilados</th>
+              </tr>
+            </thead>
+            <tbody className="pb-[20px]">
+              <tr className="text-left">
+                <td className="font-montserrat px-4 py-2 font-medium text-[14px] md:text-[20px]">
+                  ${cuotaSocietaria.price}
+                </td>
+                <td className="font-montserrat px-4 py-2 font-medium text-[14px] md:text-[20px]">
+                  ${cuotaSocietaria.annual}
+                </td>
+                <td className="font-montserrat px-4 py-2 font-medium text-[14px] md:text-[20px]">
+                  ${cuotaSocietaria.retired}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="text-white">*Jubilados deben presentar documentación.</p>
+        </div>
+
+        {/* Tabla Colonia Vacacional */}
         <div className="overflow-x-auto rounded-[8px]">
+          <h4 className="font-montserrat text-white font-medium text-[20px] leading-[24px] tracking-[0.2px] mb-6">
+            Colonia Vacacional
+          </h4>
           <table className="w-full bg-[#FFFFFFB2] shadow-lg">
             <thead>
               <tr className="bg-white text-left">
@@ -82,7 +151,6 @@ export default function Tarifas() {
     </div>
   );
 }
-
 
 
 // export default function Tarifas() {
