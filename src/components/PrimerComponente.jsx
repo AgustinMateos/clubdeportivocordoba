@@ -438,7 +438,7 @@ export default function PrimerComponente() {
                 isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
               }`}
             >
-              Ser parte del mejor club, ahora a un click
+              Ser parte del mejor club, ahora a un click 
             </h1>
           </div>
           <div className="w-[92%] sm:w-[89%]">
