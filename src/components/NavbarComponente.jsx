@@ -18,6 +18,7 @@ export default function NavbarComponente() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState(null);
+  
   const [extraData, setExtraData] = useState({
     dni: "",
     birthdate: "",
@@ -331,6 +332,57 @@ export default function NavbarComponente() {
     </div>
   </div>
 )}
+{isMenuOpen && (
+   <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
+ 
+     <button
+       onClick={() => setIsMenuOpen(false)}
+       className="text-white text-2xl mb-8 absolute left-4 pl-[20px]"
+     >
+       ✕
+     </button>
+ 
+ 
+     <ul className="text-xl space-y-6 pt-[70px]">
+   <li className="h-[48px]">
+     <Link href="#nuestroClub" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+       Nuestro Club
+     </Link>
+   </li>
+   <li className="h-[48px]">
+     <Link href="#actividades" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+       Actividades
+     </Link>
+   </li>
+   <li className="h-[48px]">
+     <Link href="#colonia" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+       Colonia
+     </Link>
+   </li>
+   <li className="h-[48px]">
+     <Link href="#beneficios" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+       Beneficios
+     </Link>
+   </li>
+ </ul>
+ 
+ 
+ 
+     <div className="flex space-x-6 mt-[3.5rem]">
+       <Image width={32} height={32} src="/facebook.svg" alt="Facebook" />
+       <Image width={32} height={32} src="/instagram.svg" alt="Instagram" />
+     </div>
+ 
+     <div className="mt-[3.5rem] flex flex-col space-y-4">
+       <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px] font-inter">
+         Ingresar
+       </button>
+       <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
+         Ser Socio
+       </button>
+     </div>
+   </div>
+ )}
 {/* Modal de datos adicionales */}
 {isExtraDataModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
