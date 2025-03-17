@@ -12,7 +12,7 @@ export default function PrimerComponente() {
   const [userId, setUserId] = useState(null);
   const [errors, setErrors] = useState({});
   const [extraErrors, setExtraErrors] = useState({});
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -301,9 +301,8 @@ export default function PrimerComponente() {
         <div className="w-[95%] sm:w-[55%] xl:w-[59%] 2xl:w-[50%] text-white p-[0.2rem] sm:p-4 sm:items-start h-[350px] sm:h-[250px] md:h-[350px] xl:h-[370px] 2xl:h-[350px] flex flex-col items-center justify-evenly">
           <div className="text-[36px] w-[100%] sm:w-[95%] lg:w-[95%] xl:w-[95%] 2xl:w-[95%]">
             <h1
-              className={`text-center ${montserrat.className} font-extrabold lg:text-[54px] 2xl:text-[64px] leading-[40px] xl:leading-[70px] tracking-[0.2px] sm:text-left transition-all duration-700 ${
-                isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
-              }`}
+              className={`text-center ${montserrat.className} font-extrabold lg:text-[54px] 2xl:text-[64px] leading-[40px] xl:leading-[70px] tracking-[0.2px] sm:text-left transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
+                }`}
             >
               Ser parte del mejor club, ahora a un click
             </h1>
@@ -332,9 +331,8 @@ export default function PrimerComponente() {
                   placeholder="Ingresa tu nombre"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`p-2 border w-[95%] rounded-md focus:outline-none focus:ring-0 ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`p-2 border w-[95%] rounded-md focus:outline-none focus:ring-0 ${errors.name ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
               </div>
@@ -348,9 +346,8 @@ export default function PrimerComponente() {
                   placeholder="Ingresa tu apellido"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`p-2 border w-[100%] rounded-md focus:outline-none focus:ring-0 ${
-                    errors.lastName ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`p-2 border w-[100%] rounded-md focus:outline-none focus:ring-0 ${errors.lastName ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
               </div>
@@ -365,33 +362,77 @@ export default function PrimerComponente() {
                 placeholder="Ingresa tu email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`p-2 border rounded-md focus:outline-none focus:ring-0 ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`p-2 border rounded-md focus:outline-none focus:ring-0 ${errors.email ? "border-red-500" : "border-gray-300"
+                  }`}
               />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-gray-700 text-sm font-medium pb-[10px]">
-                Contraseña*
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Ingresa tu contraseña"
-                value={formData.password}
-                onChange={handleChange}
-                className={`p-2 border rounded-md focus:outline-none focus:ring-0 ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
-            </div>
+            <div className="flex flex-col relative">
+  <label htmlFor="password" className="text-gray-700 text-sm font-medium pb-[10px]">
+    Contraseña*
+  </label>
+  <div className="relative">
+    <input
+      id="password"
+      type={showPassword ? "text" : "password"}
+      placeholder="Ingresa tu contraseña"
+      value={formData.password}
+      onChange={handleChange}
+      className={`p-2 border rounded-md focus:outline-none focus:ring-0 w-full pr-10 ${
+        errors.password ? "border-red-500" : "border-gray-300"
+      }`}
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+    >
+      {showPassword ? (
+        
+          <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg "
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+          />
+        </svg>
+      ) : (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+          />
+        </svg>
+      )}
+    </button>
+  </div>
+  {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+</div>
             {responseMessage && (
               <p
-                className={`text-center text-sm ${
-                  responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
-                }`}
+                className={`text-center text-sm ${responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
+                  }`}
               >
                 {responseMessage}
               </p>
@@ -414,15 +455,15 @@ export default function PrimerComponente() {
             <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
             <form onSubmit={handleExtraSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-              <input
-  id="dni"
-  type="text"
-  placeholder="DNI"
-  value={extraData.dni}
-  maxLength="8"
-  onChange={(e) => handleExtraChange({ target: { id: "dni", value: e.target.value.replace(/\D/g, "") } })}
-  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.dni ? "border-red-500" : ""}`}
-/>
+                <input
+                  id="dni"
+                  type="text"
+                  placeholder="DNI"
+                  value={extraData.dni}
+                  maxLength="8"
+                  onChange={(e) => handleExtraChange({ target: { id: "dni", value: e.target.value.replace(/\D/g, "") } })}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.dni ? "border-red-500" : ""}`}
+                />
                 {extraErrors.dni && <p className="text-red-500 text-xs mt-1">{extraErrors.dni}</p>}
               </div>
               <div>
@@ -430,9 +471,8 @@ export default function PrimerComponente() {
                   id="birthdate"
                   type="date"
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md w-full ${
-                    extraErrors.birthdate ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.birthdate ? "border-red-500" : ""
+                    }`}
                 />
                 {extraErrors.birthdate && (
                   <p className="text-red-500 text-xs mt-1">{extraErrors.birthdate}</p>
@@ -443,9 +483,8 @@ export default function PrimerComponente() {
                   id="maritalStatus"
                   value={extraData.maritalStatus}
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${
-                    extraErrors.maritalStatus ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.maritalStatus ? "border-red-500" : ""
+                    }`}
                 >
                   <option value="">Selecciona tu Estado Civil</option>
                   <option value="SINGLE">Soltero/a</option>
@@ -461,9 +500,8 @@ export default function PrimerComponente() {
                   type="text"
                   placeholder="Nacionalidad"
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md w-full ${
-                    extraErrors.nationality ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.nationality ? "border-red-500" : ""
+                    }`}
                 />
                 {extraErrors.nationality && (
                   <p className="text-red-500 text-xs mt-1">{extraErrors.nationality}</p>
@@ -475,9 +513,8 @@ export default function PrimerComponente() {
                   type="text"
                   placeholder="Dirección"
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md w-full ${
-                    extraErrors.address ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.address ? "border-red-500" : ""
+                    }`}
                 />
                 {extraErrors.address && <p className="text-red-500 text-xs mt-1">{extraErrors.address}</p>}
               </div>
@@ -487,9 +524,8 @@ export default function PrimerComponente() {
                   type="text"
                   placeholder="Barrio"
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md w-full ${
-                    extraErrors.neighborhood ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.neighborhood ? "border-red-500" : ""
+                    }`}
                 />
                 {extraErrors.neighborhood && (
                   <p className="text-red-500 text-xs mt-1">{extraErrors.neighborhood}</p>
@@ -501,22 +537,21 @@ export default function PrimerComponente() {
                   type="text"
                   placeholder="Código Postal"
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md w-full ${
-                    extraErrors.cp ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.cp ? "border-red-500" : ""
+                    }`}
                 />
                 {extraErrors.cp && <p className="text-red-500 text-xs mt-1">{extraErrors.cp}</p>}
               </div>
               <div>
-              <input
-  id="phoneNumber"
-  type="text"
-  placeholder="Teléfono"
-  value={extraData.phoneNumber}
-  maxLength="10"
-  onChange={(e) => handleExtraChange({ target: { id: "phoneNumber", value: e.target.value.replace(/\D/g, "") } })}
-  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.phoneNumber ? "border-red-500" : ""}`}
-/>
+                <input
+                  id="phoneNumber"
+                  type="text"
+                  placeholder="Teléfono"
+                  value={extraData.phoneNumber}
+                  maxLength="10"
+                  onChange={(e) => handleExtraChange({ target: { id: "phoneNumber", value: e.target.value.replace(/\D/g, "") } })}
+                  className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.phoneNumber ? "border-red-500" : ""}`}
+                />
                 {extraErrors.phoneNumber && (
                   <p className="text-red-500 text-xs mt-1">{extraErrors.phoneNumber}</p>
                 )}
@@ -526,9 +561,8 @@ export default function PrimerComponente() {
                   id="gender"
                   value={extraData.gender}
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${
-                    extraErrors.gender ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.gender ? "border-red-500" : ""
+                    }`}
                 >
                   <option value="">Selecciona tu género</option>
                   <option value="MALE">Masculino</option>
@@ -544,9 +578,8 @@ export default function PrimerComponente() {
                   id="disciplines"
                   value={extraData.disciplines}
                   onChange={handleExtraChange}
-                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${
-                    extraErrors.disciplines ? "border-red-500" : ""
-                  }`}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.disciplines ? "border-red-500" : ""
+                    }`}
                 >
                   <option value="">Selecciona una disciplina</option>
                   <option value="ONLY_MEMBER">Solo Socio</option>
@@ -654,9 +687,8 @@ export default function PrimerComponente() {
               </div>
               {responseMessage && (
                 <p
-                  className={`col-span-1 sm:col-span-2 text-center text-sm ${
-                    responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
-                  }`}
+                  className={`col-span-1 sm:col-span-2 text-center text-sm ${responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"
+                    }`}
                 >
                   {responseMessage}
                 </p>

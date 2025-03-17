@@ -95,14 +95,14 @@ export default function Footer() {
             <div>
               <h5 className="font-montserrat mb-2 text-lg font-semibold">Colonia:</h5>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.667151261035!2d-64.1594247!3d-31.395740099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432981aa628acc9%3A0x52fd7332226dc92d!2sAv.%20las%20Malvinas%201%2C%20X5000%20C%C3%B3rdoba!5e0!3m2!1ses-419!2sar!4v1737993455128!5m2!1ses-419!2sar"
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3406.8975956419176!2d-64.45819472439476!3d-31.361804974286954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDIxJzQyLjUiUyA2NMKwMjcnMjAuMiJX!5e0!3m2!1ses!2sar!4v1742221488652!5m2!1ses!2sar"
               className="w-[95%] h-[127px] rounded-md border-0"
               loading="lazy"
             ></iframe></div>
             </div>
             
             <p className="font-montserrat mt-2 text-sm">
-             <span className="font-montserrat">Dirección: Av. Las Malvinas 1 5000, Córdoba</span>
+             <span className="font-montserrat">Dirección: Ruta provincial e55 km 26.</span>
             </p>
             
           </div>
