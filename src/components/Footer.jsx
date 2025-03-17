@@ -102,7 +102,7 @@ export default function Footer() {
             </div>
 
             <p className="font-montserrat mt-2 text-sm">
-              <span className="font-montserrat">Dirección: Ruta provincial e55 km 26.</span>
+              <span className="font-montserrat">Dirección: Ruta provincial e55 km 26. </span>
             </p>
 
           </div>
