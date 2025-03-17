@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +45,28 @@ export default function NavbarComponente() {
   const closeSuccessModal = () => setIsSuccessModalOpen(false);
   const openExtraDataModal = () => setIsExtraDataModalOpen(true);
   const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
+  // Agregar un efecto para cargar los datos del usuario al montar el componente
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUserData({
+        name: parsedUser.name,
+        lastName: parsedUser.lastName,
+       
+      });
+    }
+  }, []);
 
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user");
+    Cookies.remove("userId");
+    Cookies.remove("access_token");
+    setUserData(null); // Limpiar el estado del usuario
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -216,6 +237,21 @@ export default function NavbarComponente() {
             <li><Link href="#beneficios" className="text-[#F2F2F2] font-medium">Beneficios</Link></li>
           </ul>
         </div>
+        <div className="lg:hidden absolute right-4">
+          {userData ? (
+            <div className="flex items-center gap-2">
+              <span className="text-white font-medium">{userData.name}</span>
+              <button onClick={handleLogout} className="text-white focus:outline-none">
+                <Image src="/logout.svg" alt="Logout" width={24} height={24} /> {/* Asegúrate de tener un ícono de logout */}
+              </button>
+            </div>
+          ) : (
+            <button onClick={openModal} className="text-white focus:outline-none">
+              <Image src="/login.svg" alt="Login" width={40} height={40} />
+            </button>
+          )}
+        </div>
+
         <div className="hidden lg:flex flex-row gap-4 items-center">
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
@@ -224,7 +260,18 @@ export default function NavbarComponente() {
                 <Image width={22} height={22} src="/instagram.svg" alt="Instagram" />
               </Link>
             </li>
-            <li onClick={openModal} className="border border-[#F2F2F2] p-[8px] h-[35px] rounded-[4px] text-[#F2F2F2] font-medium cursor-pointer flex items-center">Ingresar</li>
+            {userData ? (
+              <li className="flex items-center gap-2">
+                <span className="text-[#F2F2F2] font-medium">{userData.name}</span>
+                <button onClick={handleLogout} className="text-[#F2F2F2] font-medium border border-[#F2F2F2] p-[8px] rounded-[4px]">
+                  Salir
+                </button>
+              </li>
+            ) : (
+              <li onClick={openModal} className="border border-[#F2F2F2] p-[8px] h-[35px] rounded-[4px] text-[#F2F2F2] font-medium cursor-pointer flex items-center">
+                Ingresar
+              </li>
+            )}
           </ul>
         </div>
       </div>
