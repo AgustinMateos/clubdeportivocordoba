@@ -9,7 +9,7 @@ export default function Historia() {
   const eventos = [
     { year: "1932", description: "Fundación del club." },
     { year: "1950", description: "Apertura de la primera cancha de básquet." },
-    { year: "1969", description: "Fundación de la Colonia Vacacional" },
+    { year: "1969", description: "Fundación de la Colonia Vacacional." },
     { year: "1980", description: "Incorporación de nuevas disciplinas como karate y patín." },
     { year: "2000", description: "Renovación de instalaciones deportivas." },
     { year: "2024", description: "Celebración del 92° aniversario del club." },
