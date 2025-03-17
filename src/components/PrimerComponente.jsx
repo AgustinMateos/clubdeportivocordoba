@@ -311,7 +311,7 @@ export default function PrimerComponente() {
             <p
               className={`text-[16px] ${montserrat.className} sm:text-[24px] text-center sm:text-left font-medium leading-[20px] sm:leading-[30px] tracking-[0.2px]`}
             >
-              Tenemos todo lo que necesitas: deportes, recreación y comunidad. Elegí la mejor propuesta y súmate a Central.
+              Tenemos todo lo que necesitas: deportes, recreación y comunidad. Elegí la mejor propuesta y sumate al Club Deportivo Central Córdoba.
             </p>
           </div>
         </div>
