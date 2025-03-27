@@ -13,7 +13,7 @@ export default function Actividades() {
   const containerRef = useRef(null);
   const [isTitleVisible, setIsTitleVisible] = useState(true); 
   
-  // Mapa para imágenes y descripciones
+ 
   const disciplineExtras = {
     ARTISTIC_GYMNASTICS: {
       imagen: "/actividad1.svg",
@@ -47,8 +47,8 @@ export default function Actividades() {
     },
   };
 
-  // Imagen por defecto en caso de que no haya coincidencia
-  const defaultImage = "/default.svg"; // Asegúrate de tener una imagen por defecto en tu proyecto
+
+  const defaultImage = "/default.svg"; o
 
   const fetchDisciplines = async () => {
     try {
@@ -57,8 +57,8 @@ export default function Actividades() {
         const extras = disciplineExtras[discipline.name] || {};
         return {
           ...discipline,
-          imagen: extras.imagen || defaultImage, // Usa imagen por defecto si no hay coincidencia
-          imagenes: extras.imagenes || [defaultImage], // Usa array con imagen por defecto
+          imagen: extras.imagen || defaultImage, 
+          imagenes: extras.imagenes || [defaultImage], 
           descripcion: extras.descripcion || "Actividad sin descripción disponible",
           category: discipline.category.map((cat) => [
             cat.name,
@@ -124,7 +124,7 @@ export default function Actividades() {
       { threshold: 0.1 }
     );
   
-    console.log("Container ref:", containerRef.current); // Verifica si el ref tiene un elemento
+    console.log("Container ref:", containerRef.current); 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }

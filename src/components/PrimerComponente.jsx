@@ -32,7 +32,7 @@ export default function PrimerComponente() {
     phoneNumber: "",
     disciplines: "",
     gender: "",
-    familyGroup: [], // Cambiado a array vacío por defecto
+    familyGroup: [], 
   });
 
   const [responseMessage, setResponseMessage] = useState("");
@@ -451,7 +451,7 @@ export default function PrimerComponente() {
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
             <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
             <form onSubmit={handleExtraSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Campos de datos adicionales (DNI, birthdate, etc.) se mantienen igual */}
+              
               <div>
                 <input
                   id="dni"
@@ -707,7 +707,7 @@ export default function PrimerComponente() {
         </div>
       )}
 
-      {/* Modal de éxito */}
+      
       {isSuccessModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] max-w-[400px] flex flex-col items-center">
