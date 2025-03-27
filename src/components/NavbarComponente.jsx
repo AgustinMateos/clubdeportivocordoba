@@ -109,67 +109,74 @@ export default function NavbarComponente() {
     e.preventDefault();
     setLoading(true);
     setError("");
-
+  
     try {
       const { data } = await axios.post("https://api-cdcc.vercel.app/api/v1/users/login", {
         email,
         password,
       });
-
-      console.log("Login exitoso, datos recibidos:", data);
-      console.log("Payments en respuesta:", data.user.payment.payments);
-
+  
+      console.log("Login exitoso, datos recibidos:", data); // Log general de la respuesta
+      console.log("Estado del usuario (userStatus):", data.user.status); // Log del estado
+  
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
       Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
       Cookies.set("access_token", data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
-
+  
       const userStatus = data.user.status;
-
+      console.log("Valor de userStatus antes del switch:", userStatus);
+  
       switch (userStatus) {
         case "IN_PROGRESS":
+          console.log("Entrando en caso IN_PROGRESS");
           openExtraDataModal();
           break;
         case "PENDING":
+          console.log("Entrando en caso PENDING");
           openPendingModal();
           break;
         case "PREAPPROVED":
+          console.log("Entrando en caso PREAPPROVED");
           openPreapprovedModal();
           break;
         case "APPROVED":
+          console.log("Entrando en caso APPROVED");
+          console.log("Payments en respuesta:", data.user.payment?.payments); // Movemos el log aquí
           const updatedUserData = {
             name: data.user.name,
             lastName: data.user.lastName,
             membershipNumber: data.user.membershipNumber,
             createdAt: data.user.createdAt,
-            qr: data.user.payment.qr.img,
+            qr: data.user.payment?.qr?.img || "", // Manejo seguro si payment no existe
             status: data.user.status,
             payment: {
-              status: data.user.payment.status,
-              expiration: data.user.payment.expiration,
-              payments: data.user.payment.payments || [],
+              status: data.user.payment?.status || "N/A", // Valor por defecto si no existe
+              expiration: data.user.payment?.expiration || null, // Valor por defecto si no existe
+              payments: data.user.payment?.payments || [], // Arreglo vacío si no existe
             },
-            address: data.user.data.address,
-            birthdate: data.user.data.birthdate,
-            cp: data.user.data.cp,
-            disciplines: data.user.data.disciplines,
-            dni: data.user.data.dni,
-            familyGroup: data.user.data.familyGroup || [],
-            gender: data.user.data.gender,
-            maritalStatus: data.user.data.maritalStatus,
-            nationality: data.user.data.nationality,
-            neighborhood: data.user.data.neighborhood,
-            phoneNumber: data.user.data.phoneNumber,
+            address: data.user.data?.address,
+            birthdate: data.user.data?.birthdate,
+            cp: data.user.data?.cp,
+            disciplines: data.user.data?.disciplines,
+            dni: data.user.data?.dni,
+            familyGroup: data.user.data?.familyGroup || [],
+            gender: data.user.data?.gender,
+            maritalStatus: data.user.data?.maritalStatus,
+            nationality: data.user.data?.nationality,
+            neighborhood: data.user.data?.neighborhood,
+            phoneNumber: data.user.data?.phoneNumber,
           };
           setUserData(updatedUserData);
           console.log("userData después de setUserData:", updatedUserData);
           openSuccessModal();
           break;
         default:
+          console.log("Entrando en caso default, estado no reconocido:", userStatus);
           setError("Estado desconocido.");
       }
-
+  
       closeModal();
       setEmail("");
       setPassword("");
@@ -394,188 +401,182 @@ export default function NavbarComponente() {
       </div>
 
       {isSuccessModalOpen && userData && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-start md:items-center z-60 pt-4 md:pt-0">
-          <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4">
-            <div className="bg-white/70 rounded-md  backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative">
-              <div className="absolute  inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
-              <div className="relative z-10">
-                <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-                <div className="mb-6">
-                  <select
-                    name="paymentMonths"
-                    id="paymentMonths"
-                    value={selectedMonths}
-                    onChange={handlePaymentMonthsChange}
-                    className="p-2 border border-gray-300 rounded-md w-full"
+  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 pt-4 md:pt-0">
+    <div className="flex justify-end mt-4">
+      <button onClick={closeSuccessModal} className="text-white px-4 py-2">
+        Cerrar
+      </button>
+    </div>
+    <div className="flex justify-center items-start md:items-center">
+      {/* Contenedor principal con scroll horizontal en escritorio */}
+      <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
+        {/* Bloque de Pagos */}
+        <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
+          <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+          <div className="relative z-10">
+            <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+            <div className="mb-6">
+              <select
+                name="paymentMonths"
+                id="paymentMonths"
+                value={selectedMonths}
+                onChange={handlePaymentMonthsChange}
+                className="p-2 border border-gray-300 rounded-md w-full"
+              >
+                <option value="">Selecciona un número de meses</option>
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+                  <option key={num} value={num}>{num}</option>
+                ))}
+              </select>
+              {selectedMonths && (
+                <div className="mt-2 text-center">
+                  <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                  <button
+                    onClick={handleMercadoPagoPayment}
+                    className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                   >
-                    <option value="">Selecciona un número de meses</option>
-                    {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                      <option key={num} value={num}>
-                        {num}
-                      </option>
-                    ))}
-                  </select>
-                  {selectedMonths && (
-                    <div className="mt-2 text-center">
-                      <p>Total a pagar: ${(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
-                      <button
-                        onClick={handleMercadoPagoPayment}
-                        className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                      >
-                        Generar enlace de pago
-                      </button>
-                    </div>
-                  )}
-                  {paymentLink && (
-                    <div className="mt-4 text-center">
-                      <p>Enlace de pago generado exitosamente:</p>
-                      <button
-                        onClick={handleRedirectToPayment}
-                        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                      >
-                        Ir a Mercado Pago
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-               
-                {console.log("userData en modal:", userData)}
-                {console.log("Payments en modal:", userData.payment?.payments)}
-                {userData.payment?.payments?.length > 0 ? (
-                  <div className="mt-6 overflow-x-auto">
-                    <table className="w-full border-collapse text-sm">
-                      <thead>
-                        <tr className="bg-gray-200">
-                          <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
-                          <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
-                          <th className="border border-gray-300 p-2 text-left">Monto</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {userData.payment.payments.map((payment) => (
-                          <tr key={payment._id} className="bg-gray-100">
-                            <td className="border border-gray-300 p-2">
-                              {new Date(payment.paymentDate).toLocaleDateString('es-AR')}
-                            </td>
-                            <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
-                            <td className="border border-gray-300 p-2">
-                              {payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
-                )}
-
-                <div className="mt-6">
-                  <p className="font-bold text-center">
-                    Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
-                  </p>
-                  <p className="font-bold text-center">
-                    Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                      {new Date(userData.payment?.expiration).toLocaleDateString()}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div className="bg-white/70 backdrop-blur-lg p-4  md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0">
-              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-              <div className="relative z-10 flex flex-col">
-                <div className="flex flex-row justify-center">
-                  <div className="flex flex-col items-center">
-                    <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-                    <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-                    <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-                  </div>
-                </div>
-                <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
-                  <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-                  <div className="relative z-10 flex flex-col justify-evenly items-start">
-                    <p className="font-bold text-center">
-                      Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-                    </p>
-                    <p className="font-bold text-center">
-                      Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
-                    </p>
-                    <p className="font-bold text-center">
-                      Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-                    </p>
-                    <p className="font-bold text-center">
-                      Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
-                        {new Date(userData.createdAt).toLocaleDateString()}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
-                    {userData.qr ? (
-                      <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-                    ) : (
-                      <p className="text-red-500">QR no disponible</p>
-                    )}
-                  </div>
-                </div>
-                <div className="h-[80px] flex justify-between items-end mt-4">
-                  <div className="w-[200px]">
-                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-                  </div>
-                  <div className="w-[200px]">
-                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-                  </div>
-                </div>
-                <div className="flex justify-center mt-4">
-                  <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
-                    Cerrar
+                    Generar enlace de pago
                   </button>
                 </div>
+              )}
+              {paymentLink && (
+                <div className="mt-4 text-center">
+                  <p>Enlace de pago generado exitosamente:</p>
+                  <button
+                    onClick={handleRedirectToPayment}
+                    className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                  >
+                    Ir a Mercado Pago
+                  </button>
+                </div>
+              )}
+            </div>
+            {userData.payment?.payments?.length > 0 ? (
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full border-collapse text-sm">
+                  <thead>
+                    <tr className="bg-gray-200">
+                      <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
+                      <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
+                      <th className="border border-gray-300 p-2 text-left">Monto</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userData.payment.payments.map((payment) => (
+                      <tr key={payment._id} className="bg-gray-100">
+                        <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
+                        <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
+                        <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
+            )}
+            <div className="mt-6">
+              <p className="font-bold text-center">
+                Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
+              </p>
+              <p className="font-bold text-center">
+                Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+                  {new Date(userData.payment?.expiration).toLocaleDateString()}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bloque de Carnet */}
+        <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">
+          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+          <div className="relative z-10 flex flex-col">
+            <div className="flex flex-row justify-center">
+              <div className="flex flex-col items-center">
+                <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+                <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+                <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
               </div>
             </div>
-
-            <div className="h-auto w-full md:w-[650px] rounded-md  max-h-[70vh] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6">
-              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-              <div className="relative z-10">
-                {userData.familyGroup && userData.familyGroup.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse">
-                        <thead>
-                          <tr className="bg-gray-200">
-                            <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                            <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                            <th className="border border-gray-300 p-2 text-left">Relación</th>
-                            <th className="border border-gray-300 p-2 text-left">DNI</th>
-                            <th className="border border-gray-300 p-2 text-left">Ingreso</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {userData.familyGroup.map((familyMember, index) => (
-                            <tr key={familyMember._id || index} className="bg-gray-100">
-                              <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                              <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                              <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                              <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                              <td className="border border-gray-300 p-2">
-                                {new Date(familyMember.createdAt).toLocaleDateString()}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+            <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
+              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+              <div className="relative z-10 flex flex-col justify-evenly items-start">
+                <p className="font-bold text-center">
+                  Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+                </p>
+                <p className="font-bold text-center">
+                  Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+                </p>
+                <p className="font-bold text-center">
+                  Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+                </p>
+                <p className="font-bold text-center">
+                  Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                    {new Date(userData.createdAt).toLocaleDateString()}
+                  </span>
+                </p>
+              </div>
+              <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
+                {userData.qr ? (
+                  <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+                ) : (
+                  <p className="text-red-500">QR no disponible</p>
                 )}
+              </div>
+            </div>
+            <div className="h-[80px] flex justify-between items-end mt-4">
+              <div className="w-[200px]">
+                <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+              </div>
+              <div className="w-[200px]">
+                <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
               </div>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Bloque de Grupo Familiar */}
+        <div className="h-auto w-full md:w-[650px] rounded-md max-h-[70vh] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6 flex-shrink-0">
+          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+          <div className="relative z-10">
+            {userData.familyGroup && userData.familyGroup.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                        <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                        <th className="border border-gray-300 p-2 text-left">Relación</th>
+                        <th className="border border-gray-300 p-2 text-left">DNI</th>
+                        <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userData.familyGroup.map((familyMember, index) => (
+                        <tr key={familyMember._id || index} className="bg-gray-100">
+                          <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                          <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                          <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                          <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                          <td className="border border-gray-300 p-2">
+                            {new Date(familyMember.createdAt).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
      
       {isMenuOpen && (
