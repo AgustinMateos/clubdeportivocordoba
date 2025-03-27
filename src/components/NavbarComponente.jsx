@@ -53,6 +53,17 @@ export default function NavbarComponente() {
   const openExtraDataModal = () => setIsExtraDataModalOpen(true);
   const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
 
+  // Manejador para abrir el modal al hacer clic en el nombre
+  const handleNameClick = () => {
+    console.log("Clic en el nombre, userData:", userData); // Depuración
+    if (userData && userData.status === "APPROVED") {
+      console.log("Abriendo modal para usuario APPROVED"); // Depuración
+      openSuccessModal();
+    } else {
+      console.log("No se abre el modal: usuario no APPROVED o userData incompleto");
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -60,6 +71,23 @@ export default function NavbarComponente() {
       setUserData({
         name: parsedUser.name,
         lastName: parsedUser.lastName,
+        membershipNumber: parsedUser.membershipNumber,
+        createdAt: parsedUser.createdAt,
+        qr: parsedUser.payment?.qr?.img,
+        status: parsedUser.status, // Añadido status aquí
+        paymentStatus: parsedUser.payment?.status,
+        expiracion: parsedUser.payment?.expiration,
+        address: parsedUser.data?.address,
+        birthdate: parsedUser.data?.birthdate,
+        cp: parsedUser.data?.cp,
+        disciplines: parsedUser.data?.disciplines,
+        dni: parsedUser.data?.dni,
+        familyGroup: parsedUser.data?.familyGroup || [],
+        gender: parsedUser.data?.gender,
+        maritalStatus: parsedUser.data?.maritalStatus,
+        nationality: parsedUser.data?.nationality,
+        neighborhood: parsedUser.data?.neighborhood,
+        phoneNumber: parsedUser.data?.phoneNumber,
       });
     }
   }, []);
@@ -111,6 +139,7 @@ export default function NavbarComponente() {
             membershipNumber: data.user.membershipNumber,
             createdAt: data.user.createdAt,
             qr: data.user.payment.qr.img,
+            status: data.user.status, // Añadido status aquí
             paymentStatus: data.user.payment.status,
             expiracion: data.user.payment.expiration,
             address: data.user.data.address,
@@ -118,7 +147,7 @@ export default function NavbarComponente() {
             cp: data.user.data.cp,
             disciplines: data.user.data.disciplines,
             dni: data.user.data.dni,
-            familyGroup: data.user.data.familyGroup || [], 
+            familyGroup: data.user.data.familyGroup || [],
             gender: data.user.data.gender,
             maritalStatus: data.user.data.maritalStatus,
             nationality: data.user.data.nationality,
@@ -299,22 +328,14 @@ export default function NavbarComponente() {
           <Image src="/logonew2.png" alt="Logo" width={96} height={89} />
         </Link>
         <div className="lg:hidden absolute right-4">
-          <button onClick={openModal} className="text-white focus:outline-none">
-            <Image src="/login.svg" alt="Login" width={40} height={40} />
-          </button>
-        </div>
-        <div className="hidden lg:flex flex-row gap-4">
-          <ul className="flex flex-row gap-4 pl-[50px]">
-            <li><Link href="#nuestroClub" className="text-[#F2F2F2] font-medium">Nuestro Club</Link></li>
-            <li><Link href="#actividades" className="text-[#F2F2F2] font-medium">Actividades</Link></li>
-            <li><Link href="#colonia" className="text-[#F2F2F2] font-medium">Colonia</Link></li>
-            <li><Link href="#beneficios" className="text-[#F2F2F2] font-medium">Beneficios</Link></li>
-          </ul>
-        </div>
-        <div className="lg:hidden absolute right-4">
           {userData ? (
             <div className="flex items-center gap-2">
-              <span className="text-white font-medium">{userData.name}</span>
+              <span
+                onClick={handleNameClick}
+                className="text-white font-medium cursor-pointer hover:underline"
+              >
+                {userData.name} {userData.lastName}
+              </span>
               <button onClick={handleLogout} className="text-white focus:outline-none">
                 <Image src="/logout.svg" alt="Logout" width={24} height={24} />
               </button>
@@ -324,6 +345,14 @@ export default function NavbarComponente() {
               <Image src="/login.svg" alt="Login" width={40} height={40} />
             </button>
           )}
+        </div>
+        <div className="hidden lg:flex flex-row gap-4">
+          <ul className="flex flex-row gap-4 pl-[50px]">
+            <li><Link href="#nuestroClub" className="text-[#F2F2F2] font-medium">Nuestro Club</Link></li>
+            <li><Link href="#actividades" className="text-[#F2F2F2] font-medium">Actividades</Link></li>
+            <li><Link href="#colonia" className="text-[#F2F2F2] font-medium">Colonia</Link></li>
+            <li><Link href="#beneficios" className="text-[#F2F2F2] font-medium">Beneficios</Link></li>
+          </ul>
         </div>
         <div className="hidden lg:flex flex-row gap-4 items-center">
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
@@ -335,7 +364,12 @@ export default function NavbarComponente() {
             </li>
             {userData ? (
               <li className="flex items-center gap-2">
-                <span className="text-[#F2F2F2] font-medium">{userData.name}</span>
+                <span
+                  onClick={handleNameClick}
+                  className="text-[#F2F2F2] font-medium cursor-pointer hover:underline"
+                >
+                  {userData.name} {userData.lastName}
+                </span>
                 <button onClick={handleLogout} className="text-[#F2F2F2] font-medium border border-[#F2F2F2] p-[8px] rounded-[4px]">
                   Salir
                 </button>
@@ -350,154 +384,154 @@ export default function NavbarComponente() {
       </div>
 
       {isSuccessModalOpen && userData && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-start z-60 pt-4">
-          {/* Contenedor desplazable */}
-          <div className="flex flex-col w-full max-w-[1050px] max-h-[90vh] overflow-y-auto rounded-md mx-4">
-            {/* Sección de pagos */}
-            <div className="bg-white h-auto w-full p-4 sm:p-6">
-              <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-              <div>
-                <select
-                  name="paymentMonths"
-                  id="paymentMonths"
-                  value={selectedMonths}
-                  onChange={handlePaymentMonthsChange}
-                  className="p-2 border border-gray-300 rounded-md w-full"
-                >
-                  <option value="">Selecciona un número de meses</option>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                    <option key={num} value={num}>
-                      {num}
-                    </option>
-                  ))}
-                </select>
-                {selectedMonths && (
-                  <div className="mt-2 text-center">
-                    <p>Total a pagar: ${(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
-                    <button
-                      onClick={handleMercadoPagoPayment}
-                      className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                    >
-                      Generar enlace de pago
-                    </button>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-start md:items-center z-60 pt-4 md:pt-0">
+          <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4">
+          <div className="bg-white/70 backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative">
+  {/* Fondo con imagen y opacidad */}
+  <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+  
+  {/* Contenido con opacidad completa */}
+  <div className="relative z-10">
+    <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+    <div>
+      <select
+        name="paymentMonths"
+        id="paymentMonths"
+        value={selectedMonths}
+        onChange={handlePaymentMonthsChange}
+        className="p-2 border border-gray-300 rounded-md w-full"
+      >
+        <option value="">Selecciona un número de meses</option>
+        {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+          <option key={num} value={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      {selectedMonths && (
+        <div className="mt-2 text-center">
+          <p>Total a pagar: ${(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+          <button
+            onClick={handleMercadoPagoPayment}
+            className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+          >
+            Generar enlace de pago
+          </button>
+        </div>
+      )}
+      {paymentLink && (
+        <div className="mt-4 text-center">
+          <p>Enlace de pago generado exitosamente:</p>
+          <button
+            onClick={handleRedirectToPayment}
+            className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          >
+            Ir a Mercado Pago
+          </button>
+        </div>
+      )}
+    </div>
+    <div className="mt-4">
+      <p className="font-bold text-center">
+        Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.paymentStatus}</span>
+      </p>
+      <p className="font-bold text-center">
+        Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+          {new Date(userData.expiracion).toLocaleDateString()}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+
+            <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 rounded-md w-full md:w-[650px] relative mt-4 md:mt-0">
+              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+              <div className="relative z-10 flex flex-col">
+                <div className="flex flex-row justify-center">
+                  <div className="flex flex-col items-center">
+                    <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+                    <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+                    <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
                   </div>
-                )}
-                {paymentLink && (
-                  <div className="mt-4 text-center">
-                    <p>Enlace de pago generado exitosamente:</p>
-                    <button
-                      onClick={handleRedirectToPayment}
-                      className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    >
-                      Ir a Mercado Pago
-                    </button>
+                </div>
+                <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
+                  <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+                  <div className="relative z-10 flex flex-col justify-evenly items-start">
+                    <p className="font-bold text-center">
+                      Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                        {new Date(userData.createdAt).toLocaleDateString()}
+                      </span>
+                    </p>
                   </div>
-                )}
-              </div>
-              <div className="mt-4">
-                <p className="font-bold text-center">
-                  Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.paymentStatus}</span>
-                </p>
-                <p className="font-bold text-center">
-                  Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                    {new Date(userData.expiracion).toLocaleDateString()}
-                  </span>
-                </p>
+                  <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
+                    {userData.qr ? (
+                      <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+                    ) : (
+                      <p className="text-red-500">QR no disponible</p>
+                    )}
+                  </div>
+                </div>
+                <div className="h-[80px] flex justify-between items-end mt-4">
+                  <div className="w-[200px]">
+                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+                  </div>
+                  <div className="w-[200px]">
+                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
+                  </div>
+                </div>
+                <div className="flex justify-center mt-4">
+                  <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row">
-              {/* Carnet de socio */}
-              <div className="bg-white/70 backdrop-blur-lg p-4 sm:p-6 mr-[10px] rounded-md w-full relative mt-4">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-                <div className="relative z-10 flex flex-col">
-                  <div className="flex flex-row justify-center">
-                    <div className="flex flex-col items-center">
-                      <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-                      <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-                      <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col sm:flex-row justify-between relative h-auto sm:h-[200px] mt-4">
-                    <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] sm:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-                    <div className="relative z-10 flex flex-col justify-evenly items-start">
-                      <p className="font-bold text-center">
-                        Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
-                          {new Date(userData.createdAt).toLocaleDateString()}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="relative z-10 flex justify-center items-center mt-4 sm:mt-0">
-                      {userData.qr ? (
-                        <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-                      ) : (
-                        <p className="text-red-500">QR no disponible</p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="h-[80px] flex justify-between items-end mt-4">
-                    <div className="w-[200px]">
-                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-                    </div>
-                    <div className="w-[200px]">
-                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center mt-4">
-                    <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
-                      Cerrar
-                    </button>
-                  </div>
-                </div>
-              </div>
 
-              {/* Sección de información familiares */}
-              <div className="h-auto w-full bg-white/70 backdrop-blur-lg relative mt-4 p-4 sm:p-6">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-                <div className="relative z-10">
-                  {userData.familyGroup && userData.familyGroup.length > 0 && (
-                    <div className="mt-4">
-                      <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="bg-gray-200">
-                              <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                              <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                              <th className="border border-gray-300 p-2 text-left">Relación</th>
-                              <th className="border border-gray-300 p-2 text-left">DNI</th>
-                              <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+            <div className="h-auto w-full md:w-[650px] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6">
+              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+              <div className="relative z-10">
+                {userData.familyGroup && userData.familyGroup.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse">
+                        <thead>
+                          <tr className="bg-gray-200">
+                            <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                            <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                            <th className="border border-gray-300 p-2 text-left">Relación</th>
+                            <th className="border border-gray-300 p-2 text-left">DNI</th>
+                            <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {userData.familyGroup.map((familyMember, index) => (
+                            <tr key={familyMember._id || index} className="bg-gray-100">
+                              <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                              <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                              <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                              <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                              <td className="border border-gray-300 p-2">
+                                {new Date(familyMember.createdAt).toLocaleDateString()}
+                              </td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            {userData.familyGroup.map((familyMember, index) => (
-                              <tr key={familyMember._id || index} className="bg-gray-100">
-                                <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                                <td className="border border-gray-300 p-2">
-                                  {new Date(familyMember.createdAt).toLocaleDateString()}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-              </div>
-
+            </div>
           </div>
         </div>
       )}
@@ -546,6 +580,7 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
+
       {isExtraDataModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
@@ -677,6 +712,7 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
+
       {isLoadingModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
@@ -689,6 +725,7 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
+
       {isPendingModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
@@ -701,6 +738,7 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
+
       {isPreapprovedModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
@@ -713,6 +751,7 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
+
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
