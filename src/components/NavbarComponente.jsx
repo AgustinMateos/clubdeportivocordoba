@@ -21,7 +21,7 @@ export default function NavbarComponente() {
   const [selectedMonths, setSelectedMonths] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
-  const MEMBERSHIP_FEE = 8000;
+  const MEMBERSHIP_FEE = 1;
 
   const [extraData, setExtraData] = useState({
     dni: "",
@@ -483,82 +483,7 @@ export default function NavbarComponente() {
           </div>
           <div className="flex justify-center items-start md:items-center">
             <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
-              <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
-                <div className="relative z-10">
-                  <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-                  <div className="mb-6">
-                    <select
-                      name="paymentMonths"
-                      id="paymentMonths"
-                      value={selectedMonths}
-                      onChange={handlePaymentMonthsChange}
-                      className="p-2 border border-gray-300 rounded-md w-full"
-                    >
-                      <option value="">Selecciona un número de meses</option>
-                      {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                        <option key={num} value={num}>{num}</option>
-                      ))}
-                    </select>
-                    {selectedMonths && (
-                      <div className="mt-2 text-center">
-                        <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
-                        <button
-                          onClick={handleMercadoPagoPayment}
-                          className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                        >
-                          Generar enlace de pago
-                        </button>
-                      </div>
-                    )}
-                    {paymentLink && (
-                      <div className="mt-4 text-center">
-                        <p>Enlace de pago generado exitosamente:</p>
-                        <button
-                          onClick={handleRedirectToPayment}
-                          className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                        >
-                          Ir a Mercado Pago
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  {userData.payment?.payments?.length > 0 ? (
-                    <div className="mt-6 overflow-x-auto">
-                      <table className="w-full border-collapse text-sm">
-                        <thead>
-                          <tr className="bg-gray-200">
-                            <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
-                            <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
-                            <th className="border border-gray-300 p-2 text-left">Monto</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {userData.payment.payments.map((payment) => (
-                            <tr key={payment._id} className="bg-gray-100">
-                              <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
-                              <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
-                              <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
-                  )}
-                  <div className="mt-6">
-                    <p className="font-bold text-center">
-                      Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
-                    </p>
-                    <p className="font-bold text-center">
-                      Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                        {new Date(userData.payment?.expiration).toLocaleDateString()}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+              
 
               <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">
                 <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
@@ -641,6 +566,83 @@ export default function NavbarComponente() {
                       </div>
                     </div>
                   )}
+                </div>
+              </div>
+               
+              <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+                <div className="relative z-10">
+                  <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+                  <div className="mb-6">
+                    <select
+                      name="paymentMonths"
+                      id="paymentMonths"
+                      value={selectedMonths}
+                      onChange={handlePaymentMonthsChange}
+                      className="p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Selecciona un número de meses</option>
+                      {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>{num}</option>
+                      ))}
+                    </select>
+                    {selectedMonths && (
+                      <div className="mt-2 text-center">
+                        <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                        <button
+                          onClick={handleMercadoPagoPayment}
+                          className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                        >
+                          Generar enlace de pago
+                        </button>
+                      </div>
+                    )}
+                    {paymentLink && (
+                      <div className="mt-4 text-center">
+                        <p>Enlace de pago generado exitosamente:</p>
+                        <button
+                          onClick={handleRedirectToPayment}
+                          className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                        >
+                          Ir a Mercado Pago
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {userData.payment?.payments?.length > 0 ? (
+                    <div className="mt-6 overflow-x-auto">
+                      <table className="w-full border-collapse text-sm">
+                        <thead>
+                          <tr className="bg-gray-200">
+                            <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
+                            <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
+                            <th className="border border-gray-300 p-2 text-left">Monto</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {userData.payment.payments.map((payment) => (
+                            <tr key={payment._id} className="bg-gray-100">
+                              <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
+                              <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
+                              <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
+                  )}
+                  <div className="mt-6">
+                    <p className="font-bold text-center">
+                      Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+                        {new Date(userData.payment?.expiration).toLocaleDateString()}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
