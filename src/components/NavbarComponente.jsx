@@ -31,8 +31,9 @@ export default function NavbarComponente() {
     neighborhood: "",
     cp: "",
     phoneNumber: "",
-    disciplines: [],
+    disciplines: "",
     gender: "",
+    familyGroup: [],
   });
   const [extraErrors, setExtraErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState("");
@@ -68,7 +69,6 @@ export default function NavbarComponente() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       console.log("Datos recuperados de localStorage:", parsedUser);
-      console.log("Payments en localStorage:", parsedUser.payment?.payments);
       setUserData({
         name: parsedUser.name,
         lastName: parsedUser.lastName,
@@ -109,28 +109,35 @@ export default function NavbarComponente() {
     e.preventDefault();
     setLoading(true);
     setError("");
-  
+
     try {
       const { data } = await axios.post("https://api-cdcc.vercel.app/api/v1/users/login", {
         email,
         password,
       });
-  
-      console.log("Login exitoso, datos recibidos:", data); // Log general de la respuesta
-      console.log("Estado del usuario (userStatus):", data.user.status); // Log del estado
-  
+
+      console.log("Login exitoso, datos recibidos:", data);
+      console.log("Estado del usuario (userStatus):", data.user.status);
+
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
       Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
       Cookies.set("access_token", data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
-  
+
       const userStatus = data.user.status;
       console.log("Valor de userStatus antes del switch:", userStatus);
-  
+
       switch (userStatus) {
         case "IN_PROGRESS":
           console.log("Entrando en caso IN_PROGRESS");
+          setUserData({
+            name: data.user.name,
+            lastName: data.user.lastName,
+            membershipNumber: data.user.membershipNumber,
+            createdAt: data.user.createdAt,
+            status: data.user.status,
+          });
           openExtraDataModal();
           break;
         case "PENDING":
@@ -143,18 +150,17 @@ export default function NavbarComponente() {
           break;
         case "APPROVED":
           console.log("Entrando en caso APPROVED");
-          console.log("Payments en respuesta:", data.user.payment?.payments); // Movemos el log aquí
           const updatedUserData = {
             name: data.user.name,
             lastName: data.user.lastName,
             membershipNumber: data.user.membershipNumber,
             createdAt: data.user.createdAt,
-            qr: data.user.payment?.qr?.img || "", // Manejo seguro si payment no existe
+            qr: data.user.payment?.qr?.img || "",
             status: data.user.status,
             payment: {
-              status: data.user.payment?.status || "N/A", // Valor por defecto si no existe
-              expiration: data.user.payment?.expiration || null, // Valor por defecto si no existe
-              payments: data.user.payment?.payments || [], // Arreglo vacío si no existe
+              status: data.user.payment?.status || "N/A",
+              expiration: data.user.payment?.expiration || null,
+              payments: data.user.payment?.payments || [],
             },
             address: data.user.data?.address,
             birthdate: data.user.data?.birthdate,
@@ -176,7 +182,7 @@ export default function NavbarComponente() {
           console.log("Entrando en caso default, estado no reconocido:", userStatus);
           setError("Estado desconocido.");
       }
-  
+
       closeModal();
       setEmail("");
       setPassword("");
@@ -219,8 +225,6 @@ export default function NavbarComponente() {
       return;
     }
 
-    console.log("Datos enviados:", { userId, monthsToAdd, amount: totalAmount, token });
-
     try {
       const response = await axios.post(
         `https://api-cdcc.vercel.app/api/v1/payment/mercado-pago/${userId}`,
@@ -258,20 +262,61 @@ export default function NavbarComponente() {
     const { id, value } = e.target;
     setExtraData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [id]: id === "dni" || id === "phoneNumber" ? value.replace(/\D/g, "") : value,
     }));
     clearExtraError(id);
   };
 
-  const handleDisciplineChange = (e) => {
-    const { value, checked } = e.target;
+  const addFamilyMember = () => {
     setExtraData((prevData) => ({
       ...prevData,
-      disciplines: checked
-        ? [...prevData.disciplines, value]
-        : prevData.disciplines.filter((d) => d !== value),
+      familyGroup: [
+        ...prevData.familyGroup,
+        {
+          relationship: "",
+          firstName: "",
+          lastName: "",
+          dni: "",
+          birthdate: "",
+          disciplines: "",
+        },
+      ],
     }));
-    if (checked) clearExtraError("disciplines");
+  };
+
+  const removeFamilyMember = (index) => {
+    setExtraData((prevData) => ({
+      ...prevData,
+      familyGroup: prevData.familyGroup.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleFamilyMemberChange = (index, field, value) => {
+    setExtraData((prevData) => {
+      const newFamilyGroup = [...prevData.familyGroup];
+      newFamilyGroup[index] = {
+        ...newFamilyGroup[index],
+        [field]: field === "dni" ? value.replace(/\D/g, "") : value,
+      };
+      return {
+        ...prevData,
+        familyGroup: newFamilyGroup,
+      };
+    });
+  };
+
+  const handleFamilyMemberDisciplineChange = (index, discipline) => {
+    setExtraData((prevData) => {
+      const newFamilyGroup = [...prevData.familyGroup];
+      newFamilyGroup[index] = {
+        ...newFamilyGroup[index],
+        disciplines: discipline,
+      };
+      return {
+        ...prevData,
+        familyGroup: newFamilyGroup,
+      };
+    });
   };
 
   const clearExtraError = (field) => {
@@ -296,7 +341,7 @@ export default function NavbarComponente() {
     if (!extraData.cp) newExtraErrors.cp = "El código postal es obligatorio";
     if (!extraData.phoneNumber) newExtraErrors.phoneNumber = "El teléfono es obligatorio";
     else if (!/^\d{10}$/.test(extraData.phoneNumber)) newExtraErrors.phoneNumber = "El teléfono debe tener 10 dígitos";
-    if (extraData.disciplines.length === 0) newExtraErrors.disciplines = "Debes seleccionar al menos una disciplina";
+    if (!extraData.disciplines) newExtraErrors.disciplines = "Debes seleccionar al menos una disciplina";
     if (!extraData.gender) newExtraErrors.gender = "El género es obligatorio";
 
     if (Object.keys(newExtraErrors).length > 0) {
@@ -315,9 +360,37 @@ export default function NavbarComponente() {
     }
 
     try {
+      const filteredFamilyGroup = extraData.familyGroup.filter((member) =>
+        Object.values(member).some((value) => value !== "" && value !== null && value !== undefined)
+      );
+
+      const dataToSend = {
+        dni: extraData.dni,
+        birthdate: extraData.birthdate,
+        maritalStatus: extraData.maritalStatus,
+        nationality: extraData.nationality,
+        address: extraData.address,
+        neighborhood: extraData.neighborhood,
+        cp: extraData.cp,
+        phoneNumber: extraData.phoneNumber,
+        disciplines: [extraData.disciplines],
+        gender: extraData.gender,
+      };
+
+      if (filteredFamilyGroup.length > 0) {
+        dataToSend.familyGroup = filteredFamilyGroup.map((member) => ({
+          relationship: member.relationship,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          dni: member.dni,
+          birthdate: member.birthdate,
+          disciplines: member.disciplines ? [member.disciplines] : [],
+        }));
+      }
+
       await axios.post(
         `https://api-cdcc.vercel.app/api/v1/users/dataUser/${storedUserId}`,
-        { ...extraData, disciplines: extraData.disciplines },
+        dataToSend,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -401,184 +474,179 @@ export default function NavbarComponente() {
       </div>
 
       {isSuccessModalOpen && userData && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 pt-4 md:pt-0">
-    <div className="flex justify-end mt-4">
-      <button onClick={closeSuccessModal} className="text-white px-4 py-2">
-        Cerrar
-      </button>
-    </div>
-    <div className="flex justify-center items-start md:items-center">
-      {/* Contenedor principal con scroll horizontal en escritorio */}
-      <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
-        {/* Bloque de Pagos */}
-        <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
-          <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
-          <div className="relative z-10">
-            <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-            <div className="mb-6">
-              <select
-                name="paymentMonths"
-                id="paymentMonths"
-                value={selectedMonths}
-                onChange={handlePaymentMonthsChange}
-                className="p-2 border border-gray-300 rounded-md w-full"
-              >
-                <option value="">Selecciona un número de meses</option>
-                {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                  <option key={num} value={num}>{num}</option>
-                ))}
-              </select>
-              {selectedMonths && (
-                <div className="mt-2 text-center">
-                  <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
-                  <button
-                    onClick={handleMercadoPagoPayment}
-                    className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                  >
-                    Generar enlace de pago
-                  </button>
-                </div>
-              )}
-              {paymentLink && (
-                <div className="mt-4 text-center">
-                  <p>Enlace de pago generado exitosamente:</p>
-                  <button
-                    onClick={handleRedirectToPayment}
-                    className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                  >
-                    Ir a Mercado Pago
-                  </button>
-                </div>
-              )}
-            </div>
-            {userData.payment?.payments?.length > 0 ? (
-              <div className="mt-6 overflow-x-auto">
-                <table className="w-full border-collapse text-sm">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
-                      <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
-                      <th className="border border-gray-300 p-2 text-left">Monto</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {userData.payment.payments.map((payment) => (
-                      <tr key={payment._id} className="bg-gray-100">
-                        <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
-                        <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
-                        <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
-            )}
-            <div className="mt-6">
-              <p className="font-bold text-center">
-                Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
-              </p>
-              <p className="font-bold text-center">
-                Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                  {new Date(userData.payment?.expiration).toLocaleDateString()}
-                </span>
-              </p>
-            </div>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 pt-4 md:pt-0">
+          <div className="flex justify-end mt-4">
+            <button onClick={closeSuccessModal} className="text-white px-4 py-2">
+              Cerrar
+            </button>
           </div>
-        </div>
-
-        {/* Bloque de Carnet */}
-        <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">
-          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-          <div className="relative z-10 flex flex-col">
-            <div className="flex flex-row justify-center">
-              <div className="flex flex-col items-center">
-                <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-                <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-                <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
-              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-              <div className="relative z-10 flex flex-col justify-evenly items-start">
-                <p className="font-bold text-center">
-                  Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-                </p>
-                <p className="font-bold text-center">
-                  Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
-                </p>
-                <p className="font-bold text-center">
-                  Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-                </p>
-                <p className="font-bold text-center">
-                  Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
-                    {new Date(userData.createdAt).toLocaleDateString()}
-                  </span>
-                </p>
-              </div>
-              <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
-                {userData.qr ? (
-                  <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-                ) : (
-                  <p className="text-red-500">QR no disponible</p>
-                )}
-              </div>
-            </div>
-            <div className="h-[80px] flex justify-between items-end mt-4">
-              <div className="w-[200px]">
-                <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-              </div>
-              <div className="w-[200px]">
-                <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bloque de Grupo Familiar */}
-        <div className="h-auto w-full md:w-[650px] rounded-md max-h-[70vh] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6 flex-shrink-0">
-          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-          <div className="relative z-10">
-            {userData.familyGroup && userData.familyGroup.length > 0 && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="bg-gray-200">
-                        <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                        <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                        <th className="border border-gray-300 p-2 text-left">Relación</th>
-                        <th className="border border-gray-300 p-2 text-left">DNI</th>
-                        <th className="border border-gray-300 p-2 text-left">Ingreso</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userData.familyGroup.map((familyMember, index) => (
-                        <tr key={familyMember._id || index} className="bg-gray-100">
-                          <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                          <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                          <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                          <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                          <td className="border border-gray-300 p-2">
-                            {new Date(familyMember.createdAt).toLocaleDateString()}
-                          </td>
-                        </tr>
+          <div className="flex justify-center items-start md:items-center">
+            <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
+              <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+                <div className="relative z-10">
+                  <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+                  <div className="mb-6">
+                    <select
+                      name="paymentMonths"
+                      id="paymentMonths"
+                      value={selectedMonths}
+                      onChange={handlePaymentMonthsChange}
+                      className="p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Selecciona un número de meses</option>
+                      {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>{num}</option>
                       ))}
-                    </tbody>
-                  </table>
+                    </select>
+                    {selectedMonths && (
+                      <div className="mt-2 text-center">
+                        <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                        <button
+                          onClick={handleMercadoPagoPayment}
+                          className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                        >
+                          Generar enlace de pago
+                        </button>
+                      </div>
+                    )}
+                    {paymentLink && (
+                      <div className="mt-4 text-center">
+                        <p>Enlace de pago generado exitosamente:</p>
+                        <button
+                          onClick={handleRedirectToPayment}
+                          className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                        >
+                          Ir a Mercado Pago
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {userData.payment?.payments?.length > 0 ? (
+                    <div className="mt-6 overflow-x-auto">
+                      <table className="w-full border-collapse text-sm">
+                        <thead>
+                          <tr className="bg-gray-200">
+                            <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
+                            <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
+                            <th className="border border-gray-300 p-2 text-left">Monto</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {userData.payment.payments.map((payment) => (
+                            <tr key={payment._id} className="bg-gray-100">
+                              <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
+                              <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
+                              <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
+                  )}
+                  <div className="mt-6">
+                    <p className="font-bold text-center">
+                      Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+                        {new Date(userData.payment?.expiration).toLocaleDateString()}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
-            )}
+
+              <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+                <div className="relative z-10 flex flex-col">
+                  <div className="flex flex-row justify-center">
+                    <div className="flex flex-col items-center">
+                      <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+                      <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+                      <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
+                    <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+                    <div className="relative z-10 flex flex-col justify-evenly items-start">
+                      <p className="font-bold text-center">
+                        Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                          {new Date(userData.createdAt).toLocaleDateString()}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
+                      {userData.qr ? (
+                        <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+                      ) : (
+                        <p className="text-red-500">QR no disponible</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="h-[80px] flex justify-between items-end mt-4">
+                    <div className="w-[200px]">
+                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+                    </div>
+                    <div className="w-[200px]">
+                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="h-auto w-full md:w-[650px] rounded-md max-h-[70vh] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6 flex-shrink-0">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+                <div className="relative z-10">
+                  {userData.familyGroup && userData.familyGroup.length > 0 && (
+                    <div className="mt-4">
+                      <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="bg-gray-200">
+                              <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                              <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                              <th className="border border-gray-300 p-2 text-left">Relación</th>
+                              <th className="border border-gray-300 p-2 text-left">DNI</th>
+                              <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {userData.familyGroup.map((familyMember, index) => (
+                              <tr key={familyMember._id || index} className="bg-gray-100">
+                                <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                                <td className="border border-gray-300 p-2">
+                                  {new Date(familyMember.createdAt).toLocaleDateString()}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
 
-     
       {isMenuOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
           <button
@@ -634,6 +702,8 @@ export default function NavbarComponente() {
                   id="dni"
                   type="text"
                   placeholder="DNI"
+                  value={extraData.dni}
+                  maxLength="8"
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.dni ? "border-red-500" : ""}`}
                 />
@@ -656,8 +726,8 @@ export default function NavbarComponente() {
                   className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.maritalStatus ? "border-red-500" : ""}`}
                 >
                   <option value="">Selecciona tu Estado Civil</option>
-                  <option value="MARRIED">Casado/a</option>
                   <option value="SINGLE">Soltero/a</option>
+                  <option value="MARRIED">Casado/a</option>
                 </select>
                 {extraErrors.maritalStatus && <p className="text-red-500 text-xs mt-1">{extraErrors.maritalStatus}</p>}
               </div>
@@ -706,6 +776,8 @@ export default function NavbarComponente() {
                   id="phoneNumber"
                   type="text"
                   placeholder="Teléfono"
+                  value={extraData.phoneNumber}
+                  maxLength="10"
                   onChange={handleExtraChange}
                   className={`p-2 border border-gray-300 rounded-md w-full ${extraErrors.phoneNumber ? "border-red-500" : ""}`}
                 />
@@ -725,22 +797,116 @@ export default function NavbarComponente() {
                 {extraErrors.gender && <p className="text-red-500 text-xs mt-1">{extraErrors.gender}</p>}
               </div>
               <div className="col-span-1 sm:col-span-2 flex flex-col">
-                <label className="text-gray-700 text-sm font-medium pb-[10px]">Disciplinas</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {["ARTISTIC_GYMNASTICS", "BASKETBALL", "VOLLEYBALL", "KARATE", "SKATE", "NEWCOM", "FISHING"].map((discipline) => (
-                    <label key={discipline} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        value={discipline}
-                        checked={extraData.disciplines.includes(discipline)}
-                        onChange={handleDisciplineChange}
-                        className="w-4 h-4"
-                      />
-                      {discipline.replace("_", " ")}
-                    </label>
-                  ))}
-                </div>
+                <label htmlFor="disciplines" className="text-gray-700">Disciplina:</label>
+                <select
+                  id="disciplines"
+                  value={extraData.disciplines}
+                  onChange={handleExtraChange}
+                  className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.disciplines ? "border-red-500" : ""}`}
+                >
+                  <option value="">Selecciona una disciplina</option>
+                  <option value="ONLY_MEMBER">Solo Socio</option>
+                  <option value="ARTISTIC_GYMNASTICS">Gimnasia Artística</option>
+                  <option value="BASKETBALL">Básquet</option>
+                  <option value="VOLLEYBALL">Vóley</option>
+                  <option value="KARATE">Karate</option>
+                  <option value="SKATE">Skate</option>
+                  <option value="NEWCOM">Newcom</option>
+                  <option value="FISHING">Pesca</option>
+                </select>
                 {extraErrors.disciplines && <p className="text-red-500 text-xs mt-1">{extraErrors.disciplines}</p>}
+              </div>
+              <div className="col-span-1 sm:col-span-2 mt-6">
+                <h3 className="text-lg font-semibold mb-2">Grupo Familiar (Opcional)</h3>
+                {extraData.familyGroup.length > 0 && (
+                  extraData.familyGroup.map((member, index) => (
+                    <div key={index} className="border p-4 rounded-lg mb-4 relative">
+                      <button
+                        type="button"
+                        onClick={() => removeFamilyMember(index)}
+                        className="absolute top-[-5px] right-[0.2rem] text-red-500 hover:text-red-700 text-2xl"
+                      >
+                        x
+                      </button>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <select
+                            value={member.relationship}
+                            onChange={(e) => handleFamilyMemberChange(index, "relationship", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          >
+                            <option value="">Selecciona relación</option>
+                            <option value="SPOUSE">Cónyuge</option>
+                            <option value="CHILD">Hijo/a</option>
+                            <option value="PARENT">Padre/Madre</option>
+                            <option value="SIBLING">Hermano/a</option>
+                          </select>
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Nombre"
+                            value={member.firstName}
+                            onChange={(e) => handleFamilyMemberChange(index, "firstName", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Apellido"
+                            value={member.lastName}
+                            onChange={(e) => handleFamilyMemberChange(index, "lastName", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="DNI"
+                            value={member.dni}
+                            maxLength="8"
+                            onChange={(e) => handleFamilyMemberChange(index, "dni", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="date"
+                            value={member.birthdate}
+                            onChange={(e) => handleFamilyMemberChange(index, "birthdate", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div className="col-span-1 sm:col-span-2">
+                          <label className="text-gray-700">Disciplina:</label>
+                          <select
+                            value={member.disciplines}
+                            onChange={(e) => handleFamilyMemberDisciplineChange(index, e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          >
+                            <option value="">Selecciona una disciplina</option>
+                            <option value="ONLY_MEMBER">Solo Socio</option>
+                            <option value="ARTISTIC_GYMNASTICS">Gimnasia Artística</option>
+                            <option value="BASKETBALL">Básquet</option>
+                            <option value="VOLLEYBALL">Vóley</option>
+                            <option value="KARATE">Karate</option>
+                            <option value="SKATE">Skate</option>
+                            <option value="NEWCOM">Newcom</option>
+                            <option value="FISHING">Pesca</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+                <button
+                  type="button"
+                  onClick={addFamilyMember}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                >
+                  Agregar miembro familiar
+                </button>
               </div>
               {responseMessage && (
                 <p className={`col-span-1 sm:col-span-2 text-center text-sm ${responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"}`}>
