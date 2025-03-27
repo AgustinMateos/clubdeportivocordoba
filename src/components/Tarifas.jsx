@@ -95,7 +95,7 @@ export default function Tarifas() {
               </tr>
             </tbody>
           </table>
-          <p className="text-white">*Jubilados deben presentar documentación.</p>
+          <p className="text-white">*Jubilados deben presentar documentación que demuestre el cobro mínimo de haberes.</p>
         </div>
 
         {/* Tabla Colonia Vacacional */}
