@@ -20,7 +20,7 @@ export default function NavbarComponente() {
   const [userData, setUserData] = useState(null);
   const [selectedMonths, setSelectedMonths] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Nuevo estado para mostrar/ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false); 
   const MEMBERSHIP_FEE = 8000;
 
   const [extraData, setExtraData] = useState({
