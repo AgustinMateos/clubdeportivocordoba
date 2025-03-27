@@ -118,7 +118,7 @@ export default function NavbarComponente() {
             cp: data.user.data.cp,
             disciplines: data.user.data.disciplines,
             dni: data.user.data.dni,
-            familyGroup: data.user.data.familyGroup || [], // Corregimos el acceso a familyGroup
+            familyGroup: data.user.data.familyGroup || [], 
             gender: data.user.data.gender,
             maritalStatus: data.user.data.maritalStatus,
             nationality: data.user.data.nationality,
