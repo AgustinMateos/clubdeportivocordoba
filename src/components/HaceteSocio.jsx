@@ -29,7 +29,7 @@ export default function HaceteSocio() {
   Ser parte del mejor club, ahora a un click
 </h4>
 
-        <p className="font-montserrat w-[90%]">Para vos que queres todo, tenes todo pata estar. Elegí la propuesta de valor más conveniente para vos y sumate.</p>
+        <p className="font-montserrat w-[90%]">Para vos que queres todo, tenes todo para estar. Elegí la propuesta de valor más conveniente para vos y sumate.</p>
       </div>
       <div className="w-[80%] sm:w-[50%]">
         <Image

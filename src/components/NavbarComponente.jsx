@@ -482,7 +482,7 @@ export default function NavbarComponente() {
             </button>
           </div>
           <div className="flex justify-center items-start md:items-center">
-            <div className="flex flex-col md:flex-row w-full max-w-[1050px] md:max-w-none max-h-[90vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
+            <div className="flex flex-col justify-center items-center w-full max-w-[1050px] md:max-w-none max-h-[180vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
               
 
               <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">

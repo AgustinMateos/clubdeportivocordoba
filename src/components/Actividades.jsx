@@ -145,10 +145,10 @@ export default function Actividades() {
   Un deporte para cada pasión
 </h3>
           <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
-            Descubrí las actividades y deportes que ofrecemos. Tanto si sos un amante del deporte competitivo como si buscás actividades recreativas, hay algo para vos.
+          Descubrí todas las actividades y deportes que tenemos para vos. Ya sea que disfrutes la competencia o prefieras opciones recreativas, siempre encontrarás algo a tu medida.
           </p>
           <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
-          La cuota sindical no incluye las disciplinas. Las mismas son exclusivas para socios pero deben ser abonadas aparte de la cuota.
+          Tené en cuenta que la cuota sindical no incluye las disciplinas deportivas con profesor. Estas son exclusivas para socios y requieren un pago adicional.
           </p>
         </div>
       </div>
