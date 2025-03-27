@@ -475,180 +475,179 @@ export default function NavbarComponente() {
       </div>
 
       {isSuccessModalOpen && userData && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 pt-4 md:pt-0">
-          <div className="flex justify-end mt-4">
-            <button onClick={closeSuccessModal} className="text-white px-4 py-2">
-              Cerrar
-            </button>
+  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 flex items-start justify-center overflow-y-auto">
+    <div className="w-full max-w-[1050px] mx-4 my-6 flex flex-col items-center gap-4">
+      {/* Close Button */}
+      <div className="w-full flex justify-end">
+        <button onClick={closeSuccessModal} className="text-white px-4 py-2">
+          Cerrar
+        </button>
+      </div>
+
+      {/* Membership Card */}
+      <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 rounded-md w-full md:w-[650px] relative flex-shrink-0">
+        <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex flex-row justify-center">
+            <div className="flex flex-col items-center">
+              <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+              <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+              <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
+            </div>
           </div>
-          <div className="flex justify-center items-start md:items-center">
-            <div className="flex flex-col justify-center items-center w-full max-w-[1050px] md:max-w-none max-h-[180vh] overflow-y-auto md:overflow-x-auto md:overflow-y-visible rounded-md mx-4 md:mx-0 gap-4 whitespace-nowrap">
-              
+          <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
+            <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+            <div className="relative z-10 flex flex-col justify-evenly items-start">
+              <p className="font-bold text-center">
+                Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+              </p>
+              <p className="font-bold text-center">
+                Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+              </p>
+              <p className="font-bold text-center">
+                Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+              </p>
+              <p className="font-bold text-center">
+                Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                  {new Date(userData.createdAt).toLocaleDateString()}
+                </span>
+              </p>
+            </div>
+            <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
+              {userData.qr ? (
+                <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+              ) : (
+                <p className="text-red-500">QR no disponible</p>
+              )}
+            </div>
+          </div>
+          <div className="h-[80px] flex justify-between items-end mt-4">
+            <div className="w-[200px]">
+              <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+            </div>
+            <div className="w-[200px]">
+              <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 max-h-[70vh] rounded-md w-full md:w-[650px] relative mt-4 md:mt-0 flex-shrink-0">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-                <div className="relative z-10 flex flex-col">
-                  <div className="flex flex-row justify-center">
-                    <div className="flex flex-col items-center">
-                      <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-                      <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-                      <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
-                    <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-                    <div className="relative z-10 flex flex-col justify-evenly items-start">
-                      <p className="font-bold text-center">
-                        Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-                      </p>
-                      <p className="font-bold text-center">
-                        Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
-                          {new Date(userData.createdAt).toLocaleDateString()}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
-                      {userData.qr ? (
-                        <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-                      ) : (
-                        <p className="text-red-500">QR no disponible</p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="h-[80px] flex justify-between items-end mt-4">
-                    <div className="w-[200px]">
-                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-                    </div>
-                    <div className="w-[200px]">
-                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="h-auto w-full md:w-[650px] rounded-md max-h-[70vh] bg-white/70 backdrop-blur-lg relative mt-4 md:mt-0 p-4 md:p-6 flex-shrink-0">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-                <div className="relative z-10">
-                  {userData.familyGroup && userData.familyGroup.length > 0 && (
-                    <div className="mt-4">
-                      <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                          <thead>
-                            <tr className="bg-gray-200">
-                              <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                              <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                              <th className="border border-gray-300 p-2 text-left">Relación</th>
-                              <th className="border border-gray-300 p-2 text-left">DNI</th>
-                              <th className="border border-gray-300 p-2 text-left">Ingreso</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {userData.familyGroup.map((familyMember, index) => (
-                              <tr key={familyMember._id || index} className="bg-gray-100">
-                                <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                                <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                                <td className="border border-gray-300 p-2">
-                                  {new Date(familyMember.createdAt).toLocaleDateString()}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-               
-              <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative max-h-[70vh] overflow-y-auto flex-shrink-0">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] min-h-[80vh] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
-                <div className="relative z-10">
-                  <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-                  <div className="mb-6">
-                    <select
-                      name="paymentMonths"
-                      id="paymentMonths"
-                      value={selectedMonths}
-                      onChange={handlePaymentMonthsChange}
-                      className="p-2 border border-gray-300 rounded-md w-full"
-                    >
-                      <option value="">Selecciona un número de meses</option>
-                      {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                        <option key={num} value={num}>{num}</option>
-                      ))}
-                    </select>
-                    {selectedMonths && (
-                      <div className="mt-2 text-center">
-                        <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
-                        <button
-                          onClick={handleMercadoPagoPayment}
-                          className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                        >
-                          Generar enlace de pago
-                        </button>
-                      </div>
-                    )}
-                    {paymentLink && (
-                      <div className="mt-4 text-center">
-                        <p>Enlace de pago generado exitosamente:</p>
-                        <button
-                          onClick={handleRedirectToPayment}
-                          className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                        >
-                          Ir a Mercado Pago
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  {userData.payment?.payments?.length > 0 ? (
-                    <div className="mt-6 overflow-x-auto">
-                      <table className="w-full border-collapse text-sm">
-                        <thead>
-                          <tr className="bg-gray-200">
-                            <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
-                            <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
-                            <th className="border border-gray-300 p-2 text-left">Monto</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {userData.payment.payments.map((payment) => (
-                            <tr key={payment._id} className="bg-gray-100">
-                              <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
-                              <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
-                              <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
-                  )}
-                  <div className="mt-6">
-                    <p className="font-bold text-center">
-                      Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
-                    </p>
-                    <p className="font-bold text-center">
-                      Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                        {new Date(userData.payment?.expiration).toLocaleDateString()}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+      {/* Family Group */}
+      {userData.familyGroup && userData.familyGroup.length > 0 && (
+        <div className="h-auto w-full md:w-[650px] rounded-md bg-white/70 backdrop-blur-lg relative p-4 md:p-6 flex-shrink-0">
+          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+          <div className="relative z-10">
+            <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                    <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                    <th className="border border-gray-300 p-2 text-left">Relación</th>
+                    <th className="border border-gray-300 p-2 text-left">DNI</th>
+                    <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userData.familyGroup.map((familyMember, index) => (
+                    <tr key={familyMember._id || index} className="bg-gray-100">
+                      <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                      <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                      <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                      <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                      <td className="border border-gray-300 p-2">
+                        {new Date(familyMember.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       )}
+
+      {/* Payments Section */}
+      <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative flex-shrink-0">
+        <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+        <div className="relative z-10">
+          <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+          <div className="mb-6">
+            <select
+              name="paymentMonths"
+              id="paymentMonths"
+              value={selectedMonths}
+              onChange={handlePaymentMonthsChange}
+              className="p-2 border border-gray-300 rounded-md w-full"
+            >
+              <option value="">Selecciona un número de meses</option>
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+                <option key={num} value={num}>{num}</option>
+              ))}
+            </select>
+            {selectedMonths && (
+              <div className="mt-2 text-center">
+                <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                <button
+                  onClick={handleMercadoPagoPayment}
+                  className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                >
+                  Generar enlace de pago
+                </button>
+              </div>
+            )}
+            {paymentLink && (
+              <div className="mt-4 text-center">
+                <p>Enlace de pago generado exitosamente:</p>
+                <button
+                  onClick={handleRedirectToPayment}
+                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  Ir a Mercado Pago
+                </button>
+              </div>
+            )}
+          </div>
+          {userData.payment?.payments?.length > 0 ? (
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
+                    <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
+                    <th className="border border-gray-300 p-2 text-left">Monto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userData.payment.payments.map((payment) => (
+                    <tr key={payment._id} className="bg-gray-100">
+                      <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
+                      <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
+                      <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
+          )}
+          <div className="mt-6">
+            <p className="font-bold text-center">
+              Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
+            </p>
+            <p className="font-bold text-center">
+              Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+                {new Date(userData.payment?.expiration).toLocaleDateString()}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {isMenuOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">

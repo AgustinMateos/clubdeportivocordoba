@@ -124,7 +124,7 @@ export default function Tarifas() {
         </div>
 
         <div className="h-[110px] flex flex-row w-full justify-center">
-          <div className="w-[90%] sm:w-[50%] flex flex-row items-center justify-center">
+          <div className="w-[90%] sm:w-[50%] flex md:flex-col flex-row items-center justify-center">
             <p className="pr-[40px] text-white">Secretaría:</p>
             <a
               href="https://wa.me/3518690765"

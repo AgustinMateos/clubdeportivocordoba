@@ -53,18 +53,26 @@ export default function Actividades() {
   const fetchDisciplines = async () => {
     try {
       const response = await axios.get("https://api-cdcc.vercel.app/api/v1/prices/disciplines");
+      const traducciones = {
+        ARTISTIC_GYMNASTICS: "Gimnasia Artística",
+        VOLLEYBALL: "Voley",
+        BASKETBALL: "Basket",
+        KARATE: "Karate",
+        SKATE: "Patinaje",
+        NEWCOM: "Newcom",
+      };
       const apiDisciplines = response.data.disciplines.map((discipline) => {
         const extras = disciplineExtras[discipline.name] || {};
         return {
           ...discipline,
-          imagen: extras.imagen || defaultImage, 
-          imagenes: extras.imagenes || [defaultImage], 
+          name: traducciones[discipline.name] || discipline.name,
+          imagen: extras.imagen || defaultImage,
+          imagenes: extras.imagenes || [defaultImage],
           descripcion: extras.descripcion || "Actividad sin descripción disponible",
           category: discipline.category.map((cat) => [
             cat.name,
             cat.schedule,
             `$${cat.user}`,
-            
           ]),
         };
       });
@@ -148,7 +156,7 @@ export default function Actividades() {
           Descubrí todas las actividades y deportes que tenemos para vos. Ya sea que disfrutes la competencia o prefieras opciones recreativas, siempre encontrarás algo a tu medida.
           </p>
           <p className="font-montserrat mt-4 text-[16px] w-[100%] sm:w-[60%] font-semibold">
-          Tené en cuenta que la cuota sindical no incluye las disciplinas deportivas con profesor. Estas son exclusivas para socios y requieren un pago adicional.
+          Tené en cuenta que la cuota sindical no incluye las disciplinas deportivas con profesor. Estas son exclusivas para socios y requieren un pago adicional. 
           </p>
         </div>
       </div>
@@ -186,8 +194,8 @@ export default function Actividades() {
                 </div>
               </div>
               <h4 className="font-montserrat max-w-[435px] 2xl:max-w-[100%] w-[100%] sm:px-4 md:px-0 lg:px-3 xl:px-0 font-semibold mt-4 text-[22px] leading-[24px] tracking-[0.2px]">
-                {actividad.name.split('_').join(' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())}
-              </h4>
+  {actividad.name}
+</h4>
               <p className="font-montserrat max-w-[435px] 2xl:max-w-[100%] w-[100%] mt-2 text-[#101232] px-[0px] sm:px-4 xl:px-0 md:px-0 lg:px-3 font-normal text-[16px] leading-[19.5px] tracking-[0.2px]">
                 {actividad.descripcion}
               </p>
@@ -236,7 +244,8 @@ export default function Actividades() {
             </div>
             <div className="p-[10px] sm:p-4 overflow-y-auto flex-1">
               <h2 className="text-2xl font-bold mb-4">
-                {disciplines[isModalOpen].name.split('_').join(' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())}
+                {/* {disciplines[isModalOpen].name.split('_').join(' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())} */}
+                {disciplines[isModalOpen].name}
               </h2>
               <div className="flex flex-wrap justify-between w-full mb-4">
                 <div className="w-[70%] flex flex-wrap">

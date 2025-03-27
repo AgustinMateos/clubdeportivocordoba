@@ -60,7 +60,7 @@ export default function Beneficios() {
           <div className="h-[40%] flex justify-evenly flex-col w-full ">
             <h3 className="pt-4 text-[16px] font-medium font-montserrat">Beneficios de Socios</h3>
             <h4 className={` text-[32px] sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pt-4 transition-all duration-700 ${isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"}`}>
-              Tu lugar en Central Córdoba
+              Tu lugar en Club Deportivo Central Córdoba
             </h4>
           </div>
 
