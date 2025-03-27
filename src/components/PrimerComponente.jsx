@@ -32,16 +32,7 @@ export default function PrimerComponente() {
     phoneNumber: "",
     disciplines: "",
     gender: "",
-    familyGroup: [
-      {
-        relationship: "",
-        firstName: "",
-        lastName: "",
-        dni: "",
-        birthdate: "",
-        disciplines: "",
-      },
-    ],
+    familyGroup: [], // Cambiado a array vacío por defecto
   });
 
   const [responseMessage, setResponseMessage] = useState("");
@@ -69,7 +60,6 @@ export default function PrimerComponente() {
       familyGroup: prevData.familyGroup.filter((_, i) => i !== index),
     }));
   };
-
   const handleFamilyMemberChange = (index, field, value) => {
     setExtraData((prevData) => {
       const newFamilyGroup = [...prevData.familyGroup];
@@ -247,6 +237,10 @@ export default function PrimerComponente() {
     }
 
     try {
+      const filteredFamilyGroup = extraData.familyGroup.filter((member) =>
+        Object.values(member).some((value) => value !== "" && value !== null && value !== undefined)
+      );
+
       const dataToSend = {
         dni: extraData.dni,
         birthdate: extraData.birthdate,
@@ -258,15 +252,18 @@ export default function PrimerComponente() {
         phoneNumber: extraData.phoneNumber,
         disciplines: [extraData.disciplines],
         gender: extraData.gender,
-        familyGroup: extraData.familyGroup.map((member) => ({
+      };
+
+      if (filteredFamilyGroup.length > 0) {
+        dataToSend.familyGroup = filteredFamilyGroup.map((member) => ({
           relationship: member.relationship,
           firstName: member.firstName,
           lastName: member.lastName,
           dni: member.dni,
           birthdate: member.birthdate,
           disciplines: member.disciplines ? [member.disciplines] : [],
-        })),
-      };
+        }));
+      }
 
       console.log("Datos enviados:", dataToSend);
 
@@ -454,6 +451,7 @@ export default function PrimerComponente() {
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
             <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
             <form onSubmit={handleExtraSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Campos de datos adicionales (DNI, birthdate, etc.) se mantienen igual */}
               <div>
                 <input
                   id="dni"
@@ -598,85 +596,87 @@ export default function PrimerComponente() {
               {/* Sección del grupo familiar */}
               <div className="col-span-1 sm:col-span-2 mt-6">
                 <h3 className="text-lg font-semibold mb-2">Grupo Familiar (Opcional)</h3>
-                {extraData.familyGroup.map((member, index) => (
-                  <div key={index} className="border p-4 rounded-lg mb-4 relative">
-                    <button
-                      type="button"
-                      onClick={() => removeFamilyMember(index)}
-                      className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                    >
-                      ×
-                    </button>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <select
-                          value={member.relationship}
-                          onChange={(e) => handleFamilyMemberChange(index, "relationship", e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        >
-                          <option value="">Selecciona relación</option>
-                          <option value="SPOUSE">Cónyuge</option>
-                          <option value="CHILD">Hijo/a</option>
-                          <option value="PARENT">Padre/Madre</option>
-                          <option value="SIBLING">Hermano/a</option>
-                        </select>
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Nombre"
-                          value={member.firstName}
-                          onChange={(e) => handleFamilyMemberChange(index, "firstName", e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Apellido"
-                          value={member.lastName}
-                          onChange={(e) => handleFamilyMemberChange(index, "lastName", e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="DNI"
-                          value={member.dni}
-                          onChange={(e) => handleFamilyMemberChange(index, "dni", e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="date"
-                          value={member.birthdate}
-                          onChange={(e) => handleFamilyMemberChange(index, "birthdate", e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        />
-                      </div>
-                      <div className="col-span-1 sm:col-span-2">
-                        <label className="text-gray-700">Disciplina:</label>
-                        <select
-                          value={member.disciplines}
-                          onChange={(e) => handleFamilyMemberDisciplineChange(index, e.target.value)}
-                          className="p-2 border border-gray-300 rounded-md w-full"
-                        >
-                          <option value="">Selecciona una disciplina</option>
-                          <option value="ONLY_MEMBER">Solo Socio</option>
-                          <option value="ARTISTIC_GYMNASTICS">Gimnasia Artística</option>
-                          <option value="BASKETBALL">Básquet</option>
-                          <option value="VOLLEYBALL">Vóley</option>
-                          <option value="KARATE">Karate</option>
-                          <option value="SKATE">Skate</option>
-                          <option value="NEWCOM">Newcom</option>
-                          <option value="FISHING">Pesca</option>
-                        </select>
+                {extraData.familyGroup.length > 0 && (
+                  extraData.familyGroup.map((member, index) => (
+                    <div key={index} className="border p-4 rounded-lg mb-4 relative">
+                      <button
+                        type="button"
+                        onClick={() => removeFamilyMember(index)}
+                        className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                      >
+                        ×
+                      </button>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <select
+                            value={member.relationship}
+                            onChange={(e) => handleFamilyMemberChange(index, "relationship", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          >
+                            <option value="">Selecciona relación</option>
+                            <option value="SPOUSE">Cónyuge</option>
+                            <option value="CHILD">Hijo/a</option>
+                            <option value="PARENT">Padre/Madre</option>
+                            <option value="SIBLING">Hermano/a</option>
+                          </select>
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Nombre"
+                            value={member.firstName}
+                            onChange={(e) => handleFamilyMemberChange(index, "firstName", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Apellido"
+                            value={member.lastName}
+                            onChange={(e) => handleFamilyMemberChange(index, "lastName", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="DNI"
+                            value={member.dni}
+                            onChange={(e) => handleFamilyMemberChange(index, "dni", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="date"
+                            value={member.birthdate}
+                            onChange={(e) => handleFamilyMemberChange(index, "birthdate", e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          />
+                        </div>
+                        <div className="col-span-1 sm:col-span-2">
+                          <label className="text-gray-700">Disciplina:</label>
+                          <select
+                            value={member.disciplines}
+                            onChange={(e) => handleFamilyMemberDisciplineChange(index, e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full"
+                          >
+                            <option value="">Selecciona una disciplina</option>
+                            <option value="ONLY_MEMBER">Solo Socio</option>
+                            <option value="ARTISTIC_GYMNASTICS">Gimnasia Artística</option>
+                            <option value="BASKETBALL">Básquet</option>
+                            <option value="VOLLEYBALL">Vóley</option>
+                            <option value="KARATE">Karate</option>
+                            <option value="SKATE">Skate</option>
+                            <option value="NEWCOM">Newcom</option>
+                            <option value="FISHING">Pesca</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
                 <button
                   type="button"
                   onClick={addFamilyMember}
@@ -685,6 +685,7 @@ export default function PrimerComponente() {
                   Agregar miembro familiar
                 </button>
               </div>
+
               {responseMessage && (
                 <p
                   className={`col-span-1 sm:col-span-2 text-center text-sm ${responseMessage.includes("éxito") ? "text-green-600" : "text-red-500"

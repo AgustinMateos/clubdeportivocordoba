@@ -1,9 +1,9 @@
 "use client";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import Cookies from "js-cookie"; // Necesitamos Cookies para manejar userId y token
+import Cookies from "js-cookie";
 
 export default function NavbarComponente() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,13 +12,16 @@ export default function NavbarComponente() {
   const [isPendingModalOpen, setIsPendingModalOpen] = useState(false);
   const [isPreapprovedModalOpen, setIsPreapprovedModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [isExtraDataModalOpen, setIsExtraDataModalOpen] = useState(false); // Nuevo estado para el modal de extraData
+  const [isExtraDataModalOpen, setIsExtraDataModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState(null);
-  
+  const [selectedMonths, setSelectedMonths] = useState("");
+  const [paymentLink, setPaymentLink] = useState("");
+  const MEMBERSHIP_FEE = 5000;
+
   const [extraData, setExtraData] = useState({
     dni: "",
     birthdate: "",
@@ -43,10 +46,13 @@ export default function NavbarComponente() {
   const openPreapprovedModal = () => setIsPreapprovedModalOpen(true);
   const closePreapprovedModal = () => setIsPreapprovedModalOpen(false);
   const openSuccessModal = () => setIsSuccessModalOpen(true);
-  const closeSuccessModal = () => setIsSuccessModalOpen(false);
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    setPaymentLink("");
+  };
   const openExtraDataModal = () => setIsExtraDataModalOpen(true);
   const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
-  // Agregar un efecto para cargar los datos del usuario al montar el componente
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -54,20 +60,19 @@ export default function NavbarComponente() {
       setUserData({
         name: parsedUser.name,
         lastName: parsedUser.lastName,
-       
       });
     }
   }, []);
 
-  // Función para cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
     Cookies.remove("userId");
     Cookies.remove("access_token");
-    setUserData(null); // Limpiar el estado del usuario
+    setUserData(null);
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -84,14 +89,14 @@ export default function NavbarComponente() {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" }); // Guardamos userId en cookies
+      Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
       Cookies.set("access_token", data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
 
       const userStatus = data.user.status;
 
       switch (userStatus) {
         case "IN_PROGRESS":
-          openExtraDataModal(); // Abrimos el modal de datos adicionales
+          openExtraDataModal();
           break;
         case "PENDING":
           openPendingModal();
@@ -103,19 +108,22 @@ export default function NavbarComponente() {
           setUserData({
             name: data.user.name,
             lastName: data.user.lastName,
-            maritalStatus: data.user.data.maritalStatus,
-            address: data.user.data.address,
-            age: data.user.data.age,
-            gender: data.user.data.gender,
-            birthdate: data.user.data.birthdate,
-            disciplines: data.user.data.disciplines,
-            neighborhood: data.user.data.neighborhood,
-            cp: data.user.data.cp,
-            nationality: data.user.data.nationality,
-            phoneNumber: data.user.data.phoneNumber,
             membershipNumber: data.user.membershipNumber,
-            createdAt: data.user.createdAt, // Ajustado a createdAt del usuario
+            createdAt: data.user.createdAt,
             qr: data.user.payment.qr.img,
+            paymentStatus: data.user.payment.status,
+            expiracion: data.user.payment.expiration,
+            address: data.user.data.address,
+            birthdate: data.user.data.birthdate,
+            cp: data.user.data.cp,
+            disciplines: data.user.data.disciplines,
+            dni: data.user.data.dni,
+            familyGroup: data.user.data.familyGroup || [], // Corregimos el acceso a familyGroup
+            gender: data.user.data.gender,
+            maritalStatus: data.user.data.maritalStatus,
+            nationality: data.user.data.nationality,
+            neighborhood: data.user.data.neighborhood,
+            phoneNumber: data.user.data.phoneNumber,
           });
           openSuccessModal();
           break;
@@ -131,6 +139,72 @@ export default function NavbarComponente() {
       setError("Error en el inicio de sesión. Verifica tus credenciales.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePaymentMonthsChange = (e) => {
+    setSelectedMonths(e.target.value);
+    setPaymentLink("");
+  };
+
+  const handleMercadoPagoPayment = async () => {
+    if (!selectedMonths) {
+      alert("Por favor, selecciona un número de meses antes de proceder al pago.");
+      return;
+    }
+
+    const monthsToAdd = parseInt(selectedMonths);
+    if (isNaN(monthsToAdd) || monthsToAdd <= 0) {
+      alert("El número de meses debe ser un valor numérico mayor a 0.");
+      return;
+    }
+
+    const totalAmount = monthsToAdd * MEMBERSHIP_FEE;
+    if (isNaN(totalAmount) || totalAmount <= 0) {
+      alert("El monto total no es válido.");
+      return;
+    }
+
+    const token = Cookies.get("access_token");
+    const userId = Cookies.get("userId");
+
+    if (!token || !userId) {
+      alert("No estás autenticado. Por favor, inicia sesión de nuevo.");
+      return;
+    }
+
+    console.log("Datos enviados:", { userId, monthsToAdd, amount: totalAmount, token });
+
+    try {
+      const response = await axios.post(
+        `https://api-cdcc.vercel.app/api/v1/payment/mercado-pago/${userId}`,
+        {
+          monthsToAdd: monthsToAdd,
+          amount: totalAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Respuesta de Mercado Pago:", response.data);
+
+      if (response.data.link) {
+        setPaymentLink(response.data.link);
+      } else {
+        alert("No se recibió un enlace de pago válido. Contacta al soporte.");
+      }
+    } catch (error) {
+      console.error("Error completo:", error.response?.status, error.response?.data);
+      alert("Hubo un error al obtener el enlace de pago. Intenta de nuevo más tarde.");
+    }
+  };
+
+  const handleRedirectToPayment = () => {
+    if (paymentLink) {
+      window.location.href = paymentLink;
     }
   };
 
@@ -203,9 +277,9 @@ export default function NavbarComponente() {
         }
       );
       setExtraErrors({});
-      setIsExtraDataModalOpen(false); // Cerrar el modal de datos adicionales
+      setIsExtraDataModalOpen(false);
       setResponseMessage("Datos guardados con éxito. Tu solicitud está pendiente de aprobación.");
-      openPendingModal(); // Mostrar modal de "PENDING" tras guardar
+      openPendingModal();
     } catch (error) {
       console.error("Error al guardar los datos adicionales:", error);
       const errorMessage = error.response?.data?.message || "Error al guardar datos adicionales.";
@@ -215,7 +289,6 @@ export default function NavbarComponente() {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex justify-center mt-[20px]">
-      {/* Navbar existente */}
       <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between relative">
         <div className="lg:hidden absolute left-4">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
@@ -243,7 +316,7 @@ export default function NavbarComponente() {
             <div className="flex items-center gap-2">
               <span className="text-white font-medium">{userData.name}</span>
               <button onClick={handleLogout} className="text-white focus:outline-none">
-                <Image src="/logout.svg" alt="Logout" width={24} height={24} /> {/* Asegúrate de tener un ícono de logout */}
+                <Image src="/logout.svg" alt="Logout" width={24} height={24} />
               </button>
             </div>
           ) : (
@@ -252,7 +325,6 @@ export default function NavbarComponente() {
             </button>
           )}
         </div>
-
         <div className="hidden lg:flex flex-row gap-4 items-center">
           <ul className="flex flex-row gap-4 items-center pr-[50px]">
             <li><Image width={22} height={22} src="/facebook.svg" alt="Facebook" /></li>
@@ -277,114 +349,204 @@ export default function NavbarComponente() {
         </div>
       </div>
 
-      {/* Modal de "APPROVED" */}
       {isSuccessModalOpen && userData && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-center z-60">
-    <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[650px] relative">
-      <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-      <div className="relative z-10 flex flex-col">
-        <div className="flex flex-row justify-center">
-          <div className="flex flex-col items-center">
-            <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-            <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-            <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex justify-center items-start z-60 pt-4">
+          {/* Contenedor desplazable */}
+          <div className="flex flex-col w-full max-w-[1050px] max-h-[90vh] overflow-y-auto rounded-md mx-4">
+            {/* Sección de pagos */}
+            <div className="bg-white h-auto w-full p-4 sm:p-6">
+              <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+              <div>
+                <select
+                  name="paymentMonths"
+                  id="paymentMonths"
+                  value={selectedMonths}
+                  onChange={handlePaymentMonthsChange}
+                  className="p-2 border border-gray-300 rounded-md w-full"
+                >
+                  <option value="">Selecciona un número de meses</option>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
+                {selectedMonths && (
+                  <div className="mt-2 text-center">
+                    <p>Total a pagar: ${(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                    <button
+                      onClick={handleMercadoPagoPayment}
+                      className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                    >
+                      Generar enlace de pago
+                    </button>
+                  </div>
+                )}
+                {paymentLink && (
+                  <div className="mt-4 text-center">
+                    <p>Enlace de pago generado exitosamente:</p>
+                    <button
+                      onClick={handleRedirectToPayment}
+                      className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                    >
+                      Ir a Mercado Pago
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="mt-4">
+                <p className="font-bold text-center">
+                  Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.paymentStatus}</span>
+                </p>
+                <p className="font-bold text-center">
+                  Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
+                    {new Date(userData.expiracion).toLocaleDateString()}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row">
+              {/* Carnet de socio */}
+              <div className="bg-white/70 backdrop-blur-lg p-4 sm:p-6 mr-[10px] rounded-md w-full relative mt-4">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+                <div className="relative z-10 flex flex-col">
+                  <div className="flex flex-row justify-center">
+                    <div className="flex flex-col items-center">
+                      <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+                      <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+                      <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row justify-between relative h-auto sm:h-[200px] mt-4">
+                    <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] sm:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+                    <div className="relative z-10 flex flex-col justify-evenly items-start">
+                      <p className="font-bold text-center">
+                        Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+                      </p>
+                      <p className="font-bold text-center">
+                        Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                          {new Date(userData.createdAt).toLocaleDateString()}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="relative z-10 flex justify-center items-center mt-4 sm:mt-0">
+                      {userData.qr ? (
+                        <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+                      ) : (
+                        <p className="text-red-500">QR no disponible</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="h-[80px] flex justify-between items-end mt-4">
+                    <div className="w-[200px]">
+                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
+                    </div>
+                    <div className="w-[200px]">
+                      <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
+                    </div>
+                  </div>
+                  <div className="flex justify-center mt-4">
+                    <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sección de información familiares */}
+              <div className="h-auto w-full bg-white/70 backdrop-blur-lg relative mt-4 p-4 sm:p-6">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+                <div className="relative z-10">
+                  {userData.familyGroup && userData.familyGroup.length > 0 && (
+                    <div className="mt-4">
+                      <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="bg-gray-200">
+                              <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                              <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                              <th className="border border-gray-300 p-2 text-left">Relación</th>
+                              <th className="border border-gray-300 p-2 text-left">DNI</th>
+                              <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {userData.familyGroup.map((familyMember, index) => (
+                              <tr key={familyMember._id || index} className="bg-gray-100">
+                                <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                                <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                                <td className="border border-gray-300 p-2">
+                                  {new Date(familyMember.createdAt).toLocaleDateString()}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              </div>
+
           </div>
         </div>
-        <div className="flex flex-row justify-between relative h-[200px]">
-          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-          <div className="relative z-10 flex flex-col justify-evenly items-start">
-            <p className="font-bold text-center">
-              Nro de Socio: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-            </p>
-            <p className="font-bold text-center">
-              Nombre: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.name}.</span>
-            </p>
-            <p className="font-bold text-center">
-              Apellido: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-            </p>
-            <p className="font-bold text-center">
-              Ingreso: <span className="font-bold text-center border-b-4 border-dotted border-b-black">{userData.createdAt}</span>
-            </p>
-          </div>
-          <div className="relative z-10 flex items-center">
-            {console.log("QR URL:", userData.qr)}
-            {userData.qr ? (
-              <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-            ) : (
-              <p className="text-red-500">QR no disponible</p>
-            )}
-          </div>
-        </div>
-        <div className="h-[80px] flex justify-between items-end">
-          <div className="w-[200px]">
-            <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-          </div>
-          <div className="w-[200px]">
-            <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-          </div>
-        </div>
-        <div className="flex justify-center mt-4">
-          <button onClick={closeSuccessModal} className="bg-black text-white px-4 py-2 rounded-md">
-            Cerrar
+      )}
+
+      {isMenuOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="text-white text-2xl mb-8 absolute left-4 pl-[20px]"
+          >
+            ✕
           </button>
+          <ul className="text-xl space-y-6 pt-[70px]">
+            <li className="h-[48px]">
+              <Link href="#nuestroClub" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+                Nuestro Club
+              </Link>
+            </li>
+            <li className="h-[48px]">
+              <Link href="#actividades" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+                Actividades
+              </Link>
+            </li>
+            <li className="h-[48px]">
+              <Link href="#colonia" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+                Colonia
+              </Link>
+            </li>
+            <li className="h-[48px]">
+              <Link href="#beneficios" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
+                Beneficios
+              </Link>
+            </li>
+          </ul>
+          <div className="flex space-x-6 mt-[3.5rem]">
+            <Image width={32} height={32} src="/facebook.svg" alt="Facebook" />
+            <Image width={32} height={32} src="/instagram.svg" alt="Instagram" />
+          </div>
+          <div className="mt-[3.5rem] flex flex-col space-y-4">
+            <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px] font-inter">
+              Ingresar
+            </button>
+            <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
+              Ser Socio
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
-{isMenuOpen && (
-   <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
- 
-     <button
-       onClick={() => setIsMenuOpen(false)}
-       className="text-white text-2xl mb-8 absolute left-4 pl-[20px]"
-     >
-       ✕
-     </button>
- 
- 
-     <ul className="text-xl space-y-6 pt-[70px]">
-   <li className="h-[48px]">
-     <Link href="#nuestroClub" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
-       Nuestro Club
-     </Link>
-   </li>
-   <li className="h-[48px]">
-     <Link href="#actividades" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
-       Actividades
-     </Link>
-   </li>
-   <li className="h-[48px]">
-     <Link href="#colonia" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
-       Colonia
-     </Link>
-   </li>
-   <li className="h-[48px]">
-     <Link href="#beneficios" onClick={() => setIsMenuOpen(false)} className="text-[16px] text-[#F2F2F2] font-medium leading-[19.5px]">
-       Beneficios
-     </Link>
-   </li>
- </ul>
- 
- 
- 
-     <div className="flex space-x-6 mt-[3.5rem]">
-       <Image width={32} height={32} src="/facebook.svg" alt="Facebook" />
-       <Image width={32} height={32} src="/instagram.svg" alt="Instagram" />
-     </div>
- 
-     <div className="mt-[3.5rem] flex flex-col space-y-4">
-       <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px] font-inter">
-         Ingresar
-       </button>
-       <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
-         Ser Socio
-       </button>
-     </div>
-   </div>
- )}
-{/* Modal de datos adicionales */}
-{isExtraDataModalOpen && (
+      )}
+      {isExtraDataModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-lg w-[90%] h-[80%] sm:w-[1200px] overflow-auto">
             <h2 className="text-xl font-bold mb-4 text-center">Completa tus datos</h2>
@@ -416,7 +578,7 @@ export default function NavbarComponente() {
                   className={`p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 text-base w-full ${extraErrors.maritalStatus ? "border-red-500" : ""}`}
                 >
                   <option value="">Selecciona tu Estado Civil</option>
-                  <option value="MARIED">Casado/a</option>
+                  <option value="MARRIED">Casado/a</option>
                   <option value="SINGLE">Soltero/a</option>
                 </select>
                 {extraErrors.maritalStatus && <p className="text-red-500 text-xs mt-1">{extraErrors.maritalStatus}</p>}
@@ -515,7 +677,6 @@ export default function NavbarComponente() {
           </div>
         </div>
       )}
-      {/* Otros modales permanecen igual */}
       {isLoadingModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
