@@ -107,7 +107,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
           >Pesca</h4>
           <p className="font-montserrat text-[16px] sm:text-[20px] text-center w-[90%] sm:w-[60%] tracking-[0.2px] leading-[24px]  font-semibold pt-4">
             Sumate a nuestra comunidad de pescadores y disfrutá de salidas al aire libre en un entorno natural.
-            Instalaciones especialmente preparadas para camping, botes y pesca recreativa.
+            Instalaciones especialmente preparadas para camping, botes, pesca recreativa y deportiva.
           </p>
         </div>
 

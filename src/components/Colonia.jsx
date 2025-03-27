@@ -84,10 +84,10 @@ export default function Historia() {
               className={` text-[32px] sm:text-[48px] pb-[10px] font-bold leading-[38px] sm:leading-[54px] tracking-[0.2px] pt-4 w-full sm:w-[83%] transition-all duration-700 ${
                 isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[-20px]"
               }`}>
-          Un verano inolvidable en Central Córdoba
+          Un verano inolvidable en Central Córdoba.
         </h4>
         <p className="font-montserrat pt-4 w-full lg:w-[90%] xl:w-[653px] font-semibold text-[16px] leading-[24px] sm:text-[20px] text-[#101232] ">
-          ¡Se acerca la temporada de verano y nuestra colonia de vacaciones está lista para recibirte!
+          ¡En la temporada de verano, nuestra colonia de vacaciones está lista para recibirte!
         </p>
         <p className="font-montserrat pt-4  w-full  lg:w-[90%] xl:w-[653px]  font-normal text-[16px] leading-[24px] sm:text-[20px] text-[#101232]">
           En el Club Deportivo Central Córdoba, ofrecemos actividades para todas las edades en un entorno natural y seguro.
