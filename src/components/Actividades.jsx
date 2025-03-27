@@ -48,7 +48,7 @@ export default function Actividades() {
   };
 
 
-  const defaultImage = "/default.svg"; o
+  const defaultImage = "/default.svg"; 
 
   const fetchDisciplines = async () => {
     try {
