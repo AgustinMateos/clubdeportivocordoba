@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -123,20 +123,20 @@ export default function Tarifas() {
           </table>
         </div>
 
-        <div className="h-[110px] flex flex-row w-full justify-center">
-          <div className="w-[90%] sm:w-[50%] flex md:flex-col flex-row items-center justify-center">
-            <p className="pr-[40px] text-white">Secretaría:</p>
+        <div className="md:h-[110px] h-auto  flex flex-col items-center md:flex-row w-full justify-center">
+          <div className="w-[90%] sm:w-[50%] flex flex-col md:flex-row items-center justify-center">
+            <p className="md:pr-[40px] text-white">Secretaría:</p>
             <a
               href="https://wa.me/3518690765"
               target="_blank"
               rel="noopener noreferrer"
               className="font-montserrat h-[48px] w-[164px] bg-white rounded-[8px] text-black flex items-center justify-center font-semibold sm:text-[18px] hover:bg-gray-200 transition"
             >
-              3518690765
+              3518 690-765
             </a>
           </div>
-          <div className="w-[90%] sm:w-[50%] flex flex-row items-center justify-center">
-            <p className="pr-[40px] text-white">Colonia:</p>
+          <div className="w-[90%] sm:w-[50%] flex flex-col md:flex-row items-center justify-center">
+            <p className="md:pr-[40px] text-white">Colonia:</p>
             <a
               href="https://wa.me/5493512077020"
               target="_blank"
