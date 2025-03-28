@@ -21,7 +21,7 @@ export default function NavbarComponente() {
   const [selectedMonths, setSelectedMonths] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isRetired, setIsRetired] = useState(false);
+ 
   const MEMBERSHIP_FEE = 1;
 
   const [extraData, setExtraData] = useState({
@@ -100,6 +100,7 @@ export default function NavbarComponente() {
         nationality: parsedUser.data?.nationality,
         neighborhood: parsedUser.data?.neighborhood,
         phoneNumber: parsedUser.data?.phoneNumber,
+        is_retired: parsedUser.data?.is_retired || false, // Agregar is_retired aquí
       });
     }
   }, []);
@@ -156,40 +157,41 @@ export default function NavbarComponente() {
           console.log("Entrando en caso PREAPPROVED");
           openPreapprovedModal();
           break;
-        case "APPROVED":
-          console.log("Entrando en caso APPROVED");
-          const updatedUserData = {
-            name: data.user.name,
-            lastName: data.user.lastName,
-            staff: {
-              president: data.staff?.president || "",
-              secretary: data.staff?.secretary || "",
-            },
-            membershipNumber: data.user.membershipNumber,
-            createdAt: data.user.createdAt,
-            qr: data.user.payment?.qr?.img || "",
-            status: data.user.status,
-            payment: {
-              status: data.user.payment?.status || "N/A",
-              expiration: data.user.payment?.expiration || null,
-              payments: data.user.payment?.payments || [],
-            },
-            address: data.user.data?.address,
-            birthdate: data.user.data?.birthdate,
-            cp: data.user.data?.cp,
-            disciplines: data.user.data?.disciplines,
-            dni: data.user.data?.dni,
-            familyGroup: data.user.data?.familyGroup || [],
-            gender: data.user.data?.gender,
-            maritalStatus: data.user.data?.maritalStatus,
-            nationality: data.user.data?.nationality,
-            neighborhood: data.user.data?.neighborhood,
-            phoneNumber: data.user.data?.phoneNumber,
-          };
-          setUserData(updatedUserData);
-          console.log("userData después de setUserData:", updatedUserData);
-          openSuccessModal();
-          break;
+          case "APPROVED":
+            console.log("Entrando en caso APPROVED");
+            const updatedUserData = {
+              name: data.user.name,
+              lastName: data.user.lastName,
+              staff: {
+                president: data.staff?.president || "",
+                secretary: data.staff?.secretary || "",
+              },
+              membershipNumber: data.user.membershipNumber,
+              createdAt: data.user.createdAt,
+              qr: data.user.payment?.qr?.img || "",
+              status: data.user.status,
+              payment: {
+                status: data.user.payment?.status || "N/A",
+                expiration: data.user.payment?.expiration || null,
+                payments: data.user.payment?.payments || [],
+              },
+              address: data.user.data?.address,
+              birthdate: data.user.data?.birthdate,
+              cp: data.user.data?.cp,
+              disciplines: data.user.data?.disciplines,
+              dni: data.user.data?.dni,
+              familyGroup: data.user.data?.familyGroup || [],
+              gender: data.user.data?.gender,
+              maritalStatus: data.user.data?.maritalStatus,
+              nationality: data.user.data?.nationality,
+              neighborhood: data.user.data?.neighborhood,
+              phoneNumber: data.user.data?.phoneNumber,
+              is_retired: data.user.data?.is_retired || false, // Agregar is_retired aquí
+            };
+            setUserData(updatedUserData);
+            console.log("userData después de setUserData:", updatedUserData);
+            openSuccessModal();
+            break;
         default:
           console.log("Entrando en caso default, estado no reconocido:", userStatus);
           setError("Estado desconocido.");
@@ -227,9 +229,8 @@ export default function NavbarComponente() {
     }
   
     let monthsToAdd = parseInt(selectedMonths);
-    let monthsToPay = monthsToAdd; // Meses a pagar (para el cálculo del monto)
+    let monthsToPay = monthsToAdd;
   
-    // Si se selecciona "12", se pagan 10 meses pero se acreditan 12
     if (selectedMonths === "12") {
       monthsToPay = 10; // Paga por 10 meses
       monthsToAdd = 12; // Se acreditan 12 meses
@@ -240,8 +241,8 @@ export default function NavbarComponente() {
       return;
     }
   
-    const fee = isRetired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE;
-    const totalAmount = monthsToPay * fee; // Calcular basado en los meses a pagar
+    const fee = userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE; // Usar userData.is_retired
+    const totalAmount = monthsToPay * fee;
   
     if (isNaN(totalAmount) || totalAmount <= 0) {
       alert("El monto total no es válido.");
@@ -260,8 +261,8 @@ export default function NavbarComponente() {
       const response = await axios.post(
         `https://api-cdcc.vercel.app/api/v1/payment/mercado-pago/${userId}`,
         {
-          monthsToAdd: monthsToAdd, // Meses a acreditar
-          amount: totalAmount, // Monto basado en meses a pagar
+          monthsToAdd: monthsToAdd,
+          amount: totalAmount,
         },
         {
           headers: {
@@ -618,56 +619,45 @@ export default function NavbarComponente() {
         <div className="relative z-10">
           <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
           <div className="mb-6">
-            <div className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                id="isRetired"
-                checked={isRetired}
-                onChange={(e) => setIsRetired(e.target.checked)}
-                className="mr-2"
-              />
-              <label htmlFor="isRetired" className="text-sm font-bold">¿Es jubilado?</label>
-            </div>
-            <select
-              name="paymentMonths"
-              id="paymentMonths"
-              value={selectedMonths}
-              onChange={handlePaymentMonthsChange}
-              className="p-2 border border-gray-300 rounded-md w-full"
-            >
-              <option value="">Selecciona un número de meses</option>
-              {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))}
-              <option value="12">12 bonificado</option>
-            </select>
-            {selectedMonths && (
-              <div className="mt-2 text-center">
-                <p>
-                  Total a pagar: {((selectedMonths === "12" ? 10 : selectedMonths) * (isRetired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE)).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
-                </p>
-                <button
-                  onClick={handleMercadoPagoPayment}
-                  className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                >
-                  Generar enlace de pago
-                </button>
-              </div>
-            )}
-                  {paymentLink && (
-              <div className="mt-4 text-center">
-                <p>Enlace de pago generado exitosamente:</p>
-                <button
-                  onClick={handleRedirectToPayment}
-                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                >
-                  Ir a Mercado Pago
-                </button>
-              </div>
-            )}
-          </div>
+  <select
+    name="paymentMonths"
+    id="paymentMonths"
+    value={selectedMonths}
+    onChange={handlePaymentMonthsChange}
+    className="p-2 border border-gray-300 rounded-md w-full"
+  >
+    <option value="">Selecciona un número de meses</option>
+    {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
+      <option key={num} value={num}>{num}</option>
+    ))}
+    <option value="12">12 (10+2 bonificados)</option>
+  </select>
+  {selectedMonths && (
+    <div className="mt-2 text-center">
+      <p>
+        Total a pagar: {((selectedMonths === "12" ? 10 : selectedMonths) * (userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE)).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
+        {userData.is_retired ? " (Cuota Jubilado)" : " (Cuota Societaria)"}
+      </p>
+      <button
+        onClick={handleMercadoPagoPayment}
+        className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+      >
+        Generar enlace de pago
+      </button>
+    </div>
+  )}
+  {paymentLink && (
+    <div className="mt-4 text-center">
+      <p>Enlace de pago generado exitosamente:</p>
+      <button
+        onClick={handleRedirectToPayment}
+        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+      >
+        Ir a Mercado Pago
+      </button>
+    </div>
+  )}
+</div>
                 {userData.payment?.payments?.length > 0 ? (
                   <div className="mt-6 overflow-x-auto">
                     <table className="w-full border-collapse text-sm">
