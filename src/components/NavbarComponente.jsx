@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -20,7 +20,8 @@ export default function NavbarComponente() {
   const [userData, setUserData] = useState(null);
   const [selectedMonths, setSelectedMonths] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [isRetired, setIsRetired] = useState(false);
   const MEMBERSHIP_FEE = 1;
 
   const [extraData, setExtraData] = useState({
@@ -35,6 +36,7 @@ export default function NavbarComponente() {
     disciplines: "",
     gender: "",
     familyGroup: [],
+    staff: [], // Esto no se usa, podrías eliminarlo si no lo necesitas
   });
   const [extraErrors, setExtraErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState("");
@@ -51,6 +53,7 @@ export default function NavbarComponente() {
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
     setPaymentLink("");
+    setIsRetired(false);
   };
   const openExtraDataModal = () => setIsExtraDataModalOpen(true);
   const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
@@ -73,6 +76,10 @@ export default function NavbarComponente() {
       setUserData({
         name: parsedUser.name,
         lastName: parsedUser.lastName,
+        staff: {
+          president: parsedUser.staff?.president || "",
+          secretary: parsedUser.staff?.secretary || "",
+        },
         membershipNumber: parsedUser.membershipNumber,
         createdAt: parsedUser.createdAt,
         qr: parsedUser.payment?.qr?.img,
@@ -97,38 +104,38 @@ export default function NavbarComponente() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user");
-    Cookies.remove("userId");
-    Cookies.remove("access_token");
-    setUserData(null);
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
+  
     try {
       const { data } = await axios.post("https://api-cdcc.vercel.app/api/v1/users/login", {
         email,
         password,
       });
-
+  
       console.log("Login exitoso, datos recibidos:", data);
+      console.log("Datos de staff recibidos:", data.staff); // Verificar staff aquí
       console.log("Estado del usuario (userStatus):", data.user.status);
-
+  
+      // Combinar data.user y data.staff para almacenarlos juntos
+      const userWithStaff = {
+        ...data.user,
+        staff: data.staff || { president: "", secretary: "" }, // Asegurar que staff siempre exista
+      };
+  
+      console.log("userWithStaff antes de guardar:", userWithStaff); // Verificar antes de guardar
+  
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(userWithStaff));
       Cookies.set("userId", data.user._id, { expires: 7, secure: true, sameSite: "Lax" });
       Cookies.set("access_token", data.access_token, { expires: 7, secure: true, sameSite: "Lax" });
-
+  
       const userStatus = data.user.status;
       console.log("Valor de userStatus antes del switch:", userStatus);
-
+  
       switch (userStatus) {
         case "IN_PROGRESS":
           console.log("Entrando en caso IN_PROGRESS");
@@ -154,6 +161,10 @@ export default function NavbarComponente() {
           const updatedUserData = {
             name: data.user.name,
             lastName: data.user.lastName,
+            staff: {
+              president: data.staff?.president || "",
+              secretary: data.staff?.secretary || "",
+            },
             membershipNumber: data.user.membershipNumber,
             createdAt: data.user.createdAt,
             qr: data.user.payment?.qr?.img || "",
@@ -183,7 +194,7 @@ export default function NavbarComponente() {
           console.log("Entrando en caso default, estado no reconocido:", userStatus);
           setError("Estado desconocido.");
       }
-
+  
       closeModal();
       setEmail("");
       setPassword("");
@@ -193,6 +204,15 @@ export default function NavbarComponente() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user");
+    Cookies.remove("userId");
+    Cookies.remove("access_token");
+    setUserData(null);
   };
 
   const handlePaymentMonthsChange = (e) => {
@@ -205,33 +225,43 @@ export default function NavbarComponente() {
       alert("Por favor, selecciona un número de meses antes de proceder al pago.");
       return;
     }
-
-    const monthsToAdd = parseInt(selectedMonths);
+  
+    let monthsToAdd = parseInt(selectedMonths);
+    let monthsToPay = monthsToAdd; // Meses a pagar (para el cálculo del monto)
+  
+    // Si se selecciona "12", se pagan 10 meses pero se acreditan 12
+    if (selectedMonths === "12") {
+      monthsToPay = 10; // Paga por 10 meses
+      monthsToAdd = 12; // Se acreditan 12 meses
+    }
+  
     if (isNaN(monthsToAdd) || monthsToAdd <= 0) {
       alert("El número de meses debe ser un valor numérico mayor a 0.");
       return;
     }
-
-    const totalAmount = monthsToAdd * MEMBERSHIP_FEE;
+  
+    const fee = isRetired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE;
+    const totalAmount = monthsToPay * fee; // Calcular basado en los meses a pagar
+  
     if (isNaN(totalAmount) || totalAmount <= 0) {
       alert("El monto total no es válido.");
       return;
     }
-
+  
     const token = Cookies.get("access_token");
     const userId = Cookies.get("userId");
-
+  
     if (!token || !userId) {
       alert("No estás autenticado. Por favor, inicia sesión de nuevo.");
       return;
     }
-
+  
     try {
       const response = await axios.post(
         `https://api-cdcc.vercel.app/api/v1/payment/mercado-pago/${userId}`,
         {
-          monthsToAdd: monthsToAdd,
-          amount: totalAmount,
+          monthsToAdd: monthsToAdd, // Meses a acreditar
+          amount: totalAmount, // Monto basado en meses a pagar
         },
         {
           headers: {
@@ -239,9 +269,9 @@ export default function NavbarComponente() {
           },
         }
       );
-
+  
       console.log("Respuesta de Mercado Pago:", response.data);
-
+  
       if (response.data.link) {
         setPaymentLink(response.data.link);
       } else {
@@ -407,6 +437,19 @@ export default function NavbarComponente() {
     }
   };
 
+  const getPaymentStatusText = (status) => {
+    switch (status) {
+      case "PAID":
+        return "AL DÍA";
+      case "OVERDUE":
+        return "EN DEUDA";
+      case "EXPIRED":
+        return "VENCIDO";
+      default:
+        return status || "N/A";
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex justify-center mt-[20px]">
       <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between relative">
@@ -475,105 +518,116 @@ export default function NavbarComponente() {
       </div>
 
       {isSuccessModalOpen && userData && (
-  <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 flex items-start justify-center overflow-y-auto">
-    <div className="w-full max-w-[1050px] mx-4 my-6 flex flex-col items-center gap-4">
-      {/* Close Button */}
-      <div className="w-full flex justify-end">
-        <button onClick={closeSuccessModal} className="text-white px-4 py-2">
-          Cerrar
-        </button>
-      </div>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-60 flex items-start justify-center overflow-y-auto">
+          <div className="w-full max-w-[1050px] mx-4 my-6 flex flex-col items-center gap-4">
+            <div className="w-full flex justify-end">
+              <button onClick={closeSuccessModal} className="text-white px-4 py-2">
+                Cerrar
+              </button>
+            </div>
+            <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 rounded-md w-full md:w-[650px] relative flex-shrink-0">
+              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
+              <div className="relative z-10 flex flex-col">
+                <div className="flex flex-row justify-center">
+                  <div className="flex flex-col items-center">
+                    <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
+                    <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
+                    <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
+                  </div>
+                </div>
+                <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
+                  <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
+                  <div className="relative z-10 flex flex-col justify-evenly items-start">
+                    <p className="font-bold text-center">
+                      Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
+                    </p>
+                    <p className="font-bold text-center">
+                      Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
+                        {new Date(userData.createdAt).toLocaleDateString()}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
+                    {userData.qr ? (
+                      <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
+                    ) : (
+                      <p className="text-red-500">QR no disponible</p>
+                    )}
+                  </div>
+                </div>
+                <div className="h-[80px] flex justify-between items-end mt-4">
+                  <div className="w-[200px] justify-center text-center">
+                    <h4>{userData.staff?.secretary || "N/A"}</h4>
+                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">
+                      <h4>Secretario</h4>
+                    </div>
+                  </div>
+                  <div className="w-[200px] justify-center text-center">
+                    <h4>{userData.staff?.president || "N/A"}</h4>
+                    <div className="border-t-4 border-dotted border-t-black text-center font-bold">
+                      <h4>Presidente</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      {/* Membership Card */}
-      <div className="bg-white/70 backdrop-blur-lg p-4 md:p-6 rounded-md w-full md:w-[650px] relative flex-shrink-0">
-        <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] mask-gradient opacity-10 z-0"></div>
-        <div className="relative z-10 flex flex-col">
-          <div className="flex flex-row justify-center">
-            <div className="flex flex-col items-center">
-              <h2 className="text-xl font-bold text-center">Club Deportivo Central Córdoba</h2>
-              <p className="font-bold text-center">Fundado el 4 de septiembre de 1932</p>
-              <p className="font-bold text-center">Av. Las Malvinas 1 - Cordoba</p>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between relative h-auto md:h-[200px] mt-4">
-            <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-[position:center] md:bg-[position:170px_20px] bg-[size:180px_160px] mask-gradient opacity-30 bg-no-repeat z-0"></div>
-            <div className="relative z-10 flex flex-col justify-evenly items-start">
-              <p className="font-bold text-center">
-                Nro de Socio: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.membershipNumber}.</span>
-              </p>
-              <p className="font-bold text-center">
-                Nombre: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.name}.</span>
-              </p>
-              <p className="font-bold text-center">
-                Apellido: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.lastName}</span>
-              </p>
-              <p className="font-bold text-center">
-                Ingreso: <span className="font-bold border-b-4 border-dotted border-b-black">
-                  {new Date(userData.createdAt).toLocaleDateString()}
-                </span>
-              </p>
-            </div>
-            <div className="relative z-10 flex justify-center items-center mt-4 md:mt-0">
-              {userData.qr ? (
-                <Image src={userData.qr} alt="QR Code" width={180} height={180} className="border-2" />
-              ) : (
-                <p className="text-red-500">QR no disponible</p>
-              )}
-            </div>
-          </div>
-          <div className="h-[80px] flex justify-between items-end mt-4">
-            <div className="w-[200px]">
-              <div className="border-t-4 border-dotted border-t-black text-center font-bold">Secretario</div>
-            </div>
-            <div className="w-[200px]">
-              <div className="border-t-4 border-dotted border-t-black text-center font-bold">Presidente</div>
-            </div>
-          </div>
-        </div>
-      </div>
+            {userData.familyGroup && userData.familyGroup.length > 0 && (
+              <div className="h-auto w-full md:w-[650px] rounded-md bg-white/70 backdrop-blur-lg relative p-4 md:p-6 flex-shrink-0">
+                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-gray-200">
+                          <th className="border border-gray-300 p-2 text-left">Nombre</th>
+                          <th className="border border-gray-300 p-2 text-left">Apellido</th>
+                          <th className="border border-gray-300 p-2 text-left">Relación</th>
+                          <th className="border border-gray-300 p-2 text-left">DNI</th>
+                          <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {userData.familyGroup.map((familyMember, index) => (
+                          <tr key={familyMember._id || index} className="bg-gray-100">
+                            <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                            <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                            <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
+                            <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                            <td className="border border-gray-300 p-2">
+                              {new Date(familyMember.createdAt).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
 
-      {/* Family Group */}
-      {userData.familyGroup && userData.familyGroup.length > 0 && (
-        <div className="h-auto w-full md:w-[650px] rounded-md bg-white/70 backdrop-blur-lg relative p-4 md:p-6 flex-shrink-0">
-          <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-          <div className="relative z-10">
-            <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                    <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                    <th className="border border-gray-300 p-2 text-left">Relación</th>
-                    <th className="border border-gray-300 p-2 text-left">DNI</th>
-                    <th className="border border-gray-300 p-2 text-left">Ingreso</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userData.familyGroup.map((familyMember, index) => (
-                    <tr key={familyMember._id || index} className="bg-gray-100">
-                      <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                      <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                      <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                      <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                      <td className="border border-gray-300 p-2">
-                        {new Date(familyMember.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Payments Section */}
-      <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative flex-shrink-0">
+<div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative flex-shrink-0">
         <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
         <div className="relative z-10">
           <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
           <div className="mb-6">
+            <div className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                id="isRetired"
+                checked={isRetired}
+                onChange={(e) => setIsRetired(e.target.checked)}
+                className="mr-2"
+              />
+              <label htmlFor="isRetired" className="text-sm font-bold">¿Es jubilado?</label>
+            </div>
             <select
               name="paymentMonths"
               id="paymentMonths"
@@ -582,13 +636,18 @@ export default function NavbarComponente() {
               className="p-2 border border-gray-300 rounded-md w-full"
             >
               <option value="">Selecciona un número de meses</option>
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((num) => (
-                <option key={num} value={num}>{num}</option>
+              {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
               ))}
+              <option value="12">12 bonificado</option>
             </select>
             {selectedMonths && (
               <div className="mt-2 text-center">
-                <p>Total a pagar: {(selectedMonths * MEMBERSHIP_FEE).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+                <p>
+                  Total a pagar: {((selectedMonths === "12" ? 10 : selectedMonths) * (isRetired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE)).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
+                </p>
                 <button
                   onClick={handleMercadoPagoPayment}
                   className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
@@ -597,7 +656,7 @@ export default function NavbarComponente() {
                 </button>
               </div>
             )}
-            {paymentLink && (
+                  {paymentLink && (
               <div className="mt-4 text-center">
                 <p>Enlace de pago generado exitosamente:</p>
                 <button
@@ -609,45 +668,45 @@ export default function NavbarComponente() {
               </div>
             )}
           </div>
-          {userData.payment?.payments?.length > 0 ? (
-            <div className="mt-6 overflow-x-auto">
-              <table className="w-full border-collapse text-sm">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
-                    <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
-                    <th className="border border-gray-300 p-2 text-left">Monto</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userData.payment.payments.map((payment) => (
-                    <tr key={payment._id} className="bg-gray-100">
-                      <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
-                      <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
-                      <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                {userData.payment?.payments?.length > 0 ? (
+                  <div className="mt-6 overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr className="bg-gray-200">
+                          <th className="border border-gray-300 p-2 text-left">Fecha de Pago</th>
+                          <th className="border border-gray-300 p-2 text-left">Meses Pagados</th>
+                          <th className="border border-gray-300 p-2 text-left">Monto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {userData.payment.payments.map((payment) => (
+                          <tr key={payment._id} className="bg-gray-100">
+                            <td className="border border-gray-300 p-2">{new Date(payment.paymentDate).toLocaleDateString('es-AR')}</td>
+                            <td className="border border-gray-300 p-2">{payment.monthsPaid}</td>
+                            <td className="border border-gray-300 p-2">{payment.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
+                )}
+                <div className="mt-6">
+                  <p className="font-bold text-center">
+                    Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{getPaymentStatusText(userData.payment?.status)}</span>
+                  </p>
+                  <p className="font-bold text-center">
+                    Fecha de Vencimiento: <span className="font-bold border-b-4 border-dotted border-b-black">
+                      {userData.payment?.expiration ? new Date(userData.payment.expiration).toLocaleDateString() : "N/A"}
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
-          ) : (
-            <p className="text-center text-gray-500 mt-6">No hay pagos registrados.</p>
-          )}
-          <div className="mt-6">
-            <p className="font-bold text-center">
-              Pago: <span className="font-bold border-b-4 border-dotted border-b-black">{userData.payment?.status}</span>
-            </p>
-            <p className="font-bold text-center">
-              Expiración: <span className="font-bold border-b-4 border-dotted border-b-black">
-                {new Date(userData.payment?.expiration).toLocaleDateString()}
-              </span>
-            </p>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
 
       {isMenuOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black flex text-white justify-start flex-col z-50 pt-[30px] pr-[40px] pl-[40px]">
@@ -963,7 +1022,7 @@ export default function NavbarComponente() {
         </div>
       )}
 
-{isModalOpen && (
+      {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-60">
           <div className="bg-white/70 backdrop-blur-lg p-6 rounded-md w-[350px] flex flex-col items-center">
             <Image src="/logonew2.png" alt="Logo" width={96} height={89} />
