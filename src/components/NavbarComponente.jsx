@@ -117,16 +117,16 @@ export default function NavbarComponente() {
       });
   
       console.log("Login exitoso, datos recibidos:", data);
-      console.log("Datos de staff recibidos:", data.staff); // Verificar staff aquí
+      console.log("Datos de staff recibidos:", data.staff); 
       console.log("Estado del usuario (userStatus):", data.user.status);
   
-      // Combinar data.user y data.staff para almacenarlos juntos
+     
       const userWithStaff = {
         ...data.user,
-        staff: data.staff || { president: "", secretary: "" }, // Asegurar que staff siempre exista
+        staff: data.staff || { president: "", secretary: "" }, 
       };
   
-      console.log("userWithStaff antes de guardar:", userWithStaff); // Verificar antes de guardar
+      console.log("userWithStaff antes de guardar:", userWithStaff); 
   
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
@@ -186,7 +186,7 @@ export default function NavbarComponente() {
               nationality: data.user.data?.nationality,
               neighborhood: data.user.data?.neighborhood,
               phoneNumber: data.user.data?.phoneNumber,
-              is_retired: data.user.data?.is_retired || false, // Agregar is_retired aquí
+              is_retired: data.user.data?.is_retired || false, 
             };
             setUserData(updatedUserData);
             console.log("userData después de setUserData:", updatedUserData);
@@ -232,8 +232,8 @@ export default function NavbarComponente() {
     let monthsToPay = monthsToAdd;
   
     if (selectedMonths === "12") {
-      monthsToPay = 10; // Paga por 10 meses
-      monthsToAdd = 12; // Se acreditan 12 meses
+      monthsToPay = 10; 
+      monthsToAdd = 12; 
     }
   
     if (isNaN(monthsToAdd) || monthsToAdd <= 0) {
@@ -241,7 +241,7 @@ export default function NavbarComponente() {
       return;
     }
   
-    const fee = userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE; // Usar userData.is_retired
+    const fee = userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE; 
     const totalAmount = monthsToPay * fee;
   
     if (isNaN(totalAmount) || totalAmount <= 0) {
