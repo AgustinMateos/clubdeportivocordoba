@@ -21,8 +21,18 @@ export default function NavbarComponente() {
   const [selectedMonths, setSelectedMonths] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
   const [showPassword, setShowPassword] = useState(false);
- 
-  const MEMBERSHIP_FEE = 1;
+
+  // Reemplazar MEMBERSHIP_FEE estático por valor dinámico desde la cookie
+  const getMembershipFee = () => {
+    const cuotaSocietariaPrice = Cookies.get("cuotaSocietariaPrice");
+    console.log("Valor de la cookie cuotaSocietariaPrice:", cuotaSocietariaPrice); // Depuración
+    const baseFee = cuotaSocietariaPrice ? parseFloat(cuotaSocietariaPrice) : 1;
+    console.log("baseFee después de parsear:", baseFee); // Depuración
+    console.log("userData?.is_retired:", userData?.is_retired); // Depuración
+    const finalFee = userData?.is_retired ? baseFee / 2 : baseFee;
+    console.log("Cuota final calculada:", finalFee); // Depuración
+    return finalFee;
+  };
 
   const [extraData, setExtraData] = useState({
     dni: "",
@@ -36,7 +46,7 @@ export default function NavbarComponente() {
     disciplines: "",
     gender: "",
     familyGroup: [],
-    staff: [], // Esto no se usa, podrías eliminarlo si no lo necesitas
+    staff: [],
   });
   const [extraErrors, setExtraErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState("");
@@ -53,18 +63,13 @@ export default function NavbarComponente() {
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
     setPaymentLink("");
-    setIsRetired(false);
   };
   const openExtraDataModal = () => setIsExtraDataModalOpen(true);
   const closeExtraDataModal = () => setIsExtraDataModalOpen(false);
 
   const handleNameClick = () => {
-    console.log("Clic en el nombre, userData:", userData);
     if (userData && userData.status === "APPROVED") {
-      console.log("Abriendo modal para usuario APPROVED");
       openSuccessModal();
-    } else {
-      console.log("No se abre el modal: usuario no APPROVED o userData incompleto");
     }
   };
 
@@ -72,7 +77,8 @@ export default function NavbarComponente() {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      console.log("Datos recuperados de localStorage:", parsedUser);
+      console.log("Datos del usuario desde localStorage:", parsedUser); // Verifica aquí
+      console.log("is_retired:", parsedUser.data?.is_retired); // Verifica específicamente is_retired
       setUserData({
         name: parsedUser.name,
         lastName: parsedUser.lastName,
@@ -100,11 +106,10 @@ export default function NavbarComponente() {
         nationality: parsedUser.data?.nationality,
         neighborhood: parsedUser.data?.neighborhood,
         phoneNumber: parsedUser.data?.phoneNumber,
-        is_retired: parsedUser.data?.is_retired || false, // Agregar is_retired aquí
+        is_retired: parsedUser.data?.is_retired || false,
       });
     }
   }, []);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -227,36 +232,37 @@ export default function NavbarComponente() {
       alert("Por favor, selecciona un número de meses antes de proceder al pago.");
       return;
     }
-  
+
     let monthsToAdd = parseInt(selectedMonths);
     let monthsToPay = monthsToAdd;
-  
+
     if (selectedMonths === "12") {
       monthsToPay = 10; 
       monthsToAdd = 12; 
     }
-  
+
     if (isNaN(monthsToAdd) || monthsToAdd <= 0) {
       alert("El número de meses debe ser un valor numérico mayor a 0.");
       return;
     }
-  
-    const fee = userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE; 
+
+    // Usar la función getMembershipFee para obtener el valor dinámico
+    const fee = getMembershipFee();
     const totalAmount = monthsToPay * fee;
-  
+
     if (isNaN(totalAmount) || totalAmount <= 0) {
       alert("El monto total no es válido.");
       return;
     }
-  
+
     const token = Cookies.get("access_token");
     const userId = Cookies.get("userId");
-  
+
     if (!token || !userId) {
       alert("No estás autenticado. Por favor, inicia sesión de nuevo.");
       return;
     }
-  
+
     try {
       const response = await axios.post(
         `https://api-cdcc.vercel.app/api/v1/payment/mercado-pago/${userId}`,
@@ -270,9 +276,7 @@ export default function NavbarComponente() {
           },
         }
       );
-  
-      console.log("Respuesta de Mercado Pago:", response.data);
-  
+
       if (response.data.link) {
         setPaymentLink(response.data.link);
       } else {
@@ -615,45 +619,45 @@ export default function NavbarComponente() {
             )}
 
 <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative flex-shrink-0">
-        <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
-        <div className="relative z-10">
-          <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
-          <div className="mb-6">
-  <select
-    name="paymentMonths"
-    id="paymentMonths"
-    value={selectedMonths}
-    onChange={handlePaymentMonthsChange}
-    className="p-2 border border-gray-300 rounded-md w-full"
-  >
-    <option value="">Selecciona un número de meses</option>
-    {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
-      <option key={num} value={num}>{num}</option>
-    ))}
-    <option value="12">12 (10+2 bonificados)</option>
-  </select>
-  {selectedMonths && (
-    <div className="mt-2 text-center">
-      <p>
-        Total a pagar: {((selectedMonths === "12" ? 10 : selectedMonths) * (userData.is_retired ? MEMBERSHIP_FEE / 2 : MEMBERSHIP_FEE)).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
-        {userData.is_retired ? " (Cuota Jubilado)" : " (Cuota Societaria)"}
-      </p>
-      <button
-        onClick={handleMercadoPagoPayment}
-        className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-      >
-        Generar enlace de pago
-      </button>
-    </div>
-  )}
-  {paymentLink && (
-    <div className="mt-4 text-center">
-      <p>Enlace de pago generado exitosamente:</p>
-      <button
-        onClick={handleRedirectToPayment}
-        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-      >
-        Ir a Mercado Pago
+              <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
+              <div className="relative z-10">
+                <h2 className="text-xl font-bold text-center mb-4">Pagos</h2>
+                <div className="mb-6">
+                  <select
+                    name="paymentMonths"
+                    id="paymentMonths"
+                    value={selectedMonths}
+                    onChange={handlePaymentMonthsChange}
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                  >
+                    <option value="">Selecciona un número de meses</option>
+                    {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
+                      <option key={num} value={num}>{num}</option>
+                    ))}
+                    <option value="12">12 (10+2 bonificados)</option>
+                  </select>
+                  {selectedMonths && (
+  <div className="mt-2 text-center">
+    <p>
+      Total a pagar: {((selectedMonths === "12" ? 10 : selectedMonths) * getMembershipFee()).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
+      {userData.is_retired ? " (Cuota Jubilado)" : " (Cuota Societaria)"}
+    </p>
+    <button
+      onClick={handleMercadoPagoPayment}
+      className="mt-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+    >
+      Generar enlace de pago
+    </button>
+  </div>
+)}
+                  {paymentLink && (
+                    <div className="mt-4 text-center">
+                      <p>Enlace de pago generado exitosamente:</p>
+                      <button
+                        onClick={handleRedirectToPayment}
+                        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                      >
+                        Ir a Mercado Pago
       </button>
     </div>
   )}

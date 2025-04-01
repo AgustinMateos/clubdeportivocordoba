@@ -1,7 +1,8 @@
-'use client'
+'use client';
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import Cookies from "js-cookie"; // Importar js-cookie
 
 export default function Tarifas() {
   const [colony, setColony] = useState([]);
@@ -14,7 +15,6 @@ export default function Tarifas() {
       try {
         const response = await axios.get("https://api-cdcc.vercel.app/api/v1/prices/membersAndcolony");
         
-        
         const colonyData = response.data.colony[0].services.map((service) => ({
           servicio: service.name || "Sin nombre",
           user: service.user ? `$${service.user}` : "Bonificado",
@@ -22,7 +22,6 @@ export default function Tarifas() {
         }));
         setColony(colonyData);
 
-        // Procesar datos de "members"
         const membersData = response.data.members;
         setMembers(membersData);
       } catch (error) {
@@ -50,15 +49,22 @@ export default function Tarifas() {
     return () => observer.disconnect();
   }, []);
 
-
   const cuotaSocietaria = members.find((member) => member.name === "Cuota Societaria") || {
     price: "N/A",
     annual: "N/A",
     retired: "N/A",
   };
 
+  // Guardar en cookies cuando cuotaSocietaria esté disponible
+  useEffect(() => {
+    if (cuotaSocietaria.price !== "N/A" && cuotaSocietaria.retired !== "N/A") {
+      Cookies.set("cuotaSocietariaPrice", cuotaSocietaria.price, { expires: 7 }); // Expira en 7 días
+      Cookies.set("cuotaSocietariaRetired", cuotaSocietaria.retired, { expires: 7 });
+    }
+  }, [cuotaSocietaria]);
+
   return (
-    <div ref={containerRef} className="w-full  bg-[#C32929] min-h-[662px] sm:min-h-[632px] items-center flex justify-center py-8">
+    <div ref={containerRef} className="w-full bg-[#C32929] min-h-[662px] sm:min-h-[632px] items-center flex justify-center py-8">
       <div className="w-[90%] max-w-[1282px]">
         <h4
           className={`text-[32px] text-white sm:text-[48px] font-bold leading-[41px] sm:leading-[54px] pb-4 pt-4 transition-all duration-700 ${
@@ -123,7 +129,7 @@ export default function Tarifas() {
           </table>
         </div>
 
-        <div className="md:h-[110px] h-auto  flex flex-col items-center md:flex-row w-full justify-center">
+        <div className="md:h-[110px] h-auto flex flex-col items-center md:flex-row w-full justify-center">
           <div className="w-[90%] sm:w-[50%] flex flex-col md:flex-row items-center justify-center">
             <p className="md:pr-[40px] text-white">Secretaría:</p>
             <a
