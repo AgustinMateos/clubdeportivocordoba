@@ -72,9 +72,42 @@ export default function NavbarComponente() {
       openSuccessModal();
     }
   };
-
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const fetchUserData = async () => {
+          const accessToken = getCookie('access_token');
+          console.log('Access Token:', accessToken); 
+    
+          if (accessToken) {
+            try {
+               const response = await axios.get(
+                      `https://api-cdcc.vercel.app/api/v1/users/refreshWeb`,
+                      
+                      {
+                        headers: {
+                          Authorization: `Bearer ${accessToken}`,
+                        },
+                      }
+                    );
+                  console.log(response)
+    
+              // if (!response.ok) {
+              //   throw new Error(`Error ${response.status}: ${await response.text()}`);
+              // }
+    
+              // const data = await response.json();
+              const userWithStaff = {
+               ...response.data.user,
+               staff: response.data.staff || { president: "", secretary: "" }, 
+              };
+              console.log("userWithStaff antes de guardar:", userWithStaff); 
+              localStorage.setItem("user", JSON.stringify(userWithStaff));
+              const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       console.log("Datos del usuario desde localStorage:", parsedUser); // Verifica aquí
@@ -109,6 +142,18 @@ export default function NavbarComponente() {
         is_retired: parsedUser.data?.is_retired || false,
       });
     }
+            } catch (err) {
+              setError(err.message || 'Error al conectar con el servidor');
+              console.error('Error completo:', err);
+            }
+          } else {
+            
+           setLoading(false);
+            console.log('No se encontró access_token, continuando sin solicitud.');
+          }
+    
+        };
+        fetchUserData()
   }, []);
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -736,14 +781,7 @@ export default function NavbarComponente() {
             <Image width={32} height={32} src="/facebook.svg" alt="Facebook" />
             <Image width={32} height={32} src="/instagram.svg" alt="Instagram" />
           </div>
-          <div className="mt-[3.5rem] flex flex-col space-y-4">
-            <button className="border border-[#F2F2F2] text-white px-6 py-3 rounded-[4px] font-inter">
-              Ingresar
-            </button>
-            <button className="bg-[#F2F2F2] text-black px-6 py-3 rounded-[4px]">
-              Ser Socio
-            </button>
-          </div>
+          
         </div>
       )}
 
