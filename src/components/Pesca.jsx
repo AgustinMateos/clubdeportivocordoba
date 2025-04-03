@@ -72,7 +72,7 @@ export default function Pesca() {
 
       <div className="absolute top-[-100px] w-full left: 50%;
 left-1/2 -translate-x-1/2 
-sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-4 ">
+sm:w-[80%] md:w-[80%] flex flex-col md:flex-row items-center justify-center gap-4 ">
         <div className="flex h-[255px] justify-center w-[90%]  sm:w-[328px] lg:w-auto lg:h-auto">
           <Image
             width={842}
@@ -86,7 +86,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
           <Image
             width={406}
             height={335}
-            className="h-auto w-[90%] sm:w-[325px] lg:w-auto lg:h-auto "
+            className="h-auto w-[90%] sm:w-[325px] lg:w-auto lg:h-[425px] rounded-[18px] "
             alt="pesca"
             src={"/pesca2.jpeg"}
           />
@@ -113,7 +113,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
 
         {/* Slider para mobile */}
         <div
-          className="relative w-screen overflow-hidden sm:hidden"
+          className="relative w-screen overflow-hidden md:hidden"
           ref={sliderRef}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -141,7 +141,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
         </div>
 
 
-        <div className="absolute w-full flex justify-around px-6 bottom-[-90px] sm:hidden">
+        <div className="absolute w-full flex justify-around px-6 bottom-[-90px] md:hidden">
           <button
             onClick={handlePrev}
             className="text-white text-3xl"
@@ -168,7 +168,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
                 height={210}
                 alt={`pesca ${index + 3}`}
                 src={image.src}
-                className="border-2 border-[#DF3737] rounded-full border-dashed"
+                className="border-2 h-[210px] border-[#DF3737] rounded-full border-dashed"
 
 
               />

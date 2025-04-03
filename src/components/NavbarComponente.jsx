@@ -518,10 +518,10 @@ export default function NavbarComponente() {
                 onClick={handleNameClick}
                 className="text-white font-medium cursor-pointer hover:underline"
               >
-                {userData.name} {userData.lastName}
+                {userData.name} 
               </span>
-              <button onClick={handleLogout} className="text-white focus:outline-none">
-                <Image src="/logout.svg" alt="Logout" width={24} height={24} />
+              <button onClick={handleLogout} className="text-[#F2F2F2] font-medium border border-[#F2F2F2] p-[8px] rounded-[4px]">
+                salir {/* <Image src="/logout.svg" alt="Logout" width={24} height={24} /> */}
               </button>
             </div>
           ) : (
