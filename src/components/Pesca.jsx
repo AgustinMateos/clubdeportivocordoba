@@ -7,7 +7,7 @@ export default function Pesca() {
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const images = [
     { src: "/pesca3.svg", title: "Camping" },
-    { src: "/pesca4.svg", title: "Torneos y Competencias" },
+    { src: "/torneos.jpeg", title: "Torneos y Competencias" },
     { src: "/guardalanchas.jpg", title: "Guardería de Lanchas" },
     { src: "/pesca6.svg", title: "Comunidad" },
   ];
@@ -88,7 +88,7 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
             height={335}
             className="h-auto w-[90%] sm:w-[325px] lg:w-auto lg:h-auto "
             alt="pesca"
-            src={"/pesca2.svg"}
+            src={"/pesca2.jpeg"}
           />
         </div>
       </div>
