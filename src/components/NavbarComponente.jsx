@@ -499,7 +499,16 @@ export default function NavbarComponente() {
         return status || "N/A";
     }
   };
-
+  const translateRelationship = (relationship) => {
+    switch (relationship) {
+      case "CHILD":
+        return "Hijo/a";
+      case "SPOUSE":
+        return "Cónyuge";
+      default:
+        return relationship; // Si hay otro valor, se muestra tal cual
+    }
+  };
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex justify-center mt-[20px]">
       <div className="w-[95%] text-white bg-black rounded-[16px] h-[64px] p-[1.5rem] flex items-center justify-between relative">
@@ -629,39 +638,39 @@ export default function NavbarComponente() {
             </div>
 
             {userData.familyGroup && userData.familyGroup.length > 0 && (
-              <div className="h-auto w-full md:w-[650px] rounded-md bg-white/70 backdrop-blur-lg relative p-4 md:p-6 flex-shrink-0">
-                <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
-                <div className="relative z-10">
-                  <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="bg-gray-200">
-                          <th className="border border-gray-300 p-2 text-left">Nombre</th>
-                          <th className="border border-gray-300 p-2 text-left">Apellido</th>
-                          <th className="border border-gray-300 p-2 text-left">Relación</th>
-                          <th className="border border-gray-300 p-2 text-left">DNI</th>
-                          <th className="border border-gray-300 p-2 text-left">Ingreso</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {userData.familyGroup.map((familyMember, index) => (
-                          <tr key={familyMember._id || index} className="bg-gray-100">
-                            <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
-                            <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
-                            <td className="border border-gray-300 p-2">{familyMember.relationship}</td>
-                            <td className="border border-gray-300 p-2">{familyMember.dni}</td>
-                            <td className="border border-gray-300 p-2">
-                              {new Date(familyMember.createdAt).toLocaleDateString()}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
+  <div className="h-auto w-full md:w-[650px] rounded-md bg-white/70 backdrop-blur-lg relative p-4 md:p-6 flex-shrink-0">
+    <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient"></div>
+    <div className="relative z-10">
+      <h3 className="text-lg font-semibold text-center text-black mb-4">Grupo Familiar</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border border-gray-300 p-2 text-left">Nombre</th>
+              <th className="border border-gray-300 p-2 text-left">Apellido</th>
+              <th className="border border-gray-300 p-2 text-left">Relación</th>
+              <th className="border border-gray-300 p-2 text-left">DNI</th>
+              <th className="border border-gray-300 p-2 text-left">Ingreso</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userData.familyGroup.map((familyMember, index) => (
+              <tr key={familyMember._id || index} className="bg-gray-100">
+                <td className="border border-gray-300 p-2">{familyMember.firstName}</td>
+                <td className="border border-gray-300 p-2">{familyMember.lastName}</td>
+                <td className="border border-gray-300 p-2">{translateRelationship(familyMember.relationship)}</td>
+                <td className="border border-gray-300 p-2">{familyMember.dni}</td>
+                <td className="border border-gray-300 p-2">
+                  {new Date(familyMember.createdAt).toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
 
 <div className="bg-white/70 rounded-md backdrop-blur-lg h-auto w-full md:w-[650px] p-4 md:p-6 relative flex-shrink-0">
               <div className="absolute inset-0 bg-[url('/logonew2.png')] bg-repeat bg-[size:40px_40px] opacity-10 mask-gradient z-0"></div>
@@ -931,8 +940,7 @@ export default function NavbarComponente() {
                             <option value="">Selecciona relación</option>
                             <option value="SPOUSE">Cónyuge</option>
                             <option value="CHILD">Hijo/a</option>
-                            <option value="PARENT">Padre/Madre</option>
-                            <option value="SIBLING">Hermano/a</option>
+                            
                           </select>
                         </div>
                         <div>
