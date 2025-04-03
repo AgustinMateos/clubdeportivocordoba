@@ -12,8 +12,8 @@ export default function Historia() {
     const [visibleEvents, setVisibleEvents] = useState([]);
   
   const images = [
-    "/colonia1.svg",
-    "/slide1Historia.svg",
+    "/verano2.jpg",
+    "/veranoinolvidable3.jpg",
     
   ];
 

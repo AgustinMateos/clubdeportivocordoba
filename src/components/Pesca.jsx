@@ -8,7 +8,7 @@ export default function Pesca() {
   const images = [
     { src: "/pesca3.svg", title: "Camping" },
     { src: "/pesca4.svg", title: "Torneos y Competencias" },
-    { src: "/pesca5.svg", title: "Guardería de Lanchas" },
+    { src: "/guardalanchas.jpg", title: "Guardería de Lanchas" },
     { src: "/pesca6.svg", title: "Comunidad" },
   ];
 
@@ -124,14 +124,16 @@ sm:w-[80%] md:w-[80%] flex flex-col sm:flex-row items-center justify-center gap-
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {images.map((image, index) => (
-              <div key={index} className="w-screen flex-shrink-0 flex flex-col items-center pt-[40px]">
+              <div key={index} className="w-screen  flex-shrink-0 flex flex-col items-center pt-[40px]">
                 <Image
                   width={210}
                   height={210}
                   alt={`pesca ${index + 3}`}
                   src={image.src}
-                  className="border-2 border-[#DF3737] rounded-full border-dashed object-contain"
+                  className="border-2 border-[#DF3737] rounded-full border-dashed w-[210px] h-[210px] object-cover"
                 />
+
+
                 <p className="font-montserrat text-white text-center pt-2">{image.title}</p>
               </div>
             ))}

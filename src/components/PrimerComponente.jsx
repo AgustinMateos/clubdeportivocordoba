@@ -291,7 +291,7 @@ export default function PrimerComponente() {
       style={{
         backgroundImage: `
           linear-gradient(180deg, rgba(21, 21, 21, 0) 0%, #151515 100%),
-          url('/fondopesca.svg')`,
+          url('/home.jpeg')`,
       }}
     >
       <div className="w-[100%] sm:w-[100%] h-[130vh] items-start content-center sm:h-[597px] flex sm:items-end flex-wrap sm:flex-nowrap pb-[20px] justify-center md:justify-center xl:justify-evenly 2xl:justify-evenly">

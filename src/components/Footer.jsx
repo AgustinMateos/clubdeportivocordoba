@@ -9,7 +9,7 @@ export default function Footer() {
       style={{
         backgroundImage: `
       linear-gradient(to top, #181818 0%, #181818 30%, rgba(24, 24, 24, 0.75) 50%, rgba(24, 24, 24, 0) 70%),
-      url('/footerIMG.jpg')`,
+      url('/footer.jpeg')`,
         backgroundSize: "cover",
         backgroundPosition: "center calc(100% - 450px)",
         backgroundRepeat: "no-repeat",
