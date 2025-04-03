@@ -73,24 +73,14 @@ export default function Pesca() {
       <div className="absolute top-[-100px] w-full left: 50%;
 left-1/2 -translate-x-1/2 
 sm:w-[80%] md:w-[80%] flex flex-col md:flex-row items-center justify-center gap-4 ">
-        <div className="flex h-[255px] justify-center w-[90%]  sm:w-[328px] lg:w-auto lg:h-auto">
-          <Image
-            width={842}
-            height={335}
-            className="h-[255px] w-[90%] sm:w-[328px] lg:w-auto lg:h-auto"
-            alt="pesca"
-            src={"/pesca1.svg"}
-          />
-        </div>
-        <div className="h-auto sm:h-[156px] justify-center  flex w-[90%] sm:w-[325px] lg:w-auto lg:h-auto">
-          <Image
-            width={406}
-            height={335}
-            className="h-auto w-[90%] sm:w-[325px] lg:w-auto lg:h-[425px] rounded-[18px] "
-            alt="pesca"
-            src={"/pesca2.jpeg"}
-          />
-        </div>
+       <div
+  className="h-[285px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[842px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
+  style={{ backgroundImage: "url('/pesca1.svg')" }}
+></div>
+        <div
+  className="h-[386px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[335px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
+  style={{ backgroundImage: "url('/pesca2.jpeg')" }}
+></div>
       </div>
 
 
