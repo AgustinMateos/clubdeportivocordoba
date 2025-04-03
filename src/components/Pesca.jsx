@@ -73,22 +73,15 @@ export default function Pesca() {
       <div className="absolute top-[-100px] w-full left: 50%;
 left-1/2 -translate-x-1/2 
 sm:w-[80%] md:w-[80%] flex flex-col md:flex-row items-center justify-center gap-4 ">
-       <div
-  className="h-[285px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[842px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
-  style={{ backgroundImage: "url('/pesca1.svg')" }}
-></div>
         <div
-  className="h-[386px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[335px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
-  style={{ backgroundImage: "url('/pesca2.jpeg')" }}
-></div>
+          className="h-[285px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[842px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
+          style={{ backgroundImage: "url('/pesca1.svg')" }}
+        ></div>
+        <div
+          className="h-[386px] sm:h-[156px] w-[320px] sm:w-[325px] lg:w-[335px] lg:h-[425px] rounded-[18px] bg-cover bg-center"
+          style={{ backgroundImage: "url('/pesca2.jpeg')" }}
+        ></div>
       </div>
-
-
-
-
-
-
-
       <div ref={containerRef} className="absolute top-[700px] md:top-[500px] lg:top-[400px] h-auto sm:top-[400px] w-full ">
 
         <div className="text-white flex flex-col items-center h-[250px] sm:h-[300px] justify-center">

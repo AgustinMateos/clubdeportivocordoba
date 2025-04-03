@@ -162,7 +162,7 @@ export default function Actividades() {
       </div>
 
       <div className="relative bg-[#F6F6F6] py-12 h-[3120px] sm:h-[160vh] md:h-[150vh] xl:h-[1200px]">
-        <div className="absolute sm:w-[80%] md:w-[84%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-[100%] gap-8 px-8">
+        <div className="absolute sm:w-[80%] md:w-[100%] top-[-100px] left-1/2 transform -translate-x-1/2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-[100%] gap-8 px-8 justify-items-center">
           {disciplines.map((actividad, index) => (
             <div
               key={index}
