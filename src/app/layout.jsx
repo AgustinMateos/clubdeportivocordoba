@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="es"> 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+        <meta name="google-site-verification" content="EJ-MvGyQKTaaLkzBKZweKVMVviXAM_R-F1EXCFMlZS0" />
         <link rel="icon" href="/logonew2.png" type="image/x-icon" sizes="256x235"></link>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
